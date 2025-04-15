@@ -1,4 +1,4 @@
-from flask import render_template, request, redirect, url_for, flash, jsonify
+from flask import render_template, request, redirect, url_for, flash, jsonify, make_response
 from util.database import db
 import re
 import os
@@ -7,6 +7,7 @@ import secrets
 import uuid
 from datetime import datetime
 import logging
+from util.auth_utli import create_session, set_auth_cookie
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -92,28 +93,31 @@ def register_user(username, email, password):
     existing_user = users_collection.find_one({"username": username})
     if existing_user:
         logger.warning(f"Username already exists: {username}")
-        return False, "Username already taken"
+        return False, "Username already taken", None
     
     # Check if email already exists
     existing_email = users_collection.find_one({"email": email})
     if existing_email:
         logger.warning(f"Email already registered: {email}")
-        return False, "Email already registered"
+        return False, "Email already registered", None
     
     # Validate password - CRITICAL SECURITY CHECK
     is_valid, message = validate_password(password)
     if not is_valid:
         logger.warning(f"Password validation failed: {message}")
-        return False, message
+        return False, message, None
     
     # Only if we get here, validation passed
     try:
+        # Generate a unique user ID
+        user_id = str(uuid.uuid4())
+        
         # Hash the password with salt
         password_hash = hash_password(password)
         
         # Create user document
         user = {
-            "_id": str(uuid.uuid4()),
+            "_id": user_id,
             "username": username,
             "email": email,
             "password": {
@@ -125,12 +129,20 @@ def register_user(username, email, password):
         
         # Insert the user into the database
         result = users_collection.insert_one(user)
-        logger.info(f"User registered successfully: {username}, ID: {result.inserted_id}")
-        return True, "Registration successful"
+        logger.info(f"User registered successfully: {username}, ID: {user_id}")
+        
+        # Create an authentication session and get the token
+        auth_token = create_session(user_id)
+        if not auth_token:
+            logger.warning(f"Failed to create session for new user: {user_id}")
+            # Still return success for registration but note session creation failed
+            return True, "Registration successful but session creation failed", None
+            
+        return True, "Registration successful", auth_token
         
     except Exception as e:
         logger.error(f"Database error during registration: {str(e)}")
-        return False, "Database error occurred"
+        return False, "Database error occurred", None
 
 def handle_register():
     """
@@ -209,20 +221,34 @@ def handle_register():
                 return render_template('register.html')
         
         # Step 4: Try to register the user (includes duplicate username check)
-        success, message = register_user(username, email, password)
+        success, message, auth_token = register_user(username, email, password)
         
         if success:
             logger.info(f"User registered successfully: {username}")
             
             # Handle response based on request type
             if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
-                return jsonify({
+                response = jsonify({
                     'success': True,
                     'message': 'Registration successful!'
-                }), 201
+                })
+                
+                # Set authentication cookie if token was generated
+                if auth_token:
+                    response = set_auth_cookie(response, auth_token)
+                    logger.info(f"Auth cookie set for user: {username}")
+                
+                return response, 201
             else:
                 flash('Registration successful!', 'success')
-                return redirect(url_for('register'))
+                response = make_response(redirect(url_for('register')))
+                
+                # Set authentication cookie if token was generated
+                if auth_token:
+                    response = set_auth_cookie(response, auth_token)
+                    logger.info(f"Auth cookie set for user: {username}")
+                
+                return response
         else:
             logger.warning(f"Registration failed: {message}")
             
