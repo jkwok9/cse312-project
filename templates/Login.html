@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Paint game :D</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      height: 100vh;
+      background: #f2f2f2;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .container {
+      text-align: center;
+      background: white;
+      padding: 40px 30px;
+      border-radius: 20px;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+      width: 90%;
+      max-width: 400px;
+    }
+
+    h1 {
+      font-size: 3rem;
+      color: #2c3e50;
+      margin-bottom: 20px;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 12px;
+      font-size: 1rem;
+      margin-bottom: 20px;
+      border: 2px solid #ccc;
+      border-radius: 10px;
+    }
+
+    .color-label {
+      margin-bottom: 10px;
+      font-weight: bold;
+      color: #333;
+    }
+
+    .color-options {
+      display: flex;
+      justify-content: space-around;
+      margin-bottom: 20px;
+    }
+
+    .color-bubble {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 3px solid transparent;
+      cursor: pointer;
+      transition: transform 0.2s, border 0.2s;
+    }
+
+    .color-bubble.selected {
+      border-color: #444;
+      transform: scale(1.1);
+    }
+
+    .button-group {
+      display: flex;
+      gap: 10px;
+      flex-direction: column;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      background-color: #3498db;
+      color: white;
+      font-size: 1rem;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+    }
+
+    button:hover {
+      background-color: #2980b9;
+    }
+
+    footer {
+      position: absolute;
+      bottom: 10px;
+      font-size: 0.9rem;
+      color: #888;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Paint Game</h1>
+
+    <input type="text" id="Username" placeholder="Username" />
+    <input type="text" id="Password" placeholder="Password" />
+
+    <div class="color-label">Choose your color:</div>
+    <div class="color-options">
+      <div class="color-bubble" style="background-color: #e74c3c;" data-color="#e74c3c"></div>
+      <div class="color-bubble" style="background-color: #27ae60;" data-color="#27ae60"></div>
+      <div class="color-bubble" style="background-color: #2980b9;" data-color="#2980b9"></div>
+      <div class="color-bubble" style="background-color: #f39c12;" data-color="#f39c12"></div>
+    </div>
+
+    <div class="button-group">
+      <button onclick="login()">Login</button>
+        <a href = '/register'>
+          <button >register</button>
+        </a>
+    </div>
+
+  </div>
+
+
+  <script>
+    let selectedColor = null;
+
+    const bubbles = document.querySelectorAll('.color-bubble');
+    bubbles.forEach(bubble => {
+      bubble.addEventListener('click', () => {
+        bubbles.forEach(b => b.classList.remove('selected'));
+        bubble.classList.add('selected');
+        selectedColor = bubble.getAttribute('data-color');
+      });
+    });
+
+    window.addEventListener('DOMContentLoaded', () => {
+      const randomIndex = Math.floor(Math.random() * bubbles.length);
+      const randomBubble = bubbles[randomIndex];
+      randomBubble.classList.add('selected');
+      selectedColor = randomBubble.getAttribute('data-color');
+    });
+
+    function login() {
+      const nickname = document.getElementById('Username').value.trim();
+      const password = document.getElementById('Password').value.trim();
+      if (!nickname) {
+        alert('Please enter your nickname to login.');
+        return;
+      }
+      if (!password) {
+        alert('Please enter your nickname to login.');
+        return;
+      }
+
+      if (!selectedColor) {
+        alert('Please choose a color.');
+        return;
+      }
+
+      const formData = new URLSearchParams();
+      formData.append('Username', nickname);
+      formData.append('Password', nickname);
+      formData.append('color', selectedColor);
+
+      //sending the actual login request
+      fetch('/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: formData
+      })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .then(data => {
+        console.log('Login successful:', data);
+        window.location.href = '/game';
+      })
+      .catch(error => {
+        console.error('Error during guest login:', error);
+        alert('Failed to login as guest. Please try again.');
+      });
+    }
+  </script>
+</body>
+</html>
