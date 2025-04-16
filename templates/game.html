@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Territory Claim (Multiplayer)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.5/socket.io.min.js"></script>
+    <style>
+        /* CSS Styles (same as previous version - kept for brevity) */
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background-color: #1a1a1a; /* Dark background */
+            color: #fff; /* White text */
+            font-family: 'Press Start 2P', cursive;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        h1 {
+            color: #ffff00; /* Yellow title */
+            margin-bottom: 10px;
+            text-shadow: 2px 2px #ff00ff; /* Magenta shadow */
+        }
+
+        canvas {
+            border: 5px solid #fff; /* White border */
+            background-color: #333; /* Dark grey grid background */
+            display: block; /* Prevents extra space below canvas */
+            margin-bottom: 20px;
+            max-width: 100%; /* Ensure canvas fits smaller screens */
+            height: auto; /* Maintain aspect ratio */
+            image-rendering: pixelated; /* Keep pixels sharp */
+            border-radius: 8px; /* Rounded corners */
+        }
+
+        .game-info {
+            display: flex;
+            justify-content: space-around;
+            width: 100%;
+            max-width: 600px; /* Match typical canvas width */
+            margin-bottom: 15px;
+            flex-wrap: wrap; /* Wrap scores on smaller screens */
+            gap: 10px;
+        }
+
+        .info-box {
+            background-color: #444; /* Slightly lighter grey */
+            padding: 10px 15px;
+            border-radius: 8px;
+            border: 2px solid #fff;
+            text-align: center;
+            box-shadow: 3px 3px 0px rgba(0, 0, 0, 0.5);
+        }
+
+        .info-box span {
+            display: block;
+            font-size: 1.2em;
+            margin-top: 5px;
+        }
+
+        /* Player-specific colors for score text */
+        #score-p1 { color: #ff4136; } /* Red */
+        #score-p2 { color: #0074d9; } /* Blue */
+        #score-p3 { color: #2ecc40; } /* Green */
+        #score-p4 { color: #ffdc00; } /* Yellow */
+
+        #timer {
+            font-size: 1.5em;
+            color: #ff851b; /* Orange */
+        }
+
+        #status {
+            font-size: 1.2em;
+            color: #ffff00; /* Yellow */
+            margin-bottom: 15px;
+            min-height: 1.5em; /* Reserve space */
+            text-align: center;
+        }
+         /* Highlight current player */
+        .my-player-indicator {
+            font-weight: bold;
+            border: 2px solid yellow; /* Highlight box of the current player */
+            box-shadow: 0 0 10px yellow;
+        }
+
+
+        .controls, .instructions {
+            background-color: #2a2a2a;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            border: 2px dashed #aaa;
+            width: 100%;
+            max-width: 600px;
+            text-align: center;
+        }
+        .controls h2, .instructions h2 {
+            margin-top: 0;
+            color: #7fdbff; /* Aqua */
+            margin-bottom: 10px;
+        }
+         .controls p, .instructions p {
+            margin: 5px 0;
+            line-height: 1.6;
+         }
+
+        button {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 1em;
+            padding: 15px 30px;
+            background: linear-gradient(145deg, #5a5a5a, #3a3a3a); /* Grey gradient */
+            color: #fff;
+            border: 3px solid #fff;
+            border-radius: 10px;
+            cursor: pointer;
+            text-shadow: 1px 1px #000;
+            box-shadow: 4px 4px 0px #000; /* Simple shadow */
+            transition: all 0.1s ease;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background: linear-gradient(145deg, #6a6a6a, #4a4a4a);
+            box-shadow: 5px 5px 0px #111;
+            transform: translate(-1px, -1px);
+        }
+        button:active {
+            background: linear-gradient(145deg, #3a3a3a, #5a5a5a);
+            box-shadow: 2px 2px 0px #000;
+            transform: translate(2px, 2px);
+        }
+         #resetButton {
+            display: none; /* Hide reset initially */
+         }
+    </style>
+</head>
+<body>
+
+    <h1>Territory Claim! (Multiplayer)</h1>
+
+    <canvas id="gameCanvas"></canvas>
+
+    <div class="game-info">
+        <div class="info-box" id="infobox-p1">Player 1: <span id="score-p1">0</span></div>
+        <div class="info-box" id="infobox-p2">Player 2: <span id="score-p2">0</span></div>
+        <div class="info-box" id="infobox-p3">Player 3: <span id="score-p3">0</span></div>
+        <div class="info-box" id="infobox-p4">Player 4: <span id="score-p4">0</span></div>
+        <div class="info-box">Time: <span id="timer">--:--</span></div>
+    </div>
+
+    <div id="status">Connecting to server...</div>
+
+    <div class="instructions">
+        <h2>Instructions</h2>
+        <p>Move your player (highlighted below) to claim territory. The floor turns your color! The player with the most territory wins.</p>
+    </div>
+
+    <div class="controls">
+        <h2>Controls</h2>
+        <p>Use WASD keys to move YOUR player.</p>
+    </div>
+
+    <button id="resetButton">Request Reset</button>
+
+    <script>
+        // --- Game Configuration ---
+        const GRID_SIZE = 25; // Should match server
+        const PLAYER_COLORS = ['#ff4136', '#0074d9', '#2ecc40', '#ffdc00']; // Red, Blue, Green, Yellow
+        const DEFAULT_CELL_COLOR = '#333'; // Dark grey grid background
+        const GRID_LINE_COLOR = '#555'; // Slightly lighter grey for lines
+        const PLAYER_SIZE_FACTOR = 0.7; // How much of a cell the player circle occupies
+
+        // Player Controls Mapping
+        const MOVEMENT_KEYS = {
+            'KeyW': { dx: 0, dy: -1 }, // Up
+            'KeyS': { dx: 0, dy: 1 },  // Down
+            'KeyA': { dx: -1, dy: 0 }, // Left
+            'KeyD': { dx: 1, dy: 0 }   // Right
+        };
+
+        // --- Rate Limiting ---
+        const MOVE_DELAY = 100; // Milliseconds - Minimum delay between moves (Adjust as needed)
+        let lastMoveTime = 0;   // Timestamp of the last emitted move
+
+        // --- DOM Elements ---
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        const scoreElements = [
+            document.getElementById('score-p1'),
+            document.getElementById('score-p2'),
+            document.getElementById('score-p3'),
+            document.getElementById('score-p4'),
+        ];
+        const infoBoxElements = [
+            document.getElementById('infobox-p1'),
+            document.getElementById('infobox-p2'),
+            document.getElementById('infobox-p3'),
+            document.getElementById('infobox-p4'),
+        ];
+        const timerElement = document.getElementById('timer');
+        const statusElement = document.getElementById('status');
+        const resetButton = document.getElementById('resetButton');
+
+        // --- Game State (Client-Side Mirror) ---
+        let grid = [];
+        let players = [];
+        let myPlayerId = -1;
+        let gameActive = false;
+        let cellSize = 0;
+
+        // --- WebSocket Connection ---
+        const socket = io(window.location.origin);
+
+        socket.on('connect', () => {
+            console.log('Connected to server! SID:', socket.id);
+            statusElement.textContent = 'Connected! Waiting for players...';
+            lastMoveTime = 0; // Reset move timer on connect
+        });
+
+        socket.on('disconnect', () => {
+            console.log('Disconnected from server.');
+            statusElement.textContent = 'Disconnected! Please refresh.';
+            gameActive = false;
+            myPlayerId = -1;
+            updatePlayerHighlight();
+        });
+
+        socket.on('connect_error', (data) => {
+            console.error('Connection Error:', data.message);
+            statusElement.textContent = `Connection Failed: ${data.message}`;
+        });
+
+        // --- Server Event Handlers ---
+
+        socket.on('assign_player', (data) => {
+            myPlayerId = data.playerId;
+            console.log(`Assigned Player ID: ${myPlayerId + 1}`);
+            statusElement.textContent = `You are Player ${myPlayerId + 1}! Waiting for others...`;
+            updatePlayerHighlight();
+            lastMoveTime = 0; // Reset move timer when assigned
+        });
+
+        socket.on('game_update', (serverState) => {
+            grid = serverState.grid;
+            players = serverState.players;
+            gameActive = serverState.game_active;
+
+            updateScoreDisplay(serverState.scores);
+            updateTimerDisplay(serverState.remaining_time);
+            drawGame();
+        });
+
+        socket.on('game_event', (data) => {
+            console.log("Game Event:", data.message);
+            statusElement.textContent = data.message;
+             if (data.isGameOver) {
+                  resetButton.style.display = 'inline-block';
+             } else {
+                  resetButton.style.display = 'none';
+                  // Reset move timer if game starts or similar event occurs mid-match if needed
+                  // lastMoveTime = 0;
+             }
+        });
+
+        socket.on('game_reset', (initialState) => {
+             console.log("Game Reset by Server.");
+             statusElement.textContent = 'Game Reset! Waiting for players...';
+             myPlayerId = -1;
+             grid = initialState.grid;
+             players = initialState.players;
+             gameActive = initialState.game_active;
+             updateScoreDisplay(initialState.scores);
+             updateTimerDisplay(initialState.remaining_time);
+             updatePlayerHighlight();
+             resetButton.style.display = 'none';
+             drawGame();
+             lastMoveTime = 0; // Reset move timer on reset
+        });
+
+        // --- Drawing ---
+
+        function initCanvas() {
+            const availableWidth = Math.min(window.innerWidth * 0.9, 600);
+            const availableHeight = Math.min(window.innerHeight * 0.6, 600);
+            const minDimension = Math.min(availableWidth, availableHeight);
+            cellSize = Math.floor(minDimension / GRID_SIZE);
+            canvas.width = GRID_SIZE * cellSize;
+            canvas.height = GRID_SIZE * cellSize;
+            drawGame();
+        }
+
+        function drawGame() {
+            if (!grid || grid.length === 0) return;
+
+            ctx.fillStyle = DEFAULT_CELL_COLOR;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            for (let y = 0; y < GRID_SIZE; y++) {
+                for (let x = 0; x < GRID_SIZE; x++) {
+                    if (grid[y]) {
+                         const ownerIndex = grid[y][x];
+                         if (ownerIndex !== -1 && ownerIndex < PLAYER_COLORS.length) {
+                             ctx.fillStyle = PLAYER_COLORS[ownerIndex];
+                             ctx.fillRect(x * cellSize, y * cellSize, cellSize, cellSize);
+                         }
+                    }
+                    ctx.strokeStyle = GRID_LINE_COLOR;
+                    ctx.lineWidth = 1;
+                    ctx.strokeRect(x * cellSize, y * cellSize, cellSize, cellSize);
+                }
+            }
+
+            const playerRadius = (cellSize * PLAYER_SIZE_FACTOR) / 2;
+            players.forEach(player => {
+                 if (player && typeof player.id !== 'undefined' && player.id < PLAYER_COLORS.length) {
+                     ctx.fillStyle = player.color;
+                     ctx.beginPath();
+                     ctx.arc(
+                         player.x * cellSize + cellSize / 2,
+                         player.y * cellSize + cellSize / 2,
+                         playerRadius,
+                         0,
+                         Math.PI * 2
+                     );
+                     ctx.fill();
+                     ctx.strokeStyle = '#000';
+                     ctx.lineWidth = 2;
+                     ctx.stroke();
+                 }
+            });
+        }
+
+        // --- Player Input Handling (MODIFIED) ---
+
+        function handleKeyDown(event) {
+            if (!gameActive || myPlayerId === -1) return; // Ignore if game inactive or no ID
+
+            const move = MOVEMENT_KEYS[event.code];
+            if (move) {
+                const now = Date.now(); // Get current time
+
+                // Check if enough time has passed since the last move
+                if (now - lastMoveTime > MOVE_DELAY) {
+                    // Emit the move
+                    socket.emit('player_move', { dx: move.dx, dy: move.dy });
+                    // Update the time of the last move
+                    lastMoveTime = now;
+                }
+                // If not enough time has passed, do nothing (ignore the keydown event)
+
+                // Optional: Prevent default for movement keys if needed
+                // event.preventDefault();
+            }
+        }
+
+        // --- UI Updates ---
+
+        function updateScoreDisplay(scores) {
+            scores.forEach((score, index) => {
+                if (scoreElements[index]) {
+                    scoreElements[index].textContent = score;
+                }
+            });
+        }
+
+        function updateTimerDisplay(time) {
+             if (typeof time !== 'number') {
+                  timerElement.textContent = "--:--";
+                  return;
+             }
+            const minutes = Math.floor(time / 60);
+            const seconds = time % 60;
+            timerElement.textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+        }
+
+        function updatePlayerHighlight() {
+            infoBoxElements.forEach((box, index) => {
+                if (index === myPlayerId) {
+                    box.classList.add('my-player-indicator');
+                } else {
+                    box.classList.remove('my-player-indicator');
+                }
+            });
+        }
+
+        // --- Event Listeners ---
+        window.addEventListener('keydown', handleKeyDown);
+        resetButton.addEventListener('click', () => {
+            console.log("Requesting game reset...");
+            socket.emit('request_reset');
+        });
+
+        // --- Initial Setup ---
+        window.addEventListener('load', initCanvas);
+        window.addEventListener('resize', initCanvas);
+
+    </script>
+
+</body>
+</html>
