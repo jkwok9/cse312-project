@@ -8,3 +8,5 @@ services:
       DOCKER_DB: true
     ports:
       - '8080:8080'
+    volumes:
+      - ./logs:/app/logs # creates log file upon running docker
