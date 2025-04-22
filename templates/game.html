@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -216,7 +215,10 @@
         let gameActive = false;
         let cellSize = 0;
 
-        // --- WebSocket Connection ---
+        document.addEventListener('DOMContentLoaded', function() {
+    // Wait a short while before attempting to connect to Socket.IO
+    setTimeout(function() {
+        // Initialize Socket.IO connection
         const socket = io(window.location.origin);
 
         socket.on('connect', () => {
@@ -225,19 +227,39 @@
             lastMoveTime = 0; // Reset move timer on connect
         });
 
-        socket.on('disconnect', () => {
-            console.log('Disconnected from server.');
-            statusElement.textContent = 'Disconnected! Please refresh.';
-            gameActive = false;
-            myPlayerId = -1;
-            updatePlayerHighlight();
-        });
+        socket.on('redirect', function(data) {
+    if (data.url) {
+        // Delay slightly to ensure clean transition
+        setTimeout(function() {
+            window.location.href = data.url;
+        }, 100);
+    }
+});
 
-        socket.on('connect_error', (data) => {
-            console.error('Connection Error:', data.message);
-            statusElement.textContent = `Connection Failed: ${data.message}`;
-        });
+// Handle connection errors better
+socket.on('connect_error', function(data) {
+    console.error('Connection error:', data);
+    
+    // If error is authentication related, redirect to login
+    if (data.message && data.message.includes('Authentication')) {
+        showMessage('Authentication required. Redirecting to login...');
+        setTimeout(function() {
+            window.location.href = '/login';
+        }, 2000);
+    } else {
+        showMessage('Error: ' + (data.message || 'Connection failed'));
+    }
+});
 
+// Modify existing disconnect handler to be more user-friendly
+socket.on('disconnect', function() {
+    console.log('Disconnected from server');
+    
+    // Only show reconnection message if not redirecting elsewhere
+    if (!window.location.href.includes('/login') && !window.location.href.includes('/register')) {
+        showMessage('Disconnected from server. Attempting to reconnect...');
+    }
+});
         // --- Server Event Handlers ---
 
         socket.on('assign_player', (data) => {
@@ -284,7 +306,8 @@
              drawGame();
              lastMoveTime = 0; // Reset move timer on reset
         });
-
+    }, 500); // 500ms delay
+});
         // --- Drawing ---
 
         function initCanvas() {

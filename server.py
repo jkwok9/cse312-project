@@ -1,22 +1,32 @@
-# *** CHANGE: Move eventlet import and monkey_patch to the VERY TOP ***
+import select
+
+if hasattr(select, 'kqueue'):
+    import sys
+    if sys.platform == 'darwin':
+        select.kqueue = None
+
+# Then your existing imports
 import eventlet
-# If using eventlet, monkey patching is often necessary for standard libraries
-# to work correctly with its concurrency model. Do this BEFORE other imports.
 eventlet.monkey_patch()
-
-# Import necessary libraries AFTER monkey patching
-# Make sure to install Flask-SocketIO and eventlet: pip install Flask-SocketIO eventlet
-from flask import Flask, render_template, request, session
-from flask_socketio import SocketIO, emit, join_room, leave_room, send
-import time
-import threading # Keep for Lock if preferred, though eventlet has its own primitives
-# *** CHANGE: Import eventlet.wsgi for direct server usage ***
 import eventlet.wsgi
+from flask import Flask, flash, jsonify, make_response, render_template, request, session, redirect, url_for
+from flask_socketio import SocketIO, emit, join_room, leave_room, send
+from util.leaderboard import handle_leaderboard_page, handle_territory_leaderboard_api, handle_wins_leaderboard_api
 
+import time
+import threading
+import secrets
+import os
+import logging
+from flask_socketio import disconnect
+
+from util.register import handle_register
+from util.login import handle_login
+from util.auth_utli import get_user_by_token
 
 # --- Game Configuration ---
 GRID_SIZE = 25
-GAME_DURATION = 30  # Seconds (Adjusted comment)
+GAME_DURATION = 30  # Seconds
 PLAYER_COLORS = ['#ff4136', '#0074d9', '#2ecc40', '#ffdc00'] # Red, Blue, Green, Yellow
 MAX_PLAYERS = 4
 
@@ -27,11 +37,13 @@ COLOR_NAMES = {
     '#2ecc40': 'Green',
     '#ffdc00': 'Yellow'
 }
-# --- End New ---
 
 # --- Flask App Setup ---
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'your_very_secret_key_here!' # CHANGE FOR PRODUCTION
+app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', secrets.token_hex(32))
+app.config['SESSION_COOKIE_SECURE'] = True
+app.config['SESSION_COOKIE_HTTPONLY'] = True
+app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'
 socketio = SocketIO(app,
                     async_mode='eventlet',
                     cors_allowed_origins="*") # RESTRICT IN PRODUCTION
@@ -49,8 +61,6 @@ game_state = {
 game_state_lock = threading.Lock() # Using threading Lock
 
 # --- Helper Functions ---
-# (get_available_player_id, release_player_id, reset_game_state unchanged)
-# ... (Keep existing helper functions here) ...
 def get_available_player_id():
     # Finds the first available player ID (0 to MAX_PLAYERS-1)
     with game_state_lock:
@@ -101,8 +111,6 @@ def get_state_for_client():
         }
         return state
 
-# (game_timer, start_game_if_ready functions unchanged)
-# ... (Keep existing game_timer and start_game_if_ready functions here) ...
 def game_timer():
     # Background task (greenlet) that decrements the game timer
     while True:
@@ -159,8 +167,6 @@ def start_game_if_ready():
         socketio.emit('game_update', get_state_for_client()) # Send initial active state
         socketio.emit('game_event', {'message': 'Game Started!'})
 
-
-# --- MODIFIED end_game Function ---
 def end_game():
     # Ends the current game, calculates the winner, and notifies clients
     winners = []
@@ -217,48 +223,172 @@ def end_game():
         # Broadcast final state and game over message
         socketio.emit('game_update', get_state_for_client()) # Send final scores/state
         socketio.emit('game_event', {'message': winner_message, 'isGameOver': True})
-# --- End MODIFIED end_game Function ---
 
+# --- NEW: Authentication Middleware ---
+def check_auth():
+    """
+    Check if user is authenticated by verifying auth_token cookie
+    Returns user object if authenticated, None otherwise
+    """
+    auth_token = request.cookies.get('auth_token')
+    if not auth_token:
+        app.logger.warning("No auth_token cookie found")
+        return None
+    
+    # Verify token and get user
+    user = get_user_by_token(auth_token)
+    if user:
+        app.logger.info(f"User authenticated: {user.get('username', 'unknown')}")
+    else:
+        app.logger.warning(f"Invalid auth_token: {auth_token[:10]}...")
+    return user
 
-# --- Flask Routes ---
-# (@app.route('/') unchanged)
-# ... (Keep existing Flask routes here) ...
+def auth_required(f):
+    """
+    Decorator to require authentication for routes
+    Redirects to login page if not authenticated
+    """
+    def decorated(*args, **kwargs):
+        user = check_auth()
+        if not user:
+            return redirect(url_for('login'))
+        return f(*args, **kwargs)
+    decorated.__name__ = f.__name__  # Preserve the original function name
+    return decorated
+
+def no_auth_required(f):
+    """
+    Decorator for routes that should only be accessible when NOT authenticated
+    Redirects to game/index if already authenticated
+    Uses a 302 redirect to ensure no connection to WebSocket occurs
+    """
+    def decorated(*args, **kwargs):
+        user = check_auth()
+        if user:
+            # Use 302 redirect to ensure immediate redirect before any WebSocket connection
+            return redirect(url_for('index'), 302)
+        return f(*args, **kwargs)
+    decorated.__name__ = f.__name__  # Preserve the original function name
+    return decorated
+
+# --- Modified Flask Routes ---
 @app.route('/')
-# Import the Flask class and other necessary functions
-from flask import Flask, render_template, request, redirect, url_for, flash
-import secrets
-import os
-import logging
-from util.register import handle_register
-
-
-# Configure logging
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
-
-# Create an instance of the Flask class
-app = Flask(__name__)  # Flask will look for templates in a 'templates' folder
-
-# Set a secret key for session management and flash messages
-app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', secrets.token_hex(32))
-
-# Ensure session is secure
-app.config['SESSION_COOKIE_SECURE'] = True
-app.config['SESSION_COOKIE_HTTPONLY'] = True
-app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'
-
-# Define a route for the application's root URL ("/")
-@app.route("/")
 def index():
-    # Serves the main HTML page
+    """
+    Serves the main game page or redirects to login if not authenticated
+    """
+    user = check_auth()
+    if not user:
+        return redirect(url_for('login'))
+    
+    # User is authenticated, serve the game page
     return render_template('game.html')
 
+@app.route('/login', methods=['GET', 'POST'])
+@no_auth_required
+def login():
+    """
+    Route for user login - only accessible when not logged in
+    GET: Serves the login page
+    POST: Authenticates user credentials and redirects to game
+    """
+    return handle_login()
+
+@app.route('/register', methods=['GET', 'POST'])
+@no_auth_required
+def register():
+    """
+    Route for user registration - only accessible when not logged in
+    Uses the registration logic from register.py
+    """
+    return handle_register()
+
+@app.route('/logout')
+def logout():
+    """
+    Route for user logout
+    Clears the auth_token cookie and redirects to login
+    """
+    from util.auth_utli import clear_auth_cookie
+    
+    response = make_response(redirect(url_for('login')))
+    clear_auth_cookie(response)
+    flash('You have been logged out.', 'success')
+    return response
+
+
+@app.route('/debug')
+def debug_auth():
+    """
+    Debug route to check authentication status
+    """
+    user = check_auth()
+    cookies = request.cookies
+    
+    if user:
+        return jsonify({
+            "authenticated": True,
+            "username": user.get('username'),
+            "cookies": {k: v[:10] + "..." if k == "auth_token" else v for k, v in cookies.items()}
+        })
+    else:
+        return jsonify({
+            "authenticated": False,
+            "cookies": dict(cookies)
+        })
+@app.route('/leaderboard')
+@auth_required
+def leaderboard():
+    """
+    Serves the leaderboard page
+    """
+    return handle_leaderboard_page()
+
+@app.route('/api/leaderboard/wins')
+@auth_required
+def leaderboard_wins_api():
+    """
+    API endpoint for the wins leaderboard data
+    """
+    return handle_wins_leaderboard_api()
+
+@app.route('/api/leaderboard/territory')
+@auth_required
+def leaderboard_territory_api():
+    """
+    API endpoint for the territory score leaderboard data
+    """
+    return handle_territory_leaderboard_api()
+
+# --- Default route to handle initial page load ---
+@app.route('/_init')
+def initial_route():
+    """
+    Initial route that redirects based on authentication status
+    If authenticated -> game page, otherwise -> login page
+    """
+    user = check_auth()
+    if user:
+        return redirect(url_for('index'))
+    else:
+        return redirect(url_for('login'))
+
 # --- SocketIO Event Handlers ---
-# (handle_connect, handle_disconnect, handle_player_move, handle_reset_request unchanged)
-# ... (Keep existing SocketIO handlers here) ...
 @socketio.on('connect')
 def handle_connect():
-    # Handles new client connections
+    """
+    Handles new client connections with improved authentication
+    """
+    # First verify the user is authenticated
+    user = check_auth()
+    if not user:
+        # Reject connection if not authenticated
+        emit('connect_error', {'message': 'Authentication required'})
+        # Disconnect immediately to prevent pending connections
+        disconnect()
+        return
+    
+        
     sid = request.sid
     player_id = get_available_player_id() # Try to get an ID
 
@@ -273,6 +403,7 @@ def handle_connect():
         # Release the ID if it was tentatively assigned but rejected due to other conditions
         if player_id != -1:
              release_player_id(player_id)
+        disconnect()
         return # Stop processing connection
 
     # Assign starting position based on player ID
@@ -282,11 +413,21 @@ def handle_connect():
          # This should ideally not happen if MAX_PLAYERS matches array sizes
          emit('connect_error', {'message': 'Internal server error: player configuration mismatch.'})
          release_player_id(player_id)
+         disconnect()
          return
 
     start_x, start_y = potential_starts[player_id]
     player_color = PLAYER_COLORS[player_id]
-    player_data = { 'id': player_id, 'sid': sid, 'x': start_x, 'y': start_y, 'color': player_color }
+    
+    # Add user info to player data
+    player_data = { 
+        'id': player_id, 
+        'sid': sid, 
+        'x': start_x, 
+        'y': start_y, 
+        'color': player_color,
+        'username': user['username']  # Include username from auth
+    }
 
     with game_state_lock:
         # Store player data
@@ -311,7 +452,6 @@ def handle_connect():
 
     # Check if the game can start now
     start_game_if_ready()
-
 
 @socketio.on('disconnect')
 def handle_disconnect():
@@ -342,7 +482,6 @@ def handle_disconnect():
         # End the game if it was active and player count drops below minimum
         if was_game_active and num_players_after_disconnect < MAX_PLAYERS:
             end_game() # End the game prematurely
-
 
 @socketio.on('player_move')
 def handle_player_move(data):
@@ -397,7 +536,6 @@ def handle_player_move(data):
     if should_broadcast:
         socketio.emit('game_update', get_state_for_client())
 
-
 @socketio.on('request_reset')
 def handle_reset_request():
     # Handles requests from clients to reset the game (only allowed when inactive)
@@ -418,35 +556,13 @@ def handle_reset_request():
         # Notify the requesting client that reset is not allowed
         emit('game_event', {'message': 'Cannot reset: Game in progress!'}, room=sid)
 
-
 # --- Main Execution ---
 if __name__ == '__main__':
     print("Initializing Flask-SocketIO server with eventlet WSGI...")
     try:
-        print(f"Starting eventlet WSGI server on http://0.0.0.0:5000")
+        print(f"Starting eventlet WSGI server on http://0.0.0.0:5001")
         # Start the server using eventlet's WSGI server
-        eventlet.wsgi.server(eventlet.listen(('', 5000)), app)
+        eventlet.wsgi.server(eventlet.listen(('', 5001)), app)
     except Exception as e:
         # Use print for critical startup errors since logging might be minimal/removed
         print(f"Failed to start eventlet WSGI server: {e}")
-    """
-    This function is the view function for the "/" route.
-    It renders the index.html template.
-    """
-    return render_template('index.html')
-
-@app.route('/register', methods=['GET', 'POST'])
-def register():
-    """
-    Route for user registration
-    Uses the registration logic from register.py
-    """
-    return handle_register()
-
-
-if __name__ == "__main__":
-    logger.info("Starting Flask application...")
-    # Run the Flask development server
-    # debug=True enables auto-reloading and error pages (disable in production)
-    # host='0.0.0.0' makes it accessible on your network
-    app.run(debug=True, host='0.0.0.0', port=8080)

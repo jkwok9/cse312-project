@@ -356,7 +356,7 @@
         </div>
         
         <div class="login-link">
-            Already have an account? <a href="#">Sign in</a>
+            Already have an account? <a href="/login">Sign in</a>
         </div>
     </div>
 
@@ -529,6 +529,11 @@
                         // Show success message
                         form.style.display = 'none';
                         successContainer.style.display = 'block';
+                        
+                        // Redirect to game page after successful registration
+                        setTimeout(function() {
+                            window.location.href = '/';
+                        }, 2000); // Redirect after 2 seconds
                         
                         // Optional: Reset form
                         form.reset();

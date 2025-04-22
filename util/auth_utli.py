@@ -106,7 +106,7 @@ def set_auth_cookie(response, token, expiry_days=30):
         token,                 # Cookie value (the actual token, not the hash)
         max_age=max_age,       # Cookie expiration in seconds
         httponly=True,         # Prevents JavaScript access (HttpOnly flag)
-        secure=True,           # Requires HTTPS (except on localhost)
+        secure=False,          # Set to False for local development (no HTTPS)
         samesite='Lax'         # Prevents CSRF attacks
     )
     

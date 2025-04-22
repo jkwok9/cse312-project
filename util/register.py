@@ -230,7 +230,8 @@ def handle_register():
             if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
                 response = jsonify({
                     'success': True,
-                    'message': 'Registration successful!'
+                    'message': 'Registration successful!',
+                    'redirect': url_for('index')  # Add this line
                 })
                 
                 # Set authentication cookie if token was generated
@@ -241,7 +242,8 @@ def handle_register():
                 return response, 201
             else:
                 flash('Registration successful!', 'success')
-                response = make_response(redirect(url_for('register')))
+                # Modified: redirect to index (game) instead of back to register
+                response = make_response(redirect(url_for('index')))
                 
                 # Set authentication cookie if token was generated
                 if auth_token:
