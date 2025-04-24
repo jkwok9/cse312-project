@@ -48,6 +48,7 @@ def setup_logging(app=None):
     logging.info("Logging is set up.")
 
 
+
 # def setup_logging():
 #     log_dir = "log"
 #     log_file = os.path.join(log_dir, "server.log")
