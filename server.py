@@ -58,6 +58,7 @@ app.config['SESSION_COOKIE_HTTPONLY'] = True
 app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'
 
 
+
 socketio = SocketIO(app,
                     async_mode='eventlet',
                     cors_allowed_origins="*") # RESTRICT IN PRODUCTION
