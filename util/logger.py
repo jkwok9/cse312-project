@@ -15,11 +15,8 @@ import warnings
 # flask has things that get ip address using .remote_addr can i use that to get ip or some other way or will that get the wrong ip
 # how would you recommend getting the ip address
 
-
 def setup_logging(app=None):
-    log_dir = "log"
-    log_file = os.path.join(log_dir, "server.log")
-    os.makedirs(log_dir, exist_ok=True)
+    log_file = "server.log"  # 👈 Just the filename, no directory
 
     formatter = logging.Formatter('%(asctime)s %(levelname)s: %(message)s')
 
@@ -37,16 +34,14 @@ def setup_logging(app=None):
     root_logger.addHandler(file_handler)
     root_logger.addHandler(stream_handler)
 
-    # Also attach to Flask app.logger if available
+    # Attach to Flask's app.logger too, if given
     if app:
         app.logger.handlers = []
         app.logger.setLevel(logging.INFO)
         app.logger.addHandler(file_handler)
         app.logger.addHandler(stream_handler)
 
-
     logging.info("Logging is set up.")
-
 
 
 # def setup_logging():

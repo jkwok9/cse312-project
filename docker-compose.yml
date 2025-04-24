@@ -9,7 +9,7 @@ services:
     ports:
       - '8080:8080'
     volumes:
-      - ./log:/log
+      - ./server.log:/server.log
 
 
 
