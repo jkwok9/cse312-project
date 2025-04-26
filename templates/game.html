@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -8,7 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.5/socket.io.min.js"></script>
     <style>
-        /* CSS Styles (same as previous version - kept for brevity) */
+        /* CSS Styles (same as previous version) */
         body {
             display: flex;
             flex-direction: column;
@@ -42,9 +43,9 @@
 
         .game-info {
             display: flex;
-            justify-content: space-around;
+            justify-content: center;
             width: 100%;
-            max-width: 600px; /* Match typical canvas width */
+            max-width: 800px; /* Increased width */
             margin-bottom: 15px;
             flex-wrap: wrap; /* Wrap scores on smaller screens */
             gap: 10px;
@@ -57,6 +58,8 @@
             border: 2px solid #fff;
             text-align: center;
             box-shadow: 3px 3px 0px rgba(0, 0, 0, 0.5);
+            margin: 5px;
+            min-width: 150px;
         }
 
         .info-box span {
@@ -64,12 +67,6 @@
             font-size: 1.2em;
             margin-top: 5px;
         }
-
-        /* Player-specific colors for score text */
-        #score-p1 { color: #ff4136; } /* Red */
-        #score-p2 { color: #0074d9; } /* Blue */
-        #score-p3 { color: #2ecc40; } /* Green */
-        #score-p4 { color: #ffdc00; } /* Yellow */
 
         #timer {
             font-size: 1.5em;
@@ -98,7 +95,7 @@
             margin-bottom: 15px;
             border: 2px dashed #aaa;
             width: 100%;
-            max-width: 600px;
+            max-width: 800px; /* Increased width */
             text-align: center;
         }
         .controls h2, .instructions h2 {
@@ -139,27 +136,118 @@
          #resetButton {
             display: none; /* Hide reset initially */
          }
+         
+         /* Reconnect button */
+         #reconnectButton {
+            display: none; /* Hidden by default */
+            margin-bottom: 15px;
+            background: linear-gradient(145deg, #4a5a4a, #3a4a3a); /* Green-ish gradient */
+         }
+
+        /* New style for welcome message */
+        .welcome-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            max-width: 800px; /* Increased width */
+            margin-bottom: 15px;
+        }
+
+        .welcome-message {
+            color: #7fdbff; /* Aqua blue */
+            font-size: 1em;
+            text-shadow: 1px 1px #000;
+        }
+
+        /* Logout button style */
+        #logoutButton {
+            background: linear-gradient(145deg, #aa3030, #771515); /* Red gradient */
+            padding: 10px 20px;
+            font-size: 0.8em;
+        }
+
+        #logoutButton:hover {
+            background: linear-gradient(145deg, #cc3030, #881515);
+        }
+        
+        /* Players list styles */
+        .players-list {
+            display: flex;
+            flex-direction: column;
+            max-height: 200px;
+            overflow-y: auto;
+            width: 100%;
+            max-width: 800px;
+            background-color: #2a2a2a;
+            border-radius: 8px;
+            padding: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .players-list-title {
+            text-align: center;
+            color: #7fdbff;
+            margin-bottom: 10px;
+        }
+        
+        .player-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+        
+        .player-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            margin-right: 10px;
+            border: 2px solid #fff;
+        }
+        
+        .player-name {
+            flex-grow: 1;
+        }
+        
+        .player-score {
+            margin-left: 10px;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
 
     <h1>Territory Claim! (Multiplayer)</h1>
 
+    <!-- New: Welcome message and logout button -->
+    <div class="welcome-container">
+        <div class="welcome-message">Welcome <span id="username">Player</span>!</div>
+        <a href="/logout"><button id="logoutButton">Logout</button></a>
+    </div>
+
     <canvas id="gameCanvas"></canvas>
 
     <div class="game-info">
-        <div class="info-box" id="infobox-p1">Player 1: <span id="score-p1">0</span></div>
-        <div class="info-box" id="infobox-p2">Player 2: <span id="score-p2">0</span></div>
-        <div class="info-box" id="infobox-p3">Player 3: <span id="score-p3">0</span></div>
-        <div class="info-box" id="infobox-p4">Player 4: <span id="score-p4">0</span></div>
         <div class="info-box">Time: <span id="timer">--:--</span></div>
+        <!-- Player boxes will be dynamically added here -->
     </div>
 
     <div id="status">Connecting to server...</div>
+    
+    <!-- Players list container -->
+    <div class="players-list">
+        <div class="players-list-title">ACTIVE PLAYERS</div>
+        <div id="playersList">
+            <!-- Player items will be dynamically added here -->
+        </div>
+    </div>
+    
+    <!-- Reconnect button -->
+    <button id="reconnectButton">Reconnect to Server</button>
 
     <div class="instructions">
         <h2>Instructions</h2>
-        <p>Move your player (highlighted below) to claim territory. The floor turns your color! The player with the most territory wins.</p>
+        <p>Move your player to claim territory. The floor turns your color! The player with the most territory wins.</p>
     </div>
 
     <div class="controls">
@@ -171,8 +259,7 @@
 
     <script>
         // --- Game Configuration ---
-        const GRID_SIZE = 25; // Should match server
-        const PLAYER_COLORS = ['#ff4136', '#0074d9', '#2ecc40', '#ffdc00']; // Red, Blue, Green, Yellow
+        const GRID_SIZE = 40; // Larger grid
         const DEFAULT_CELL_COLOR = '#333'; // Dark grey grid background
         const GRID_LINE_COLOR = '#555'; // Slightly lighter grey for lines
         const PLAYER_SIZE_FACTOR = 0.7; // How much of a cell the player circle occupies
@@ -192,132 +279,52 @@
         // --- DOM Elements ---
         const canvas = document.getElementById('gameCanvas');
         const ctx = canvas.getContext('2d');
-        const scoreElements = [
-            document.getElementById('score-p1'),
-            document.getElementById('score-p2'),
-            document.getElementById('score-p3'),
-            document.getElementById('score-p4'),
-        ];
-        const infoBoxElements = [
-            document.getElementById('infobox-p1'),
-            document.getElementById('infobox-p2'),
-            document.getElementById('infobox-p3'),
-            document.getElementById('infobox-p4'),
-        ];
+        const gameInfoContainer = document.querySelector('.game-info');
         const timerElement = document.getElementById('timer');
         const statusElement = document.getElementById('status');
         const resetButton = document.getElementById('resetButton');
+        const reconnectButton = document.getElementById('reconnectButton');
+        const usernameElement = document.getElementById('username');
+        const playersListContainer = document.getElementById('playersList');
 
         // --- Game State (Client-Side Mirror) ---
         let grid = [];
         let players = [];
-        let myPlayerId = -1;
+        let myPlayerId = null;
         let gameActive = false;
         let cellSize = 0;
+        let isConnected = false;
+        let socket = null;
+        let playerColors = {}; // Map of player IDs to colors
+        
+        // Helper function to show status messages
+        function showMessage(message) {
+            statusElement.textContent = message;
+        }
 
-        document.addEventListener('DOMContentLoaded', function() {
-    // Wait a short while before attempting to connect to Socket.IO
-    setTimeout(function() {
-        // Initialize Socket.IO connection
-        const socket = io(window.location.origin);
-
-        socket.on('connect', () => {
-            console.log('Connected to server! SID:', socket.id);
-            statusElement.textContent = 'Connected! Waiting for players...';
-            lastMoveTime = 0; // Reset move timer on connect
-        });
-
-        socket.on('redirect', function(data) {
-    if (data.url) {
-        // Delay slightly to ensure clean transition
-        setTimeout(function() {
-            window.location.href = data.url;
-        }, 100);
-    }
-});
-
-// Handle connection errors better
-socket.on('connect_error', function(data) {
-    console.error('Connection error:', data);
-    
-    // If error is authentication related, redirect to login
-    if (data.message && data.message.includes('Authentication')) {
-        showMessage('Authentication required. Redirecting to login...');
-        setTimeout(function() {
-            window.location.href = '/login';
-        }, 2000);
-    } else {
-        showMessage('Error: ' + (data.message || 'Connection failed'));
-    }
-});
-
-// Modify existing disconnect handler to be more user-friendly
-socket.on('disconnect', function() {
-    console.log('Disconnected from server');
-    
-    // Only show reconnection message if not redirecting elsewhere
-    if (!window.location.href.includes('/login') && !window.location.href.includes('/register')) {
-        showMessage('Disconnected from server. Attempting to reconnect...');
-    }
-});
-        // --- Server Event Handlers ---
-
-        socket.on('assign_player', (data) => {
-            myPlayerId = data.playerId;
-            console.log(`Assigned Player ID: ${myPlayerId + 1}`);
-            statusElement.textContent = `You are Player ${myPlayerId + 1}! Waiting for others...`;
-            updatePlayerHighlight();
-            lastMoveTime = 0; // Reset move timer when assigned
-        });
-
-        socket.on('game_update', (serverState) => {
-            grid = serverState.grid;
-            players = serverState.players;
-            gameActive = serverState.game_active;
-
-            updateScoreDisplay(serverState.scores);
-            updateTimerDisplay(serverState.remaining_time);
-            drawGame();
-        });
-
-        socket.on('game_event', (data) => {
-            console.log("Game Event:", data.message);
-            statusElement.textContent = data.message;
-             if (data.isGameOver) {
-                  resetButton.style.display = 'inline-block';
-             } else {
-                  resetButton.style.display = 'none';
-                  // Reset move timer if game starts or similar event occurs mid-match if needed
-                  // lastMoveTime = 0;
-             }
-        });
-
-        socket.on('game_reset', (initialState) => {
-             console.log("Game Reset by Server.");
-             statusElement.textContent = 'Game Reset! Waiting for players...';
-             myPlayerId = -1;
-             grid = initialState.grid;
-             players = initialState.players;
-             gameActive = initialState.game_active;
-             updateScoreDisplay(initialState.scores);
-             updateTimerDisplay(initialState.remaining_time);
-             updatePlayerHighlight();
-             resetButton.style.display = 'none';
-             drawGame();
-             lastMoveTime = 0; // Reset move timer on reset
-        });
-    }, 500); // 500ms delay
-});
-        // --- Drawing ---
+        // Initialize canvas on page load
+        window.addEventListener('load', initCanvas);
+        window.addEventListener('resize', initCanvas);
 
         function initCanvas() {
-            const availableWidth = Math.min(window.innerWidth * 0.9, 600);
-            const availableHeight = Math.min(window.innerHeight * 0.6, 600);
+            const availableWidth = Math.min(window.innerWidth * 0.9, 800); // Increased max width
+            const availableHeight = Math.min(window.innerHeight * 0.6, 800); // Increased max height
             const minDimension = Math.min(availableWidth, availableHeight);
             cellSize = Math.floor(minDimension / GRID_SIZE);
             canvas.width = GRID_SIZE * cellSize;
             canvas.height = GRID_SIZE * cellSize;
-            drawGame();
+            
+            // Draw empty grid initially
+            ctx.fillStyle = DEFAULT_CELL_COLOR;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            for (let y = 0; y < GRID_SIZE; y++) {
+                for (let x = 0; x < GRID_SIZE; x++) {
+                    ctx.strokeStyle = GRID_LINE_COLOR;
+                    ctx.lineWidth = 1;
+                    ctx.strokeRect(x * cellSize, y * cellSize, cellSize, cellSize);
+                }
+            }
         }
 
         function drawGame() {
@@ -328,12 +335,12 @@ socket.on('disconnect', function() {
 
             for (let y = 0; y < GRID_SIZE; y++) {
                 for (let x = 0; x < GRID_SIZE; x++) {
-                    if (grid[y]) {
-                         const ownerIndex = grid[y][x];
-                         if (ownerIndex !== -1 && ownerIndex < PLAYER_COLORS.length) {
-                             ctx.fillStyle = PLAYER_COLORS[ownerIndex];
-                             ctx.fillRect(x * cellSize, y * cellSize, cellSize, cellSize);
-                         }
+                    if (grid[y] && grid[y][x] !== undefined && grid[y][x] !== null && grid[y][x] !== -1) {
+                        const ownerId = grid[y][x];
+                        if (playerColors[ownerId]) {
+                            ctx.fillStyle = playerColors[ownerId];
+                            ctx.fillRect(x * cellSize, y * cellSize, cellSize, cellSize);
+                        }
                     }
                     ctx.strokeStyle = GRID_LINE_COLOR;
                     ctx.lineWidth = 1;
@@ -343,8 +350,8 @@ socket.on('disconnect', function() {
 
             const playerRadius = (cellSize * PLAYER_SIZE_FACTOR) / 2;
             players.forEach(player => {
-                 if (player && typeof player.id !== 'undefined' && player.id < PLAYER_COLORS.length) {
-                     ctx.fillStyle = player.color;
+                 if (player && player.id !== undefined && playerColors[player.id]) {
+                     ctx.fillStyle = playerColors[player.id];
                      ctx.beginPath();
                      ctx.arc(
                          player.x * cellSize + cellSize / 2,
@@ -361,39 +368,222 @@ socket.on('disconnect', function() {
             });
         }
 
-        // --- Player Input Handling (MODIFIED) ---
-
-        function handleKeyDown(event) {
-            if (!gameActive || myPlayerId === -1) return; // Ignore if game inactive or no ID
-
-            const move = MOVEMENT_KEYS[event.code];
-            if (move) {
-                const now = Date.now(); // Get current time
-
-                // Check if enough time has passed since the last move
-                if (now - lastMoveTime > MOVE_DELAY) {
-                    // Emit the move
-                    socket.emit('player_move', { dx: move.dx, dy: move.dy });
-                    // Update the time of the last move
-                    lastMoveTime = now;
+        function updatePlayersList() {
+            // Sort players by score (descending)
+            const sortedPlayers = [...players].sort((a, b) => {
+                // If player has a score field, use it, otherwise default to 0
+                const scoreA = a.score !== undefined ? a.score : 0;
+                const scoreB = b.score !== undefined ? b.score : 0;
+                return scoreB - scoreA; // Descending order
+            });
+            
+            // Clear the current list
+            playersListContainer.innerHTML = '';
+            
+            // Add each player to the list
+            sortedPlayers.forEach(player => {
+                if (!player || player.id === undefined) return;
+                
+                const playerItem = document.createElement('div');
+                playerItem.className = 'player-item';
+                if (player.id === myPlayerId) {
+                    playerItem.style.fontWeight = 'bold';
                 }
-                // If not enough time has passed, do nothing (ignore the keydown event)
-
-                // Optional: Prevent default for movement keys if needed
-                // event.preventDefault();
-            }
-        }
-
-        // --- UI Updates ---
-
-        function updateScoreDisplay(scores) {
-            scores.forEach((score, index) => {
-                if (scoreElements[index]) {
-                    scoreElements[index].textContent = score;
-                }
+                
+                const colorCircle = document.createElement('div');
+                colorCircle.className = 'player-color';
+                colorCircle.style.backgroundColor = playerColors[player.id] || '#fff';
+                
+                const playerName = document.createElement('div');
+                playerName.className = 'player-name';
+                playerName.textContent = player.username || `Player ${player.id}`;
+                
+                const playerScore = document.createElement('div');
+                playerScore.className = 'player-score';
+                playerScore.textContent = player.score !== undefined ? player.score : '0';
+                
+                playerItem.appendChild(colorCircle);
+                playerItem.appendChild(playerName);
+                playerItem.appendChild(playerScore);
+                
+                playersListContainer.appendChild(playerItem);
             });
         }
 
+        function updatePlayerHighlight() {
+            // Remove any existing player indicators
+            document.querySelectorAll('.info-box').forEach(box => {
+                box.classList.remove('my-player-indicator');
+            });
+            
+            // Find and highlight the current player's box if it exists
+            if (myPlayerId !== null) {
+                const myBox = document.getElementById(`infobox-${myPlayerId}`);
+                if (myBox) {
+                    myBox.classList.add('my-player-indicator');
+                }
+            }
+        }
+
+        // Function to handle key presses for movement
+        function handleKeyDown(event) {
+            if (!gameActive || myPlayerId === null || !isConnected) return;
+            
+            const move = MOVEMENT_KEYS[event.code];
+            if (move) {
+                const now = Date.now();
+                
+                if (now - lastMoveTime > MOVE_DELAY) {
+                    socket.emit('player_move', { dx: move.dx, dy: move.dy });
+                    lastMoveTime = now;
+                }
+            }
+        }
+
+        // Initialize the game when the page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            initCanvas();
+            connectToServer();
+            
+            // Set up event listeners
+            window.addEventListener('keydown', handleKeyDown);
+            
+            // Reset button
+            resetButton.addEventListener('click', function() {
+                if (isConnected) {
+                    socket.emit('request_reset');
+                }
+            });
+            
+            // Reconnect button
+            reconnectButton.addEventListener('click', function() {
+                connectToServer();
+            });
+        });
+
+        // Establish socket connection
+        function connectToServer() {
+            // Display connecting message
+            showMessage('Connecting to server...');
+            reconnectButton.style.display = 'none';
+            
+            // Clean up existing socket if there is one
+            if (socket) {
+                socket.disconnect();
+                socket = null;
+            }
+            
+            // Create a new socket
+            socket = io(window.location.origin, {
+                transports: ['polling'],  // Use polling only - NO WebSocket
+                upgrade: false,           // Disable transport upgrades
+                reconnection: true,
+                reconnectionAttempts: 5,
+                reconnectionDelay: 1000
+            });
+            
+            // Connection event
+            socket.on('connect', function() {
+                console.log('Connected to server with ID:', socket.id);
+                showMessage('Connected! Waiting for game to start...');
+                isConnected = true;
+                reconnectButton.style.display = 'none';
+            });
+            
+            // Disconnection event
+            socket.on('disconnect', function() {
+                console.log('Disconnected from server');
+                showMessage('Disconnected from server. Click reconnect to try again.');
+                isConnected = false;
+                reconnectButton.style.display = 'inline-block';
+            });
+            
+            // Connection error
+            socket.on('connect_error', function(error) {
+                console.error('Connection error:', error);
+                showMessage('Error connecting to server');
+                isConnected = false;
+                reconnectButton.style.display = 'inline-block';
+            });
+            
+            // Game events
+            socket.on('assign_player', function(data) {
+                myPlayerId = data.playerId;
+                console.log(`Assigned Player ID: ${myPlayerId}`);
+                showMessage(`You are Player ${myPlayerId}! Game in progress...`);
+                updatePlayerHighlight();
+            });
+            
+            socket.on('game_update', function(serverState) {
+                grid = serverState.grid;
+                players = serverState.players;
+                gameActive = serverState.game_active;
+                
+                // Update color map
+                playerColors = {};
+                players.forEach(player => {
+                    if (player && player.id !== undefined && player.color) {
+                        playerColors[player.id] = player.color;
+                    }
+                });
+                
+                updateTimerDisplay(serverState.remaining_time);
+                updatePlayersList();
+                drawGame();
+                
+                // Update username in welcome message if available
+                if (players && players.length > 0) {
+                    for (let i = 0; i < players.length; i++) {
+                        if (players[i] && players[i].id === myPlayerId && players[i].username) {
+                            usernameElement.textContent = players[i].username;
+                            break;
+                        }
+                    }
+                }
+            });
+            
+            socket.on('game_event', function(data) {
+                console.log("Game Event:", data.message);
+                showMessage(data.message);
+                if (data.isGameOver) {
+                    resetButton.style.display = 'inline-block';
+                } else {
+                    resetButton.style.display = 'none';
+                }
+            });
+            
+            socket.on('game_reset', function(initialState) {
+                console.log("Game Reset by Server.");
+                showMessage('Game Reset! Waiting for players...');
+                myPlayerId = null;
+                grid = initialState.grid;
+                players = initialState.players;
+                gameActive = initialState.game_active;
+                
+                // Update color map
+                playerColors = {};
+                players.forEach(player => {
+                    if (player && player.id !== undefined && player.color) {
+                        playerColors[player.id] = player.color;
+                    }
+                });
+                
+                updateTimerDisplay(initialState.remaining_time);
+                updatePlayersList();
+                updatePlayerHighlight();
+                resetButton.style.display = 'none';
+                drawGame();
+            });
+            
+            // Redirect event
+            socket.on('redirect', function(data) {
+                if (data.url) {
+                    console.log('Redirecting to:', data.url);
+                    window.location.href = data.url;
+                }
+            });
+        }
+        
         function updateTimerDisplay(time) {
              if (typeof time !== 'number') {
                   timerElement.textContent = "--:--";
@@ -403,29 +593,14 @@ socket.on('disconnect', function() {
             const seconds = time % 60;
             timerElement.textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
         }
-
-        function updatePlayerHighlight() {
-            infoBoxElements.forEach((box, index) => {
-                if (index === myPlayerId) {
-                    box.classList.add('my-player-indicator');
-                } else {
-                    box.classList.remove('my-player-indicator');
-                }
-            });
-        }
-
-        // --- Event Listeners ---
-        window.addEventListener('keydown', handleKeyDown);
-        resetButton.addEventListener('click', () => {
-            console.log("Requesting game reset...");
-            socket.emit('request_reset');
+        
+        // Clean up when the page is unloaded
+        window.addEventListener('beforeunload', function() {
+            if (socket) {
+                socket.disconnect();
+                socket = null;
+            }
         });
-
-        // --- Initial Setup ---
-        window.addEventListener('load', initCanvas);
-        window.addEventListener('resize', initCanvas);
-
     </script>
-
 </body>
 </html>

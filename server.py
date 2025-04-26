@@ -19,6 +19,7 @@ import threading
 import secrets
 import os
 import logging
+import random
 from flask_socketio import disconnect
 
 from util.register import handle_register
@@ -26,18 +27,9 @@ from util.login import handle_login
 from util.auth_utli import get_user_by_token
 
 # --- Game Configuration ---
-GRID_SIZE = 25
-GAME_DURATION = 30  # Seconds
-PLAYER_COLORS = ['#ff4136', '#0074d9', '#2ecc40', '#ffdc00'] # Red, Blue, Green, Yellow
-MAX_PLAYERS = 4
-
-# --- NEW: Map hex colors to names ---
-COLOR_NAMES = {
-    '#ff4136': 'Red',
-    '#0074d9': 'Blue',
-    '#2ecc40': 'Green',
-    '#ffdc00': 'Yellow'
-}
+GRID_SIZE = 40  # Larger grid
+GAME_DURATION = 60  # Increased duration (seconds)
+MAX_PLAYERS = 999  # No practical limit on players
 
 # --- Flask App Setup ---
 app = Flask(__name__)
@@ -56,52 +48,87 @@ app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', secrets.token_hex(32))
 app.config['SESSION_COOKIE_SECURE'] = True
 app.config['SESSION_COOKIE_HTTPONLY'] = True
 app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'
-
-
-
+# Replace the existing socketio initialization
 socketio = SocketIO(app,
                     async_mode='eventlet',
-                    cors_allowed_origins="*") # RESTRICT IN PRODUCTION
+                    cors_allowed_origins="*",
+                    ping_timeout=20,
+                    ping_interval=25,
+                    max_http_buffer_size=1e8,
+                    engineio_logger=True)  # Add logging to debug issues # RESTRICT IN PRODUCTION
 
 # --- Game State (Server-Side) ---
 game_state = {
     "grid": [[-1 for _ in range(GRID_SIZE)] for _ in range(GRID_SIZE)],
     "players": {}, # Dictionary: {sid: player_data}
-    "scores": [0] * MAX_PLAYERS,
     "remaining_time": GAME_DURATION,
     "game_active": False,
     "timer_thread": None,
-    "assigned_ids": [False] * MAX_PLAYERS # Track which player IDs (0-3) are taken
+    "next_player_id": 0  # Counter for assigning unique player IDs
 }
 game_state_lock = threading.Lock() # Using threading Lock
 
 # --- Helper Functions ---
-def get_available_player_id():
-    # Finds the first available player ID (0 to MAX_PLAYERS-1)
-    with game_state_lock:
-        for i in range(MAX_PLAYERS):
-            if not game_state["assigned_ids"][i]:
-                game_state["assigned_ids"][i] = True
-                return i
-    return -1 # No ID available
+def generate_random_color():
+    """
+    Generate a random bright color in hexadecimal format.
+    Makes sure colors are bright enough to be visible on dark background.
+    """
+    # Generate higher values for brighter colors (128-255 range for each RGB component)
+    r = random.randint(128, 255)
+    g = random.randint(128, 255)
+    b = random.randint(128, 255)
+    
+    # Convert to hex format
+    return f'#{r:02x}{g:02x}{b:02x}'
 
-def release_player_id(player_id):
-    # Marks a player ID as available again
-    if 0 <= player_id < MAX_PLAYERS:
-        with game_state_lock:
-             # Check if the ID is actually assigned before releasing
-             if game_state["assigned_ids"][player_id]:
-                 game_state["assigned_ids"][player_id] = False
+def get_random_empty_position():
+    """
+    Find a random empty position on the grid for a new player to spawn.
+    Returns tuple (x, y) of an empty cell.
+    """
+    with game_state_lock:
+        empty_cells = []
+        
+        # Find all empty cells
+        for y in range(GRID_SIZE):
+            for x in range(GRID_SIZE):
+                if game_state["grid"][y][x] == -1:
+                    empty_cells.append((x, y))
+        
+        # If there are no empty cells, just return a random position
+        # (not ideal but prevents errors if grid is full)
+        if not empty_cells:
+            return (random.randint(0, GRID_SIZE - 1), random.randint(0, GRID_SIZE - 1))
+        
+        # Return a random empty cell
+        return random.choice(empty_cells)
+
+def get_next_player_id():
+    """
+    Get the next available unique player ID
+    """
+    with game_state_lock:
+        player_id = game_state["next_player_id"]
+        game_state["next_player_id"] += 1
+        return player_id
 
 def reset_game_state():
     # Resets the game to its initial state
     with game_state_lock:
         game_state["grid"] = [[-1 for _ in range(GRID_SIZE)] for _ in range(GRID_SIZE)]
-        game_state["players"] = {}
-        game_state["scores"] = [0] * MAX_PLAYERS # Reset scores
+        # Keep the players but reset their positions and scores
+        for sid, player in game_state["players"].items():
+            x, y = get_random_empty_position()
+            player['x'] = x
+            player['y'] = y
+            player['score'] = 0
+            # Mark their initial position as claimed
+            game_state["grid"][y][x] = player['id']
+        
         game_state["remaining_time"] = GAME_DURATION
         game_state["game_active"] = False
-        game_state["assigned_ids"] = [False] * MAX_PLAYERS # Reset assignments
+        
         # Stop any existing timer greenlet
         timer = game_state.get("timer_thread")
         if timer:
@@ -111,16 +138,47 @@ def reset_game_state():
                 pass # Ignore errors if killing fails
         game_state["timer_thread"] = None
 
+def calculate_scores():
+    """
+    Calculate scores for all players by counting their claimed cells
+    """
+    with game_state_lock:
+        # Initialize score counter for each player
+        scores = {player['id']: 0 for player in game_state["players"].values()}
+        
+        # Count cells for each player
+        for y in range(GRID_SIZE):
+            for x in range(GRID_SIZE):
+                owner_id = game_state["grid"][y][x]
+                if owner_id != -1:
+                    if owner_id in scores:
+                        scores[owner_id] += 1
+        
+        # Update player scores
+        for sid, player in game_state["players"].items():
+            player['score'] = scores.get(player['id'], 0)
+
 def get_state_for_client():
     # Creates a snapshot of the current game state suitable for sending to clients
     with game_state_lock:
         # Create a list copy of player data to avoid sending internal details like SID
-        players_list = list(game_state["players"].values())
+        players_list = []
+        for sid, player_data in game_state["players"].items():
+            # Create a copy without the sid
+            player_copy = {
+                'id': player_data['id'],
+                'x': player_data['x'],
+                'y': player_data['y'],
+                'color': player_data['color'],
+                'username': player_data.get('username', f'Player {player_data["id"]}'),
+                'score': player_data.get('score', 0)
+            }
+            players_list.append(player_copy)
+        
         # Create a copy of the state to send
         state = {
             "grid": game_state["grid"],
             "players": players_list,
-            "scores": game_state["scores"],
             "remaining_time": game_state["remaining_time"],
             "game_active": game_state["game_active"]
         }
@@ -146,6 +204,9 @@ def game_timer():
                 game_state["remaining_time"] -= 1
             current_time = game_state["remaining_time"]
 
+        # Recalculate scores before broadcasting
+        calculate_scores()
+            
         # Broadcast the update AFTER releasing the lock for decrementing
         socketio.emit('game_update', get_state_for_client())
 
@@ -164,12 +225,12 @@ def game_timer():
         game_state["timer_thread"] = None
 
 def start_game_if_ready():
-    # Checks if enough players have joined and starts the game
+    # Starts the game if there are enough players (at least 2)
     should_start = False
     with game_state_lock:
         num_players = len(game_state["players"])
-        # Start only if game isn't already active and we have the max number of players
-        if not game_state["game_active"] and num_players >= MAX_PLAYERS:
+        # Start if game isn't already active and we have at least 2 players
+        if not game_state["game_active"] and num_players >= 2:
             game_state["game_active"] = True
             game_state["remaining_time"] = GAME_DURATION # Reset timer
             should_start = True
@@ -202,14 +263,17 @@ def end_game():
                     pass # Ignore errors
                 game_state["timer_thread"] = None # Clear reference
 
+            # Calculate final scores
+            calculate_scores()
+            
             # Determine winner(s) based on final scores
-            scores = game_state["scores"] # Use the final scores
-            for i, score in enumerate(scores):
+            for sid, player in game_state["players"].items():
+                score = player.get('score', 0)
                 if score > max_score:
                     max_score = score
-                    winners = [i] # New highest score
+                    winners = [player] # New highest score
                 elif score == max_score and score > 0: # Tie for the highest score (and score > 0)
-                    winners.append(i)
+                    winners.append(player)
         # else: Game was already inactive, do nothing
 
     # Announce winner(s) only if the game was active when end_game was called
@@ -218,21 +282,13 @@ def end_game():
         if not winners or max_score <= 0:
             winner_message += "No winner!"
         elif len(winners) == 1:
-            winner_idx = winners[0]
-            # Safely get hex color
-            winner_hex = PLAYER_COLORS[winner_idx] if 0 <= winner_idx < len(PLAYER_COLORS) else '#ffffff'
-            # *** CHANGE: Look up color name, fallback to hex ***
-            winner_color_name = COLOR_NAMES.get(winner_hex, winner_hex)
-            winner_message += f"Player {winner_idx + 1} ({winner_color_name}) Wins!"
+            winner = winners[0]
+            winner_message += f"Player {winner['username']} Wins with {max_score} cells!"
         else:
-            winner_message += "It's a tie between Players: "
+            winner_message += "It's a tie between: "
             winner_strs = []
-            for w_idx in winners:
-                # Safely get hex color
-                w_hex = PLAYER_COLORS[w_idx] if 0 <= w_idx < len(PLAYER_COLORS) else '#ffffff'
-                # *** CHANGE: Look up color name, fallback to hex ***
-                w_color_name = COLOR_NAMES.get(w_hex, w_hex)
-                winner_strs.append(f"{w_idx + 1} ({w_color_name})")
+            for winner in winners:
+                winner_strs.append(f"{winner['username']} ({max_score} cells)")
             winner_message += ", ".join(winner_strs)
 
         # Broadcast final state and game over message
@@ -281,7 +337,10 @@ def no_auth_required(f):
         user = check_auth()
         if user:
             # Use 302 redirect to ensure immediate redirect before any WebSocket connection
-            return redirect(url_for('index'), 302)
+            # Add a Cache-Control header to prevent caching
+            response = make_response(redirect(url_for('index'), 302))
+            response.headers['Cache-Control'] = 'no-store, no-cache, must-revalidate, max-age=0'
+            return response
         return f(*args, **kwargs)
     decorated.__name__ = f.__name__  # Preserve the original function name
     return decorated
@@ -394,63 +453,70 @@ def handle_connect():
     """
     Handles new client connections with improved authentication
     """
+    # Track connection attempts for debugging
+    print(f"WebSocket connection attempt from {request.remote_addr}")
+    
     # First verify the user is authenticated
-    user = check_auth()
-    if not user:
-        # Reject connection if not authenticated
-        emit('connect_error', {'message': 'Authentication required'})
-        # Disconnect immediately to prevent pending connections
+    auth_token = request.cookies.get('auth_token')
+    if not auth_token:
+        print(f"Connection rejected: No auth token present")
+        # Immediately reject connection if no auth token
+        emit('redirect', {'url': '/login'})
         disconnect()
         return
-
-
-    sid = request.sid
-    player_id = get_available_player_id() # Try to get an ID
-
-    with game_state_lock:
-        is_game_active = game_state["game_active"]
-        num_current_players = len(game_state["players"])
-
-    # Reject connection if no ID available, game is full, or game is in progress
-    if player_id == -1 or num_current_players >= MAX_PLAYERS or is_game_active:
-        reject_reason = "Game full or unavailable" if player_id == -1 else "Game already in progress"
-        emit('connect_error', {'message': f'Sorry, {reject_reason}!'})
-        # Release the ID if it was tentatively assigned but rejected due to other conditions
-        if player_id != -1:
-             release_player_id(player_id)
+    
+    # Then verify the token is valid
+    user = get_user_by_token(auth_token)
+    if not user:
+        print(f"Connection rejected: Invalid auth token")
+        # Reject connection if invalid token
+        emit('redirect', {'url': '/login'})
         disconnect()
-        return # Stop processing connection
-
-    # Assign starting position based on player ID
-    potential_starts = [(1, 1), (GRID_SIZE - 2, 1), (1, GRID_SIZE - 2), (GRID_SIZE - 2, GRID_SIZE - 2)]
-    # Ensure player_id is valid index for starts and colors
-    if not (0 <= player_id < len(potential_starts) and 0 <= player_id < len(PLAYER_COLORS)):
-         # This should ideally not happen if MAX_PLAYERS matches array sizes
-         emit('connect_error', {'message': 'Internal server error: player configuration mismatch.'})
-         release_player_id(player_id)
-         disconnect()
-         return
-
-    start_x, start_y = potential_starts[player_id]
-    player_color = PLAYER_COLORS[player_id]
-
-    # Add user info to player data
-    player_data = {
-        'id': player_id,
-        'sid': sid,
-        'x': start_x,
-        'y': start_y,
+        return
+    
+    # Get the session ID
+    sid = request.sid
+    
+    # Check for existing connections from this user and clean them up
+    with game_state_lock:
+        existing_sid = None
+        for s, player in list(game_state["players"].items()):
+            if player.get('username') == user['username'] and s != sid:
+                existing_sid = s
+                break
+        
+        # If there was an existing connection, clean it up
+        if existing_sid:
+            print(f"Found existing connection for user {user['username']} with SID {existing_sid}")
+            game_state["players"].pop(existing_sid, None)
+    
+    # Get next available player ID
+    player_id = get_next_player_id()
+    
+    # Generate a random color for the player
+    player_color = generate_random_color()
+    
+    # Find a random empty position for the new player
+    start_x, start_y = get_random_empty_position()
+    
+    # Create player data structure
+    player_data = { 
+        'id': player_id, 
+        'sid': sid, 
+        'x': start_x, 
+        'y': start_y, 
         'color': player_color,
-        'username': user['username']  # Include username from auth
+        'username': user['username'],
+        'score': 0  # Initial score
     }
 
     with game_state_lock:
         # Store player data
         game_state["players"][sid] = player_data
-        # Claim initial cell and update score (only if cell is empty)
-        if game_state["grid"][start_y][start_x] == -1:
-            game_state["grid"][start_y][start_x] = player_id
-            game_state["scores"][player_id] += 1 # Increment score for initial claim
+        # Claim initial cell
+        game_state["grid"][start_y][start_x] = player_id
+        # Update player's score
+        player_data['score'] = 1  # For the initial cell
 
     # --- Operations outside the lock ---
     # Send player assignment info to the connecting client
@@ -461,9 +527,9 @@ def handle_connect():
     current_client_state = get_state_for_client()
     emit('game_update', current_client_state, room=sid)
 
-    # Notify existing clients about the new player and update their state
-    socketio.emit('game_update', current_client_state, skip_sid=sid) # Send to others
-    socketio.emit('game_event', {'message': f'Player {player_id + 1} ({COLOR_NAMES.get(player_color, player_color)}) has joined!'}) # Use color name here too!
+    # Notify all clients about the new player and update their state
+    socketio.emit('game_update', current_client_state)
+    socketio.emit('game_event', {'message': f'Player {user["username"]} has joined!'})
 
     # Check if the game can start now
     start_game_if_ready()
@@ -472,30 +538,26 @@ def handle_connect():
 def handle_disconnect():
     # Handles client disconnections
     sid = request.sid
-    player_id = -1
-    player_color_name = "Unknown" # Default
-    was_game_active = False
-    num_players_after_disconnect = 0
-
-    # Remove player data and release ID under lock
+    username = "Unknown"
+    
+    # Remove player data under lock
     with game_state_lock:
-        was_game_active = game_state["game_active"] # Check status before removing player
         player_data = game_state["players"].pop(sid, None) # Remove player by SID
+        
         if player_data:
-            player_id = player_data['id']
-            hex_color = player_data.get('color', '#ffffff')
-            player_color_name = COLOR_NAMES.get(hex_color, hex_color) # Get name for disconnect message
-            release_player_id(player_id) # Make the ID available again
-        num_players_after_disconnect = len(game_state["players"]) # Count remaining players
+            username = player_data.get('username', f"Player {player_data['id']}")
+        
+        # Check remaining players to decide if we need to end the game
+        num_players_after_disconnect = len(game_state["players"])
 
     # --- Operations outside the lock ---
-    if player_id != -1: # If a known player disconnected
+    if player_data: # If a known player disconnected
         # Notify remaining clients
         socketio.emit('game_update', get_state_for_client()) # Update state for others
-        socketio.emit('game_event', {'message': f'Player {player_id + 1} ({player_color_name}) has left.'}) # Use name
+        socketio.emit('game_event', {'message': f'Player {username} has left.'})
 
-        # End the game if it was active and player count drops below minimum
-        if was_game_active and num_players_after_disconnect < MAX_PLAYERS:
+        # End the game if active and less than 2 players remain
+        if game_state["game_active"] and num_players_after_disconnect < 2:
             end_game() # End the game prematurely
 
 @socketio.on('player_move')
@@ -533,19 +595,20 @@ def handle_player_move(data):
             # 7. Update grid cell ownership
             game_state["grid"][next_y][next_x] = new_owner_id
 
-            # 8. *** Incremental Score Update ***
-            # Only update scores if the owner actually changed to someone new
+            # 8. Calculate scores - simplified incremental update
             if old_owner_id != new_owner_id:
-                # Decrement score of the old owner (if there was one)
-                if old_owner_id != -1 and 0 <= old_owner_id < MAX_PLAYERS:
-                    game_state["scores"][old_owner_id] -= 1
-                # Increment score of the new owner
-                if 0 <= new_owner_id < MAX_PLAYERS:
-                     game_state["scores"][new_owner_id] += 1
+                # If old owner exists, decrement their score
+                if old_owner_id != -1:
+                    for p in game_state["players"].values():
+                        if p['id'] == old_owner_id:
+                            p['score'] = max(0, p.get('score', 0) - 1)
+                            break
+                
+                # Increment current player's score
+                player['score'] = player.get('score', 0) + 1
 
             # 9. Set flag to broadcast the update
             should_broadcast = True
-        # else: Move was out of bounds, do nothing
 
     # 10. Broadcast updated state AFTER releasing lock (if a valid move occurred)
     if should_broadcast:
@@ -554,7 +617,7 @@ def handle_player_move(data):
 @socketio.on('request_reset')
 def handle_reset_request():
     # Handles requests from clients to reset the game (only allowed when inactive)
-    sid = request.sid # Could potentially track who requested, but not currently used
+    sid = request.sid
     can_reset = False
     with game_state_lock:
         # Only allow reset if the game is NOT currently active
@@ -567,6 +630,8 @@ def handle_reset_request():
         # Notify all clients that the game has been reset
         socketio.emit('game_reset', get_state_for_client()) # Send the fresh state
         socketio.emit('game_event', {'message': 'Game Reset! Waiting for players...'})
+        # Check if we can start immediately with the players we have
+        start_game_if_ready()
     else:
         # Notify the requesting client that reset is not allowed
         emit('game_event', {'message': 'Cannot reset: Game in progress!'}, room=sid)
@@ -575,9 +640,9 @@ def handle_reset_request():
 if __name__ == '__main__':
     print("Initializing Flask-SocketIO server with eventlet WSGI...")
     try:
-        print(f"Starting eventlet WSGI server on http://0.0.0.0:5001")
+        print(f"Starting eventlet WSGI server on http://0.0.0.0:5002")
         # Start the server using eventlet's WSGI server
-        eventlet.wsgi.server(eventlet.listen(('', 5001)), app)
+        eventlet.wsgi.server(eventlet.listen(('', 5002)), app)
     except Exception as e:
         # Use print for critical startup errors since logging might be minimal/removed
         print(f"Failed to start eventlet WSGI server: {e}")
