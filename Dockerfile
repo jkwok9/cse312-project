@@ -3,6 +3,8 @@ FROM python:3.8
 ENV HOME /root
 WORKDIR /root
 
+RUN mkdir -p /root/log
+
 COPY ./requirements.txt ./requirements.txt
 COPY ./server.py ./server.py
 COPY ./templates ./templates

@@ -12,6 +12,7 @@ import eventlet.wsgi
 from flask import Flask, flash, jsonify, make_response, render_template, request, session, redirect, url_for
 from flask_socketio import SocketIO, emit, join_room, leave_room, send
 from util.leaderboard import handle_leaderboard_page, handle_territory_leaderboard_api, handle_wins_leaderboard_api
+from util.logger import setup_logging
 
 import time
 import threading
@@ -32,6 +33,17 @@ MAX_PLAYERS = 999  # No practical limit on players
 
 # --- Flask App Setup ---
 app = Flask(__name__)
+setup_logging(app)
+@app.before_request
+def log_request_info():
+    logging.info(request)
+    # ip = request.remote_addr
+    # method = request.method
+    # path = request.path
+    # timestamp = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())
+    #
+    # logging.info(f"{timestamp} - {ip} - {method} {path}")
+
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', secrets.token_hex(32))
 app.config['SESSION_COOKIE_SECURE'] = True
 app.config['SESSION_COOKIE_HTTPONLY'] = True
@@ -293,7 +305,7 @@ def check_auth():
     if not auth_token:
         app.logger.warning("No auth_token cookie found")
         return None
-    
+
     # Verify token and get user
     user = get_user_by_token(auth_token)
     if user:
@@ -342,7 +354,7 @@ def index():
     user = check_auth()
     if not user:
         return redirect(url_for('login'))
-    
+
     # User is authenticated, serve the game page
     return render_template('game.html')
 
@@ -372,7 +384,7 @@ def logout():
     Clears the auth_token cookie and redirects to login
     """
     from util.auth_utli import clear_auth_cookie
-    
+
     response = make_response(redirect(url_for('login')))
     clear_auth_cookie(response)
     flash('You have been logged out.', 'success')
@@ -386,7 +398,7 @@ def debug_auth():
     """
     user = check_auth()
     cookies = request.cookies
-    
+
     if user:
         return jsonify({
             "authenticated": True,
