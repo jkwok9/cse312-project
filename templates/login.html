@@ -1,0 +1,365 @@
+<!-- templates/login.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <!-- Google Font: Poppins -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #1a1a1a;
+            --card-bg: #242424;
+            --text-color: #f5f5f5;
+            --accent-color: #7c4dff;
+            --error-color: #ff5252;
+            --success-color: #4caf50;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 1rem;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 450px;
+            padding: 2.5rem;
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 2rem;
+            font-weight: 600;
+            color: var(--text-color);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--text-color);
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: none;
+            background-color: rgba(255, 255, 255, 0.07);
+            border-radius: 5px;
+            color: var(--text-color);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .input-field:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px var(--accent-color);
+        }
+
+        .input-field.error {
+            box-shadow: 0 0 0 2px var(--error-color);
+        }
+
+        .btn {
+            width: 100%;
+            padding: 0.8rem;
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn:hover {
+            background-color: #6841d3;
+        }
+
+        .btn:disabled {
+            background-color: #666;
+            cursor: not-allowed;
+        }
+
+        .messages {
+            list-style: none;
+            margin-bottom: 1.5rem;
+        }
+
+        .error-message {
+            color: var(--error-color);
+            padding: 0.5rem;
+            border-radius: 5px;
+            margin-bottom: 0.5rem;
+        }
+
+        .success-message {
+            color: var(--success-color);
+            padding: 0.5rem;
+            border-radius: 5px;
+            margin-bottom: 0.5rem;
+        }
+
+        .register-link {
+            text-align: center;
+            margin-top: 1.5rem;
+            font-size: 0.9rem;
+        }
+
+        .register-link a {
+            color: var(--accent-color);
+            text-decoration: none;
+        }
+
+        .register-link a:hover {
+            text-decoration: underline;
+        }
+
+        .field-error {
+            color: var(--error-color);
+            font-size: 0.8rem;
+            margin-top: 0.3rem;
+        }
+
+        .color-options {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+
+        .color-bubble {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 3px solid transparent;
+            cursor: pointer;
+            transition: transform 0.2s, border 0.2s;
+        }
+
+        .color-bubble.selected {
+            border-color: white;
+            transform: scale(1.1);
+        }
+
+        .spinner {
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top: 3px solid var(--accent-color);
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+            display: inline-block;
+            margin-left: 10px;
+            vertical-align: middle;
+            display: none;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Login</h1>
+        
+        <!-- Flash messages from server -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <ul class="messages">
+                    {% for category, message in messages %}
+                        <li class="{{ category }}-message">{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+        
+        <!-- AJAX Response messages -->
+        <div id="response-message" style="display: none;"></div>
+        
+        <!-- Login form -->
+        <form id="login-form" method="POST" action="{{ url_for('login') }}">
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="Username" class="input-field" placeholder="Enter your username" required>
+                <div class="field-error" id="username-error"></div>
+            </div>
+            
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="Password" class="input-field" placeholder="Enter your password" required>
+                <div class="field-error" id="password-error"></div>
+            </div>
+            
+            <div class="form-group">
+                <label for="color">Choose your color:</label>
+                <div class="color-options">
+                    <div class="color-bubble" style="background-color: #e74c3c;" data-color="#e74c3c"></div>
+                    <div class="color-bubble" style="background-color: #27ae60;" data-color="#27ae60"></div>
+                    <div class="color-bubble" style="background-color: #2980b9;" data-color="#2980b9"></div>
+                    <div class="color-bubble" style="background-color: #f39c12;" data-color="#f39c12"></div>
+                </div>
+            </div>
+            
+            <button type="submit" id="login-btn" class="btn">
+                Login
+                <span class="spinner" id="spinner"></span>
+            </button>
+        </form>
+        
+        <div class="register-link">
+            Don't have an account? <a href="/register">Sign up</a>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('login-form');
+            const usernameInput = document.getElementById('username');
+            const passwordInput = document.getElementById('password');
+            const loginBtn = document.getElementById('login-btn');
+            const spinner = document.getElementById('spinner');
+            const responseMessage = document.getElementById('response-message');
+            
+            // Color selection handling
+            let selectedColor = null;
+            const bubbles = document.querySelectorAll('.color-bubble');
+            
+            bubbles.forEach(bubble => {
+                bubble.addEventListener('click', () => {
+                    bubbles.forEach(b => b.classList.remove('selected'));
+                    bubble.classList.add('selected');
+                    selectedColor = bubble.getAttribute('data-color');
+                });
+            });
+            
+            // Set a random color as default
+            window.addEventListener('DOMContentLoaded', () => {
+                const randomIndex = Math.floor(Math.random() * bubbles.length);
+                const randomBubble = bubbles[randomIndex];
+                randomBubble.classList.add('selected');
+                selectedColor = randomBubble.getAttribute('data-color');
+            });
+            
+            // Random color selection on page load
+            const randomIndex = Math.floor(Math.random() * bubbles.length);
+            bubbles[randomIndex].classList.add('selected');
+            selectedColor = bubbles[randomIndex].getAttribute('data-color');
+            
+            // Form submission
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Clear previous error messages
+                document.getElementById('username-error').textContent = '';
+                document.getElementById('password-error').textContent = '';
+                responseMessage.style.display = 'none';
+                
+                // Basic validation
+                let isValid = true;
+                
+                if (usernameInput.value.trim() === '') {
+                    document.getElementById('username-error').textContent = 'Username is required';
+                    isValid = false;
+                }
+                
+                if (passwordInput.value === '') {
+                    document.getElementById('password-error').textContent = 'Password is required';
+                    isValid = false;
+                }
+                
+                if (!selectedColor) {
+                    responseMessage.textContent = 'Please select a color';
+                    responseMessage.className = 'error-message';
+                    responseMessage.style.display = 'block';
+                    isValid = false;
+                }
+                
+                if (!isValid) {
+                    return false;
+                }
+                
+                // Show loading spinner
+                loginBtn.disabled = true;
+                spinner.style.display = 'inline-block';
+                
+                // Prepare form data
+                const formData = new URLSearchParams();
+                formData.append('Username', usernameInput.value);
+                formData.append('Password', passwordInput.value);
+                formData.append('color', selectedColor);
+                
+                // Send AJAX request
+                fetch('/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'X-Requested-With': 'XMLHttpRequest'
+                    },
+                    body: formData
+                })
+                .then(response => response.json())
+                // In Login.html, update the AJAX response handler:
+.then(data => {
+    // Hide spinner
+    spinner.style.display = 'none';
+    loginBtn.disabled = false;
+    
+    if (data.success) {
+        // Show success message
+        responseMessage.textContent = data.message || 'Login successful!';
+        responseMessage.className = 'success-message';
+        responseMessage.style.display = 'block';
+        
+        // Redirect to game page on successful login
+        if (data.redirect) {
+            window.location.href = data.redirect;
+        } else {
+            window.location.href = '/';
+        }
+    } else {
+        // Show error message
+        responseMessage.textContent = data.message || 'Login failed. Please check your credentials.';
+        responseMessage.className = 'error-message';
+        responseMessage.style.display = 'block';
+    }
+})
+                .catch(error => {
+                    console.error('Error:', error);
+                    spinner.style.display = 'none';
+                    loginBtn.disabled = false;
+                    responseMessage.textContent = 'An error occurred. Please try again later.';
+                    responseMessage.className = 'error-message';
+                    responseMessage.style.display = 'block';
+                });
+            });
+        });
+    </script>
+</body>
+</html>

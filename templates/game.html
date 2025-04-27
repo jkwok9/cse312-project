@@ -350,21 +350,38 @@
 
             const playerRadius = (cellSize * PLAYER_SIZE_FACTOR) / 2;
             players.forEach(player => {
-                 if (player && player.id !== undefined && playerColors[player.id]) {
-                     ctx.fillStyle = playerColors[player.id];
-                     ctx.beginPath();
-                     ctx.arc(
-                         player.x * cellSize + cellSize / 2,
-                         player.y * cellSize + cellSize / 2,
-                         playerRadius,
-                         0,
-                         Math.PI * 2
-                     );
-                     ctx.fill();
-                     ctx.strokeStyle = '#000';
-                     ctx.lineWidth = 2;
-                     ctx.stroke();
-                 }
+                if (player && player.id !== undefined && playerColors[player.id]) {
+                    // Draw player circle
+                    ctx.fillStyle = playerColors[player.id];
+                    ctx.beginPath();
+                    ctx.arc(
+                        player.x * cellSize + cellSize / 2,
+                        player.y * cellSize + cellSize / 2,
+                        playerRadius,
+                        0,
+                        Math.PI * 2
+                    );
+                    ctx.fill();
+                    
+                    // Draw username with shadow for visibility
+                    ctx.fillStyle = '#ffffff';
+                    ctx.font = `${Math.max(10, cellSize/3)}px 'Press Start 2P'`; // Dynamic font size
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'top';
+                    
+                    // Text shadow
+                    ctx.shadowColor = '#000000';
+                    ctx.shadowBlur = 3;
+                    
+                    ctx.fillText(
+                        player.username || `Player ${player.id}`,
+                        player.x * cellSize + cellSize / 2,
+                        player.y * cellSize + cellSize / 2 + playerRadius + 2
+                    );
+                    
+                    // Reset shadow
+                    ctx.shadowBlur = 0;
+                }
             });
         }
 
