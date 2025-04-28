@@ -1,4 +1,7 @@
 import eventlet
+
+from util.logger import setup_logging
+
 eventlet.monkey_patch()
 import os
 import time
@@ -12,8 +15,13 @@ import random
 from collections import defaultdict
 import logging
 
+
 # --- Configuration ---
 app = Flask(__name__)
+setup_logging(app)
+@app.before_request
+def log_request_info():
+    logging.info(request)
 # IMPORTANT: Change this secret key in a real application!
 app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY", "a_very_secret_key_12345")
 # Configure MongoDB - Replace with your connection string if necessary
