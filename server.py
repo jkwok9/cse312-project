@@ -642,7 +642,7 @@ if __name__ == '__main__':
     try:
         print(f"Starting eventlet WSGI server on http://0.0.0.0:5002")
         # Start the server using eventlet's WSGI server
-        eventlet.wsgi.server(eventlet.listen(('', 5002)), app)
+        eventlet.wsgi.server(eventlet.listen(('', 8080)), app)
     except Exception as e:
         # Use print for critical startup errors since logging might be minimal/removed
         print(f"Failed to start eventlet WSGI server: {e}")
