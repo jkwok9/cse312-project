@@ -23,11 +23,15 @@ from util.auth_util import create_session, get_user_by_token, set_auth_cookie, c
 
 # --- Configuration ---
 app = Flask(__name__)
-
 setup_logging(app)
 @app.before_request
 def log_request_info():
-     logging.info(request)
+    ip = request.remote_addr
+    method = request.method
+    url = request.url
+    path = request.path
+    timestamp = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())
+    logging.info(f"{timestamp} - {ip} - {method} {url} {path}")
 # IMPORTANT: Change this secret key in a real application!
 app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY", "a_very_secret_key_12345")
 # Configure MongoDB - Replace with your connection string if necessary
