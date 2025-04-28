@@ -1,0 +1,35 @@
+/* Basic styles - Can be expanded significantly */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+h1, h2, h3 {
+    color: #555;
+}
+
+/* Add more specific styles from the inline styles in HTML if desired */
+/* Example: Style for the score list items */
+#scores-list li[data-team="red"] { color: #dc3545; }
+#scores-list li[data-team="blue"] { color: #007bff; }
+#scores-list li[data-team="green"] { color: #28a745; }
+#scores-list li[data-team="yellow"] { color: #ffc107; }
+
+/* Add styles for .player-marker if using HTML markers */
+.player-marker {
+    position: absolute;
+    font-size: 10px;
+    /* background: rgba(0, 0, 0, 0.6); */ /* Set in JS based on team */
+    color: white;
+    padding: 1px 4px;
+    border-radius: 3px;
+    white-space: nowrap;
+    pointer-events: none;
+    transform: translate(-50%, -130%); /* Adjust centering */
+    text-shadow: 1px 1px 1px rgba(0,0,0,0.7); /* Make text more readable */
+    border: 1px solid rgba(0,0,0,0.5);
+    z-index: 10; /* Ensure markers are above canvas grid */
+}

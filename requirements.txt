@@ -1,4 +1,10 @@
-pymongo
 Flask
-flask_socketio
+Flask-PyMongo
+Flask-SocketIO
 eventlet
+werkzeug
+pymongo
+passlib
+Flask-Session
+
+#pip install Flask Flask-PyMongo Flask-SocketIO eventlet werkzeug pymongo passlib Flask-Session
