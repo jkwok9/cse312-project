@@ -386,3 +386,19 @@
 2025-04-27 22:26:38,133 INFO:     check_start_game: Game started event emitted.
 2025-04-27 22:26:38,134 INFO:     Exiting check_start_game function.
 2025-04-27 22:26:38,134 INFO: Finished executing delayed_reset.
+2025-04-27 22:26:53,088 INFO: ZtaUHoiPMXtBN6zKAAAA: Sending packet PING data None
+2025-04-27 22:26:53,090 INFO: ZtaUHoiPMXtBN6zKAAAA: Received packet PONG data 
+2025-04-27 22:27:00,159 INFO: vp1y0yTu8-hg2ujnAAAE: Sending packet PING data None
+2025-04-27 22:27:00,162 INFO: vp1y0yTu8-hg2ujnAAAE: Received packet PONG data 
+2025-04-27 22:27:02,618 INFO: Player disconnected: eleanora.undrus (qBUyHI2botEG7w7IAAAC), Team: blue
+2025-04-27 22:27:02,618 INFO: emitting event "player_left" to all [/]
+2025-04-27 22:27:02,618 INFO: ZtaUHoiPMXtBN6zKAAAA: Sending packet MESSAGE data 2["player_left",{"sid":"qBUyHI2botEG7w7IAAAC","username":"eleanora.undrus"}]
+2025-04-27 22:27:02,618 INFO: vp1y0yTu8-hg2ujnAAAE: Sending packet MESSAGE data 2["player_left",{"sid":"qBUyHI2botEG7w7IAAAC","username":"eleanora.undrus"}]
+2025-04-27 22:27:02,618 INFO: emitting event "update_players" to all [/]
+2025-04-27 22:27:02,618 INFO: ZtaUHoiPMXtBN6zKAAAA: Sending packet MESSAGE data 2["update_players",{"players":{"Hz7er7DdQRPD2tlBAAAF":{"username":"eee3","team":"yellow","position":[24,18]}}}]
+2025-04-27 22:27:02,619 INFO: vp1y0yTu8-hg2ujnAAAE: Sending packet MESSAGE data 2["update_players",{"players":{"Hz7er7DdQRPD2tlBAAAF":{"username":"eee3","team":"yellow","position":[24,18]}}}]
+2025-04-27 22:27:02,619 INFO: Player disconnected: eee3 (Hz7er7DdQRPD2tlBAAAF), Team: yellow
+2025-04-27 22:27:02,619 INFO: emitting event "player_left" to all [/]
+2025-04-27 22:27:02,620 INFO: vp1y0yTu8-hg2ujnAAAE: Sending packet MESSAGE data 2["player_left",{"sid":"Hz7er7DdQRPD2tlBAAAF","username":"eee3"}]
+2025-04-27 22:27:02,620 INFO: emitting event "update_players" to all [/]
+2025-04-27 22:27:02,620 INFO: vp1y0yTu8-hg2ujnAAAE: Sending packet MESSAGE data 2["update_players",{"players":{}}]

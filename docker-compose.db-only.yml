@@ -1,5 +1,9 @@
 services:
   mongo:
     image: mongo:4.2.5
-    ports:
-      - '27017:27017'
+    networks:
+      - internal_network
+
+networks:
+  internal_network:
+    driver: bridge
