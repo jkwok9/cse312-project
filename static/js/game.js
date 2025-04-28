@@ -9,6 +9,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const playersList = document.getElementById('players-list');
     const canvasWrapper = document.getElementById('canvas-wrapper'); // For player markers
     const usernameDisplay = document.getElementById('username-display'); // Get username from HTML
+    const restartTimerDiv = document.getElementById('restart-timer'); // Add this line for restart timer
+    const restartSecondsSpan = document.getElementById('restart-seconds'); // Add this line for restart timer countdown
 
 
     // --- State Variables ---
@@ -80,9 +82,13 @@ document.addEventListener('DOMContentLoaded', () => {
         updateGameState(data);
     });
 
-     socket.on('game_start', (data) => {
+    socket.on('game_start', (data) => {
         console.log('Game started!');
         statusDiv.textContent = "Game Active!";
+        
+        // Hide restart timer when game starts
+        restartTimerDiv.style.display = 'none';
+        
         updateGameState(data); // Ensure latest state on start
         startClientTimer(data.time_remaining);
     });
@@ -99,11 +105,32 @@ document.addEventListener('DOMContentLoaded', () => {
             statusDiv.textContent = "Game Over! It's a tie or no scores!";
         }
         updateScores(data.scores);
+        
+        // Show restart timer if provided in the game_over event
+        if (data.restart_in) {
+            restartTimerDiv.style.display = 'block';
+            restartSecondsSpan.textContent = data.restart_in;
+        }
+        
         // Optionally clear player markers or show final positions
-        // Wait for potential reset
+        // Wait for potential reset - removed this as we'll have the restart timer now
+        /*
         setTimeout(() => {
              if (!gameActive) statusDiv.textContent = "Waiting for next game...";
         }, 10000); // Match server delay
+        */
+    });
+    
+    // Add new event handler for restart timer updates
+    socket.on('restart_timer', (data) => {
+        console.log('Restart timer update:', data.seconds);
+        restartTimerDiv.style.display = 'block';
+        restartSecondsSpan.textContent = data.seconds;
+        
+        // If we're at the last second, update status to indicate restart
+        if (data.seconds === 1) {
+            statusDiv.textContent = "Restarting game...";
+        }
     });
 
     socket.on('cell_update', (data) => {
@@ -113,38 +140,38 @@ document.addEventListener('DOMContentLoaded', () => {
         updateScores(data.scores); // Update scores based on server calculation
     });
 
-     socket.on('player_moved', (data) => {
+    socket.on('player_moved', (data) => {
         if (players[data.sid]) {
-             players[data.sid].position = data.position;
-             // Redraw player markers efficiently
-             drawPlayers();
+            players[data.sid].position = data.position;
+            // Redraw player markers efficiently
+            drawPlayers();
         } else {
             console.warn("Moved event for unknown player:", data.sid);
         }
     });
 
-     socket.on('player_joined', (data) => {
-         console.log("Player joined:", data.player.username);
-         players[data.sid] = data.player;
-         updatePlayersList();
-         drawPlayers(); // Redraw markers including the new one
-     });
+    socket.on('player_joined', (data) => {
+        console.log("Player joined:", data.player.username);
+        players[data.sid] = data.player;
+        updatePlayersList();
+        drawPlayers(); // Redraw markers including the new one
+    });
 
-     socket.on('player_left', (data) => {
+    socket.on('player_left', (data) => {
         console.log("Player left:", data.username);
         if (players[data.sid]) {
             delete players[data.sid];
             updatePlayersList();
             drawPlayers(); // Remove marker by not drawing it
         }
-     });
+    });
 
-     socket.on('update_players', (data) => {
+    socket.on('update_players', (data) => {
         console.log("Updating full player list");
         players = data.players;
         updatePlayersList();
         drawPlayers(); // Redraw all markers based on the new list
-     });
+    });
 
 
     // --- Game Logic and Drawing ---
@@ -168,14 +195,16 @@ document.addEventListener('DOMContentLoaded', () => {
         if (gameActive) {
             statusDiv.textContent = "Game Active!";
             startClientTimer(state.time_remaining);
+            // Hide restart timer when game becomes active
+            restartTimerDiv.style.display = 'none';
         } else if (state.winner) {
-             statusDiv.textContent = `Game Over! Winner: ${state.winner.charAt(0).toUpperCase() + state.winner.slice(1)} Team!`;
-             timerDiv.textContent = "Game Over!";
+            statusDiv.textContent = `Game Over! Winner: ${state.winner.charAt(0).toUpperCase() + state.winner.slice(1)} Team!`;
+            timerDiv.textContent = "Game Over!";
         }
-         else {
+        else {
             statusDiv.textContent = "Waiting for game to start...";
-             timerDiv.textContent = "Time Left: --";
-             clearInterval(gameTimerInterval); // Ensure timer stops if game becomes inactive
+            timerDiv.textContent = "Time Left: --";
+            clearInterval(gameTimerInterval); // Ensure timer stops if game becomes inactive
         }
 
         drawGrid();
@@ -215,79 +244,79 @@ document.addEventListener('DOMContentLoaded', () => {
     function drawCell(x, y, colorName) {
         ctx.fillStyle = teamColors[colorName] || teamColors.default;
         ctx.fillRect(x * cellWidth, y * cellHeight, cellWidth, cellHeight);
-         // Add a slight border to cells for definition
-         ctx.strokeStyle = 'rgba(0,0,0,0.1)';
-         ctx.strokeRect(x * cellWidth, y * cellHeight, cellWidth, cellHeight);
+        // Add a slight border to cells for definition
+        ctx.strokeStyle = 'rgba(0,0,0,0.1)';
+        ctx.strokeRect(x * cellWidth, y * cellHeight, cellWidth, cellHeight);
     }
 
-     function drawPlayers() {
-         // Clear existing markers
-         canvasWrapper.querySelectorAll('.player-marker').forEach(marker => marker.remove());
+    function drawPlayers() {
+        // Clear existing markers
+        canvasWrapper.querySelectorAll('.player-marker').forEach(marker => marker.remove());
 
-         // Draw current players
-         for (const sid in players) {
-             const player = players[sid];
-             const [x, y] = player.position;
-             const teamColor = teamColors[player.team] || 'grey';
+        // Draw current players
+        for (const sid in players) {
+            const player = players[sid];
+            const [x, y] = player.position;
+            const teamColor = teamColors[player.team] || 'grey';
 
-             // --- Option 1: Draw on Canvas (simpler, might obscure grid) ---
-             /*
-             const centerX = (x + 0.5) * cellWidth;
-             const centerY = (y + 0.5) * cellHeight;
-             const radius = Math.min(cellWidth, cellHeight) * 0.3;
+            // --- Option 1: Draw on Canvas (simpler, might obscure grid) ---
+            /*
+            const centerX = (x + 0.5) * cellWidth;
+            const centerY = (y + 0.5) * cellHeight;
+            const radius = Math.min(cellWidth, cellHeight) * 0.3;
 
-             ctx.beginPath();
-             ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI, false);
-             ctx.fillStyle = 'white'; // Inner color
-             ctx.fill();
-             ctx.lineWidth = 2;
-             ctx.strokeStyle = teamColor; // Outline with team color
-             ctx.stroke();
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI, false);
+            ctx.fillStyle = 'white'; // Inner color
+            ctx.fill();
+            ctx.lineWidth = 2;
+            ctx.strokeStyle = teamColor; // Outline with team color
+            ctx.stroke();
 
-             // Draw username above
-             ctx.fillStyle = 'black';
-             ctx.font = '10px sans-serif';
-             ctx.textAlign = 'center';
-             ctx.fillText(player.username, centerX, y * cellHeight - 5);
-             */
+            // Draw username above
+            ctx.fillStyle = 'black';
+            ctx.font = '10px sans-serif';
+            ctx.textAlign = 'center';
+            ctx.fillText(player.username, centerX, y * cellHeight - 5);
+            */
 
-             // --- Option 2: Use HTML Elements (better for text overlay) ---
-             const marker = document.createElement('div');
-             marker.className = 'player-marker';
-             marker.textContent = player.username;
-             marker.style.left = `${(x + 0.5) * cellWidth}px`;
-             marker.style.top = `${(y + 0.5) * cellHeight}px`; // Adjust vertical position slightly
-             marker.style.backgroundColor = teamColor;
-             marker.style.borderColor = `darken(${teamColor}, 10%)`; // Slightly darker border
-             marker.dataset.sid = sid; // Store sid if needed later
-             canvasWrapper.appendChild(marker);
-         }
-     }
+            // --- Option 2: Use HTML Elements (better for text overlay) ---
+            const marker = document.createElement('div');
+            marker.className = 'player-marker';
+            marker.textContent = player.username;
+            marker.style.left = `${(x + 0.5) * cellWidth}px`;
+            marker.style.top = `${(y + 0.5) * cellHeight}px`; // Adjust vertical position slightly
+            marker.style.backgroundColor = teamColor;
+            marker.style.borderColor = `darken(${teamColor}, 10%)`; // Slightly darker border
+            marker.dataset.sid = sid; // Store sid if needed later
+            canvasWrapper.appendChild(marker);
+        }
+    }
 
 
     function updateScores(scores) {
         for (const team in teamColors) {
-             if (team === 'default') continue;
-             const scoreSpan = document.getElementById(`score-${team}`);
-             if (scoreSpan) {
+            if (team === 'default') continue;
+            const scoreSpan = document.getElementById(`score-${team}`);
+            if (scoreSpan) {
                 scoreSpan.textContent = scores[team] || 0;
-             }
+            }
         }
     }
 
-     function updatePlayersList() {
+    function updatePlayersList() {
         playersList.innerHTML = ''; // Clear current list
         let teamPlayerCounts = {}; // {team: count}
         for (const team of ['red', 'blue', 'green', 'yellow']){ teamPlayerCounts[team] = 0; } // Init
 
         Object.values(players).forEach(p => {
-             const li = document.createElement('li');
-             li.textContent = `${p.username} (${p.team})`;
-             li.style.color = teamColors[p.team] || 'black';
-             playersList.appendChild(li);
-             if(teamPlayerCounts.hasOwnProperty(p.team)) {
-                 teamPlayerCounts[p.team]++;
-             }
+            const li = document.createElement('li');
+            li.textContent = `${p.username} (${p.team})`;
+            li.style.color = teamColors[p.team] || 'black';
+            playersList.appendChild(li);
+            if(teamPlayerCounts.hasOwnProperty(p.team)) {
+                teamPlayerCounts[p.team]++;
+            }
         });
         // Could also display team counts if desired
     }
@@ -314,8 +343,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- Input Handling ---
     document.addEventListener('keydown', (event) => {
         if (!gameActive || !mySid || !players[mySid]) {
-             // console.log("Ignoring input: Game not active or player not ready.");
-             return; // Ignore input if game not active or player not initialized
+            // console.log("Ignoring input: Game not active or player not ready.");
+            return; // Ignore input if game not active or player not initialized
         }
 
         let direction = null;

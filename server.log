@@ -1,0 +1,388 @@
+2025-04-27 22:26:02,828 INFO: Logging is set up.
+2025-04-27 22:26:02,832 INFO: Server initialized for eventlet.
+2025-04-27 22:26:02,834 INFO: Starting Flask-SocketIO server...
+2025-04-27 22:26:03,080 INFO: ZtaUHoiPMXtBN6zKAAAA: Sending packet OPEN data {'sid': 'ZtaUHoiPMXtBN6zKAAAA', 'upgrades': ['websocket'], 'pingTimeout': 20000, 'pingInterval': 25000, 'maxPayload': 1000000}
+2025-04-27 22:26:03,082 INFO: MT6-lHEOAG5C0GPFAAAB: Sending packet OPEN data {'sid': 'MT6-lHEOAG5C0GPFAAAB', 'upgrades': ['websocket'], 'pingTimeout': 20000, 'pingInterval': 25000, 'maxPayload': 1000000}
+2025-04-27 22:26:03,089 INFO: ZtaUHoiPMXtBN6zKAAAA: Received packet MESSAGE data 0
+2025-04-27 22:26:03,093 INFO: MT6-lHEOAG5C0GPFAAAB: Received packet MESSAGE data 0
+2025-04-27 22:26:03,094 INFO: ZtaUHoiPMXtBN6zKAAAA: Received request to upgrade to websocket
+2025-04-27 22:26:03,095 INFO: MT6-lHEOAG5C0GPFAAAB: Received request to upgrade to websocket
+2025-04-27 22:26:03,111 INFO: User authenticated via session: eleanora.undrus
+2025-04-27 22:26:03,111 INFO: Client connected: eleanora.undrus (qBUyHI2botEG7w7IAAAC)
+2025-04-27 22:26:03,111 INFO: emitting event "connection_ack" to qBUyHI2botEG7w7IAAAC [/]
+2025-04-27 22:26:03,111 INFO: ZtaUHoiPMXtBN6zKAAAA: Sending packet MESSAGE data 2["connection_ack",{"sid":"qBUyHI2botEG7w7IAAAC"}]
+2025-04-27 22:26:03,112 INFO: ZtaUHoiPMXtBN6zKAAAA: Sending packet MESSAGE data 0{"sid":"qBUyHI2botEG7w7IAAAC"}
+2025-04-27 22:26:03,112 INFO: User authenticated via session: eee3
+2025-04-27 22:26:03,112 INFO: Client connected: eee3 (MMjELhayUHfZ-yXnAAAD)
+2025-04-27 22:26:03,112 INFO: emitting event "connection_ack" to MMjELhayUHfZ-yXnAAAD [/]
+2025-04-27 22:26:03,112 INFO: MT6-lHEOAG5C0GPFAAAB: Sending packet MESSAGE data 2["connection_ack",{"sid":"MMjELhayUHfZ-yXnAAAD"}]
+2025-04-27 22:26:03,113 INFO: MT6-lHEOAG5C0GPFAAAB: Sending packet MESSAGE data 0{"sid":"MMjELhayUHfZ-yXnAAAD"}
+2025-04-27 22:26:03,113 INFO: ZtaUHoiPMXtBN6zKAAAA: Upgrade to websocket successful
+2025-04-27 22:26:03,114 INFO: MT6-lHEOAG5C0GPFAAAB: Upgrade to websocket successful
+2025-04-27 22:26:03,115 INFO: ZtaUHoiPMXtBN6zKAAAA: Received packet MESSAGE data 2["join_game"]
+2025-04-27 22:26:03,115 INFO: received event "join_game" from qBUyHI2botEG7w7IAAAC [/]
+2025-04-27 22:26:03,115 INFO: --> handle_join_game called for SID: qBUyHI2botEG7w7IAAAC
+2025-04-27 22:26:03,115 INFO:     Session contents: {'username': 'eleanora.undrus'}
+2025-04-27 22:26:03,115 INFO:     Username 'eleanora.undrus' found in session for SID qBUyHI2botEG7w7IAAAC. Proceeding towards lock...
+2025-04-27 22:26:03,116 INFO: MT6-lHEOAG5C0GPFAAAB: Received packet MESSAGE data 2["join_game"]
+2025-04-27 22:26:03,116 INFO: received event "join_game" from MMjELhayUHfZ-yXnAAAD [/]
+2025-04-27 22:26:03,116 INFO: --> handle_join_game called for SID: MMjELhayUHfZ-yXnAAAD
+2025-04-27 22:26:03,116 INFO:     Session contents: {'username': 'eee3'}
+2025-04-27 22:26:03,116 INFO:     Username 'eee3' found in session for SID MMjELhayUHfZ-yXnAAAD. Proceeding towards lock...
+2025-04-27 22:26:03,117 INFO:     Found persistent team 'blue' for user 'eleanora.undrus' in DB.
+2025-04-27 22:26:03,117 INFO:     Attempting to acquire game_lock for SID qBUyHI2botEG7w7IAAAC (Team: blue)
+2025-04-27 22:26:03,117 INFO:     Acquired game_lock for SID qBUyHI2botEG7w7IAAAC
+2025-04-27 22:26:03,117 INFO: Player joined: eleanora.undrus (qBUyHI2botEG7w7IAAAC), Team: blue
+2025-04-27 22:26:03,117 INFO:     Emitting assign_team (blue) to qBUyHI2botEG7w7IAAAC
+2025-04-27 22:26:03,117 INFO: emitting event "assign_team" to qBUyHI2botEG7w7IAAAC [/]
+2025-04-27 22:26:03,117 INFO: ZtaUHoiPMXtBN6zKAAAA: Sending packet MESSAGE data 2["assign_team",{"team":"blue","initial_state":{"active":false,"grid":{},"players":{"qBUyHI2botEG7w7IAAAC":{"username":"eleanora.undrus","team":"blue","position":[18,1]}},"scores":{},"time_remaining":null,"grid_width":30,"grid_height":20,"teams":["red","blue","green","yellow"]}}]
+2025-04-27 22:26:03,117 INFO:     Emitting player_joined to all
+2025-04-27 22:26:03,117 INFO: emitting event "player_joined" to all [/]
+2025-04-27 22:26:03,117 INFO: ZtaUHoiPMXtBN6zKAAAA: Sending packet MESSAGE data 2["player_joined",{"sid":"qBUyHI2botEG7w7IAAAC","player":{"username":"eleanora.undrus","team":"blue","position":[18,1]}}]
+2025-04-27 22:26:03,117 INFO: MT6-lHEOAG5C0GPFAAAB: Sending packet MESSAGE data 2["player_joined",{"sid":"qBUyHI2botEG7w7IAAAC","player":{"username":"eleanora.undrus","team":"blue","position":[18,1]}}]
+2025-04-27 22:26:03,117 INFO:     Emitting update_players to all
+2025-04-27 22:26:03,117 INFO: emitting event "update_players" to all [/]
+2025-04-27 22:26:03,117 INFO: ZtaUHoiPMXtBN6zKAAAA: Sending packet MESSAGE data 2["update_players",{"players":{"qBUyHI2botEG7w7IAAAC":{"username":"eleanora.undrus","team":"blue","position":[18,1]}}}]
+2025-04-27 22:26:03,118 INFO: MT6-lHEOAG5C0GPFAAAB: Sending packet MESSAGE data 2["update_players",{"players":{"qBUyHI2botEG7w7IAAAC":{"username":"eleanora.undrus","team":"blue","position":[18,1]}}}]
+2025-04-27 22:26:03,118 INFO:     Calling check_start_game for SID qBUyHI2botEG7w7IAAAC
+2025-04-27 22:26:03,118 INFO:     Inside check_start_game...
+2025-04-27 22:26:03,118 INFO:     check_start_game: Teams with players = 1
+2025-04-27 22:26:03,118 INFO:     check_start_game: Not starting game. Need 2 teams, have 1
+2025-04-27 22:26:03,118 INFO:     Exiting check_start_game function.
+2025-04-27 22:26:03,118 INFO:     Finished check_start_game call for SID qBUyHI2botEG7w7IAAAC
+2025-04-27 22:26:03,118 INFO:     Exiting 'with game_lock' block for SID qBUyHI2botEG7w7IAAAC. Lock is being released.
+2025-04-27 22:26:03,118 INFO:     Found persistent team 'yellow' for user 'eee3' in DB.
+2025-04-27 22:26:03,118 INFO:     Attempting to acquire game_lock for SID MMjELhayUHfZ-yXnAAAD (Team: yellow)
+2025-04-27 22:26:03,118 INFO:     Acquired game_lock for SID MMjELhayUHfZ-yXnAAAD
+2025-04-27 22:26:03,118 INFO: Player joined: eee3 (MMjELhayUHfZ-yXnAAAD), Team: yellow
+2025-04-27 22:26:03,118 INFO:     Emitting assign_team (yellow) to MMjELhayUHfZ-yXnAAAD
+2025-04-27 22:26:03,119 INFO: emitting event "assign_team" to MMjELhayUHfZ-yXnAAAD [/]
+2025-04-27 22:26:03,119 INFO: MT6-lHEOAG5C0GPFAAAB: Sending packet MESSAGE data 2["assign_team",{"team":"yellow","initial_state":{"active":false,"grid":{},"players":{"qBUyHI2botEG7w7IAAAC":{"username":"eleanora.undrus","team":"blue","position":[18,1]},"MMjELhayUHfZ-yXnAAAD":{"username":"eee3","team":"yellow","position":[16,13]}},"scores":{},"time_remaining":null,"grid_width":30,"grid_height":20,"teams":["red","blue","green","yellow"]}}]
+2025-04-27 22:26:03,119 INFO:     Emitting player_joined to all
+2025-04-27 22:26:03,119 INFO: emitting event "player_joined" to all [/]
+2025-04-27 22:26:03,119 INFO: ZtaUHoiPMXtBN6zKAAAA: Sending packet MESSAGE data 2["player_joined",{"sid":"MMjELhayUHfZ-yXnAAAD","player":{"username":"eee3","team":"yellow","position":[16,13]}}]
+2025-04-27 22:26:03,119 INFO: MT6-lHEOAG5C0GPFAAAB: Sending packet MESSAGE data 2["player_joined",{"sid":"MMjELhayUHfZ-yXnAAAD","player":{"username":"eee3","team":"yellow","position":[16,13]}}]
+2025-04-27 22:26:03,119 INFO:     Emitting update_players to all
+2025-04-27 22:26:03,119 INFO: emitting event "update_players" to all [/]
+2025-04-27 22:26:03,119 INFO: ZtaUHoiPMXtBN6zKAAAA: Sending packet MESSAGE data 2["update_players",{"players":{"qBUyHI2botEG7w7IAAAC":{"username":"eleanora.undrus","team":"blue","position":[18,1]},"MMjELhayUHfZ-yXnAAAD":{"username":"eee3","team":"yellow","position":[16,13]}}}]
+2025-04-27 22:26:03,119 INFO: MT6-lHEOAG5C0GPFAAAB: Sending packet MESSAGE data 2["update_players",{"players":{"qBUyHI2botEG7w7IAAAC":{"username":"eleanora.undrus","team":"blue","position":[18,1]},"MMjELhayUHfZ-yXnAAAD":{"username":"eee3","team":"yellow","position":[16,13]}}}]
+2025-04-27 22:26:03,119 INFO:     Calling check_start_game for SID MMjELhayUHfZ-yXnAAAD
+2025-04-27 22:26:03,119 INFO:     Inside check_start_game...
+2025-04-27 22:26:03,119 INFO:     check_start_game: Teams with players = 2
+2025-04-27 22:26:03,119 INFO:     check_start_game: Starting game...
+2025-04-27 22:26:03,119 INFO:     check_start_game: Resetting player positions...
+2025-04-27 22:26:03,119 INFO:     check_start_game: Finished player position reset.
+2025-04-27 22:26:03,120 INFO:     check_start_game: Timer started (30s).
+2025-04-27 22:26:03,120 INFO:     check_start_game: Emitting game_start event.
+2025-04-27 22:26:03,120 INFO: emitting event "game_start" to all [/]
+2025-04-27 22:26:03,120 INFO: ZtaUHoiPMXtBN6zKAAAA: Sending packet MESSAGE data 2["game_start",{"active":true,"grid":{"25,3":"blue","19,12":"yellow"},"players":{"qBUyHI2botEG7w7IAAAC":{"username":"eleanora.undrus","team":"blue","position":[25,3]},"MMjELhayUHfZ-yXnAAAD":{"username":"eee3","team":"yellow","position":[19,12]}},"scores":{"blue":1,"yellow":1},"time_remaining":29.999463081359863,"grid_width":30,"grid_height":20,"teams":["red","blue","green","yellow"]}]
+2025-04-27 22:26:03,120 INFO: MT6-lHEOAG5C0GPFAAAB: Sending packet MESSAGE data 2["game_start",{"active":true,"grid":{"25,3":"blue","19,12":"yellow"},"players":{"qBUyHI2botEG7w7IAAAC":{"username":"eleanora.undrus","team":"blue","position":[25,3]},"MMjELhayUHfZ-yXnAAAD":{"username":"eee3","team":"yellow","position":[19,12]}},"scores":{"blue":1,"yellow":1},"time_remaining":29.999463081359863,"grid_width":30,"grid_height":20,"teams":["red","blue","green","yellow"]}]
+2025-04-27 22:26:03,120 INFO:     check_start_game: Game started event emitted.
+2025-04-27 22:26:03,120 INFO:     Exiting check_start_game function.
+2025-04-27 22:26:03,120 INFO:     Finished check_start_game call for SID MMjELhayUHfZ-yXnAAAD
+2025-04-27 22:26:03,120 INFO:     Exiting 'with game_lock' block for SID MMjELhayUHfZ-yXnAAAD. Lock is being released.
+2025-04-27 22:26:07,794 INFO: MT6-lHEOAG5C0GPFAAAB: Received packet MESSAGE data 2["move",{"direction":"down"}]
+2025-04-27 22:26:07,795 INFO: received event "move" from MMjELhayUHfZ-yXnAAAD [/]
+2025-04-27 22:26:07,796 INFO: emitting event "cell_update" to all [/]
+2025-04-27 22:26:07,797 INFO: ZtaUHoiPMXtBN6zKAAAA: Sending packet MESSAGE data 2["cell_update",{"x":19,"y":13,"color":"yellow","scores":{"blue":1,"yellow":2}}]
+2025-04-27 22:26:07,797 INFO: MT6-lHEOAG5C0GPFAAAB: Sending packet MESSAGE data 2["cell_update",{"x":19,"y":13,"color":"yellow","scores":{"blue":1,"yellow":2}}]
+2025-04-27 22:26:07,797 INFO: emitting event "player_moved" to all [/]
+2025-04-27 22:26:07,797 INFO: ZtaUHoiPMXtBN6zKAAAA: Sending packet MESSAGE data 2["player_moved",{"sid":"MMjELhayUHfZ-yXnAAAD","position":[19,13],"username":"eee3"}]
+2025-04-27 22:26:07,797 INFO: MT6-lHEOAG5C0GPFAAAB: Sending packet MESSAGE data 2["player_moved",{"sid":"MMjELhayUHfZ-yXnAAAD","position":[19,13],"username":"eee3"}]
+2025-04-27 22:26:08,293 INFO: MT6-lHEOAG5C0GPFAAAB: Received packet MESSAGE data 2["move",{"direction":"down"}]
+2025-04-27 22:26:08,293 INFO: received event "move" from MMjELhayUHfZ-yXnAAAD [/]
+2025-04-27 22:26:08,295 INFO: emitting event "cell_update" to all [/]
+2025-04-27 22:26:08,296 INFO: ZtaUHoiPMXtBN6zKAAAA: Sending packet MESSAGE data 2["cell_update",{"x":19,"y":14,"color":"yellow","scores":{"blue":1,"yellow":3}}]
+2025-04-27 22:26:08,296 INFO: MT6-lHEOAG5C0GPFAAAB: Sending packet MESSAGE data 2["cell_update",{"x":19,"y":14,"color":"yellow","scores":{"blue":1,"yellow":3}}]
+2025-04-27 22:26:08,296 INFO: emitting event "player_moved" to all [/]
+2025-04-27 22:26:08,296 INFO: ZtaUHoiPMXtBN6zKAAAA: Sending packet MESSAGE data 2["player_moved",{"sid":"MMjELhayUHfZ-yXnAAAD","position":[19,14],"username":"eee3"}]
+2025-04-27 22:26:08,296 INFO: MT6-lHEOAG5C0GPFAAAB: Sending packet MESSAGE data 2["player_moved",{"sid":"MMjELhayUHfZ-yXnAAAD","position":[19,14],"username":"eee3"}]
+2025-04-27 22:26:08,375 INFO: MT6-lHEOAG5C0GPFAAAB: Received packet MESSAGE data 2["move",{"direction":"down"}]
+2025-04-27 22:26:08,375 INFO: received event "move" from MMjELhayUHfZ-yXnAAAD [/]
+2025-04-27 22:26:08,377 INFO: emitting event "cell_update" to all [/]
+2025-04-27 22:26:08,377 INFO: ZtaUHoiPMXtBN6zKAAAA: Sending packet MESSAGE data 2["cell_update",{"x":19,"y":15,"color":"yellow","scores":{"blue":1,"yellow":4}}]
+2025-04-27 22:26:08,377 INFO: MT6-lHEOAG5C0GPFAAAB: Sending packet MESSAGE data 2["cell_update",{"x":19,"y":15,"color":"yellow","scores":{"blue":1,"yellow":4}}]
+2025-04-27 22:26:08,378 INFO: emitting event "player_moved" to all [/]
+2025-04-27 22:26:08,378 INFO: ZtaUHoiPMXtBN6zKAAAA: Sending packet MESSAGE data 2["player_moved",{"sid":"MMjELhayUHfZ-yXnAAAD","position":[19,15],"username":"eee3"}]
+2025-04-27 22:26:08,378 INFO: MT6-lHEOAG5C0GPFAAAB: Sending packet MESSAGE data 2["player_moved",{"sid":"MMjELhayUHfZ-yXnAAAD","position":[19,15],"username":"eee3"}]
+2025-04-27 22:26:08,458 INFO: MT6-lHEOAG5C0GPFAAAB: Received packet MESSAGE data 2["move",{"direction":"down"}]
+2025-04-27 22:26:08,459 INFO: received event "move" from MMjELhayUHfZ-yXnAAAD [/]
+2025-04-27 22:26:08,460 INFO: emitting event "cell_update" to all [/]
+2025-04-27 22:26:08,461 INFO: ZtaUHoiPMXtBN6zKAAAA: Sending packet MESSAGE data 2["cell_update",{"x":19,"y":16,"color":"yellow","scores":{"blue":1,"yellow":5}}]
+2025-04-27 22:26:08,461 INFO: MT6-lHEOAG5C0GPFAAAB: Sending packet MESSAGE data 2["cell_update",{"x":19,"y":16,"color":"yellow","scores":{"blue":1,"yellow":5}}]
+2025-04-27 22:26:08,461 INFO: emitting event "player_moved" to all [/]
+2025-04-27 22:26:08,461 INFO: ZtaUHoiPMXtBN6zKAAAA: Sending packet MESSAGE data 2["player_moved",{"sid":"MMjELhayUHfZ-yXnAAAD","position":[19,16],"username":"eee3"}]
+2025-04-27 22:26:08,461 INFO: MT6-lHEOAG5C0GPFAAAB: Sending packet MESSAGE data 2["player_moved",{"sid":"MMjELhayUHfZ-yXnAAAD","position":[19,16],"username":"eee3"}]
+2025-04-27 22:26:08,636 INFO: MT6-lHEOAG5C0GPFAAAB: Received packet MESSAGE data 2["move",{"direction":"left"}]
+2025-04-27 22:26:08,636 INFO: received event "move" from MMjELhayUHfZ-yXnAAAD [/]
+2025-04-27 22:26:08,638 INFO: emitting event "cell_update" to all [/]
+2025-04-27 22:26:08,639 INFO: ZtaUHoiPMXtBN6zKAAAA: Sending packet MESSAGE data 2["cell_update",{"x":18,"y":16,"color":"yellow","scores":{"blue":1,"yellow":6}}]
+2025-04-27 22:26:08,639 INFO: MT6-lHEOAG5C0GPFAAAB: Sending packet MESSAGE data 2["cell_update",{"x":18,"y":16,"color":"yellow","scores":{"blue":1,"yellow":6}}]
+2025-04-27 22:26:08,639 INFO: emitting event "player_moved" to all [/]
+2025-04-27 22:26:08,639 INFO: ZtaUHoiPMXtBN6zKAAAA: Sending packet MESSAGE data 2["player_moved",{"sid":"MMjELhayUHfZ-yXnAAAD","position":[18,16],"username":"eee3"}]
+2025-04-27 22:26:08,639 INFO: MT6-lHEOAG5C0GPFAAAB: Sending packet MESSAGE data 2["player_moved",{"sid":"MMjELhayUHfZ-yXnAAAD","position":[18,16],"username":"eee3"}]
+2025-04-27 22:26:09,135 INFO: MT6-lHEOAG5C0GPFAAAB: Received packet MESSAGE data 2["move",{"direction":"left"}]
+2025-04-27 22:26:09,136 INFO: received event "move" from MMjELhayUHfZ-yXnAAAD [/]
+2025-04-27 22:26:09,138 INFO: emitting event "cell_update" to all [/]
+2025-04-27 22:26:09,138 INFO: ZtaUHoiPMXtBN6zKAAAA: Sending packet MESSAGE data 2["cell_update",{"x":17,"y":16,"color":"yellow","scores":{"blue":1,"yellow":7}}]
+2025-04-27 22:26:09,138 INFO: MT6-lHEOAG5C0GPFAAAB: Sending packet MESSAGE data 2["cell_update",{"x":17,"y":16,"color":"yellow","scores":{"blue":1,"yellow":7}}]
+2025-04-27 22:26:09,139 INFO: emitting event "player_moved" to all [/]
+2025-04-27 22:26:09,139 INFO: ZtaUHoiPMXtBN6zKAAAA: Sending packet MESSAGE data 2["player_moved",{"sid":"MMjELhayUHfZ-yXnAAAD","position":[17,16],"username":"eee3"}]
+2025-04-27 22:26:09,139 INFO: MT6-lHEOAG5C0GPFAAAB: Sending packet MESSAGE data 2["player_moved",{"sid":"MMjELhayUHfZ-yXnAAAD","position":[17,16],"username":"eee3"}]
+2025-04-27 22:26:09,218 INFO: MT6-lHEOAG5C0GPFAAAB: Received packet MESSAGE data 2["move",{"direction":"left"}]
+2025-04-27 22:26:09,219 INFO: received event "move" from MMjELhayUHfZ-yXnAAAD [/]
+2025-04-27 22:26:09,220 INFO: emitting event "cell_update" to all [/]
+2025-04-27 22:26:09,221 INFO: ZtaUHoiPMXtBN6zKAAAA: Sending packet MESSAGE data 2["cell_update",{"x":16,"y":16,"color":"yellow","scores":{"blue":1,"yellow":8}}]
+2025-04-27 22:26:09,221 INFO: MT6-lHEOAG5C0GPFAAAB: Sending packet MESSAGE data 2["cell_update",{"x":16,"y":16,"color":"yellow","scores":{"blue":1,"yellow":8}}]
+2025-04-27 22:26:09,221 INFO: emitting event "player_moved" to all [/]
+2025-04-27 22:26:09,221 INFO: ZtaUHoiPMXtBN6zKAAAA: Sending packet MESSAGE data 2["player_moved",{"sid":"MMjELhayUHfZ-yXnAAAD","position":[16,16],"username":"eee3"}]
+2025-04-27 22:26:09,221 INFO: MT6-lHEOAG5C0GPFAAAB: Sending packet MESSAGE data 2["player_moved",{"sid":"MMjELhayUHfZ-yXnAAAD","position":[16,16],"username":"eee3"}]
+2025-04-27 22:26:09,302 INFO: MT6-lHEOAG5C0GPFAAAB: Received packet MESSAGE data 2["move",{"direction":"left"}]
+2025-04-27 22:26:09,303 INFO: received event "move" from MMjELhayUHfZ-yXnAAAD [/]
+2025-04-27 22:26:09,304 INFO: emitting event "cell_update" to all [/]
+2025-04-27 22:26:09,304 INFO: ZtaUHoiPMXtBN6zKAAAA: Sending packet MESSAGE data 2["cell_update",{"x":15,"y":16,"color":"yellow","scores":{"blue":1,"yellow":9}}]
+2025-04-27 22:26:09,305 INFO: MT6-lHEOAG5C0GPFAAAB: Sending packet MESSAGE data 2["cell_update",{"x":15,"y":16,"color":"yellow","scores":{"blue":1,"yellow":9}}]
+2025-04-27 22:26:09,305 INFO: emitting event "player_moved" to all [/]
+2025-04-27 22:26:09,305 INFO: ZtaUHoiPMXtBN6zKAAAA: Sending packet MESSAGE data 2["player_moved",{"sid":"MMjELhayUHfZ-yXnAAAD","position":[15,16],"username":"eee3"}]
+2025-04-27 22:26:09,305 INFO: MT6-lHEOAG5C0GPFAAAB: Sending packet MESSAGE data 2["player_moved",{"sid":"MMjELhayUHfZ-yXnAAAD","position":[15,16],"username":"eee3"}]
+2025-04-27 22:26:09,387 INFO: MT6-lHEOAG5C0GPFAAAB: Received packet MESSAGE data 2["move",{"direction":"left"}]
+2025-04-27 22:26:09,388 INFO: received event "move" from MMjELhayUHfZ-yXnAAAD [/]
+2025-04-27 22:26:09,391 INFO: emitting event "cell_update" to all [/]
+2025-04-27 22:26:09,392 INFO: ZtaUHoiPMXtBN6zKAAAA: Sending packet MESSAGE data 2["cell_update",{"x":14,"y":16,"color":"yellow","scores":{"blue":1,"yellow":10}}]
+2025-04-27 22:26:09,392 INFO: MT6-lHEOAG5C0GPFAAAB: Sending packet MESSAGE data 2["cell_update",{"x":14,"y":16,"color":"yellow","scores":{"blue":1,"yellow":10}}]
+2025-04-27 22:26:09,392 INFO: emitting event "player_moved" to all [/]
+2025-04-27 22:26:09,392 INFO: ZtaUHoiPMXtBN6zKAAAA: Sending packet MESSAGE data 2["player_moved",{"sid":"MMjELhayUHfZ-yXnAAAD","position":[14,16],"username":"eee3"}]
+2025-04-27 22:26:09,392 INFO: MT6-lHEOAG5C0GPFAAAB: Sending packet MESSAGE data 2["player_moved",{"sid":"MMjELhayUHfZ-yXnAAAD","position":[14,16],"username":"eee3"}]
+2025-04-27 22:26:09,470 INFO: MT6-lHEOAG5C0GPFAAAB: Received packet MESSAGE data 2["move",{"direction":"left"}]
+2025-04-27 22:26:09,470 INFO: received event "move" from MMjELhayUHfZ-yXnAAAD [/]
+2025-04-27 22:26:09,472 INFO: emitting event "cell_update" to all [/]
+2025-04-27 22:26:09,472 INFO: ZtaUHoiPMXtBN6zKAAAA: Sending packet MESSAGE data 2["cell_update",{"x":13,"y":16,"color":"yellow","scores":{"blue":1,"yellow":11}}]
+2025-04-27 22:26:09,472 INFO: MT6-lHEOAG5C0GPFAAAB: Sending packet MESSAGE data 2["cell_update",{"x":13,"y":16,"color":"yellow","scores":{"blue":1,"yellow":11}}]
+2025-04-27 22:26:09,473 INFO: emitting event "player_moved" to all [/]
+2025-04-27 22:26:09,473 INFO: ZtaUHoiPMXtBN6zKAAAA: Sending packet MESSAGE data 2["player_moved",{"sid":"MMjELhayUHfZ-yXnAAAD","position":[13,16],"username":"eee3"}]
+2025-04-27 22:26:09,473 INFO: MT6-lHEOAG5C0GPFAAAB: Sending packet MESSAGE data 2["player_moved",{"sid":"MMjELhayUHfZ-yXnAAAD","position":[13,16],"username":"eee3"}]
+2025-04-27 22:26:10,103 INFO: Player disconnected: eee3 (MMjELhayUHfZ-yXnAAAD), Team: yellow
+2025-04-27 22:26:10,104 INFO: emitting event "player_left" to all [/]
+2025-04-27 22:26:10,104 INFO: ZtaUHoiPMXtBN6zKAAAA: Sending packet MESSAGE data 2["player_left",{"sid":"MMjELhayUHfZ-yXnAAAD","username":"eee3"}]
+2025-04-27 22:26:10,104 INFO: MT6-lHEOAG5C0GPFAAAB: Sending packet MESSAGE data 2["player_left",{"sid":"MMjELhayUHfZ-yXnAAAD","username":"eee3"}]
+2025-04-27 22:26:10,104 INFO: emitting event "update_players" to all [/]
+2025-04-27 22:26:10,105 INFO: ZtaUHoiPMXtBN6zKAAAA: Sending packet MESSAGE data 2["update_players",{"players":{"qBUyHI2botEG7w7IAAAC":{"username":"eleanora.undrus","team":"blue","position":[25,3]}}}]
+2025-04-27 22:26:10,105 INFO: MT6-lHEOAG5C0GPFAAAB: Sending packet MESSAGE data 2["update_players",{"players":{"qBUyHI2botEG7w7IAAAC":{"username":"eleanora.undrus","team":"blue","position":[25,3]}}}]
+2025-04-27 22:26:10,111 INFO: <Request 'http://0.0.0.0:500/game' [GET]>
+2025-04-27 22:26:10,119 INFO: User authenticated via session: eee3
+2025-04-27 22:26:10,120 INFO: User 'eee3' accessing game page
+2025-04-27 22:26:10,146 INFO: <Request 'http://0.0.0.0:500/static/css/style.css' [GET]>
+2025-04-27 22:26:10,151 INFO: <Request 'http://0.0.0.0:500/static/js/game.js' [GET]>
+2025-04-27 22:26:10,156 INFO: vp1y0yTu8-hg2ujnAAAE: Sending packet OPEN data {'sid': 'vp1y0yTu8-hg2ujnAAAE', 'upgrades': ['websocket'], 'pingTimeout': 20000, 'pingInterval': 25000, 'maxPayload': 1000000}
+2025-04-27 22:26:10,158 INFO: vp1y0yTu8-hg2ujnAAAE: Received packet MESSAGE data 0
+2025-04-27 22:26:10,159 INFO: vp1y0yTu8-hg2ujnAAAE: Received request to upgrade to websocket
+2025-04-27 22:26:10,162 INFO: User authenticated via session: eee3
+2025-04-27 22:26:10,163 INFO: Client connected: eee3 (Hz7er7DdQRPD2tlBAAAF)
+2025-04-27 22:26:10,163 INFO: emitting event "connection_ack" to Hz7er7DdQRPD2tlBAAAF [/]
+2025-04-27 22:26:10,163 INFO: vp1y0yTu8-hg2ujnAAAE: Sending packet MESSAGE data 2["connection_ack",{"sid":"Hz7er7DdQRPD2tlBAAAF"}]
+2025-04-27 22:26:10,163 INFO: vp1y0yTu8-hg2ujnAAAE: Sending packet MESSAGE data 0{"sid":"Hz7er7DdQRPD2tlBAAAF"}
+2025-04-27 22:26:10,165 INFO: vp1y0yTu8-hg2ujnAAAE: Upgrade to websocket successful
+2025-04-27 22:26:10,165 INFO: vp1y0yTu8-hg2ujnAAAE: Received packet MESSAGE data 2["join_game"]
+2025-04-27 22:26:10,165 INFO: received event "join_game" from Hz7er7DdQRPD2tlBAAAF [/]
+2025-04-27 22:26:10,166 INFO: --> handle_join_game called for SID: Hz7er7DdQRPD2tlBAAAF
+2025-04-27 22:26:10,166 INFO:     Session contents: {'username': 'eee3'}
+2025-04-27 22:26:10,166 INFO:     Username 'eee3' found in session for SID Hz7er7DdQRPD2tlBAAAF. Proceeding towards lock...
+2025-04-27 22:26:10,167 INFO:     Found persistent team 'yellow' for user 'eee3' in DB.
+2025-04-27 22:26:10,167 INFO:     Attempting to acquire game_lock for SID Hz7er7DdQRPD2tlBAAAF (Team: yellow)
+2025-04-27 22:26:10,167 INFO:     Acquired game_lock for SID Hz7er7DdQRPD2tlBAAAF
+2025-04-27 22:26:10,167 INFO: Player joined: eee3 (Hz7er7DdQRPD2tlBAAAF), Team: yellow
+2025-04-27 22:26:10,167 INFO:     Emitting assign_team (yellow) to Hz7er7DdQRPD2tlBAAAF
+2025-04-27 22:26:10,167 INFO: emitting event "assign_team" to Hz7er7DdQRPD2tlBAAAF [/]
+2025-04-27 22:26:10,167 INFO: vp1y0yTu8-hg2ujnAAAE: Sending packet MESSAGE data 2["assign_team",{"team":"yellow","initial_state":{"active":true,"grid":{"25,3":"blue","19,12":"yellow","19,13":"yellow","19,14":"yellow","19,15":"yellow","19,16":"yellow","18,16":"yellow","17,16":"yellow","16,16":"yellow","15,16":"yellow","14,16":"yellow","13,16":"yellow"},"players":{"qBUyHI2botEG7w7IAAAC":{"username":"eleanora.undrus","team":"blue","position":[25,3]},"Hz7er7DdQRPD2tlBAAAF":{"username":"eee3","team":"yellow","position":[3,14]}},"scores":{"blue":1,"yellow":11},"time_remaining":22.952208995819092,"grid_width":30,"grid_height":20,"teams":["red","blue","green","yellow"]}}]
+2025-04-27 22:26:10,167 INFO:     Emitting player_joined to all
+2025-04-27 22:26:10,168 INFO: emitting event "player_joined" to all [/]
+2025-04-27 22:26:10,168 INFO: ZtaUHoiPMXtBN6zKAAAA: Sending packet MESSAGE data 2["player_joined",{"sid":"Hz7er7DdQRPD2tlBAAAF","player":{"username":"eee3","team":"yellow","position":[3,14]}}]
+2025-04-27 22:26:10,168 INFO: vp1y0yTu8-hg2ujnAAAE: Sending packet MESSAGE data 2["player_joined",{"sid":"Hz7er7DdQRPD2tlBAAAF","player":{"username":"eee3","team":"yellow","position":[3,14]}}]
+2025-04-27 22:26:10,168 INFO:     Emitting update_players to all
+2025-04-27 22:26:10,168 INFO: emitting event "update_players" to all [/]
+2025-04-27 22:26:10,168 INFO: ZtaUHoiPMXtBN6zKAAAA: Sending packet MESSAGE data 2["update_players",{"players":{"qBUyHI2botEG7w7IAAAC":{"username":"eleanora.undrus","team":"blue","position":[25,3]},"Hz7er7DdQRPD2tlBAAAF":{"username":"eee3","team":"yellow","position":[3,14]}}}]
+2025-04-27 22:26:10,168 INFO: vp1y0yTu8-hg2ujnAAAE: Sending packet MESSAGE data 2["update_players",{"players":{"qBUyHI2botEG7w7IAAAC":{"username":"eleanora.undrus","team":"blue","position":[25,3]},"Hz7er7DdQRPD2tlBAAAF":{"username":"eee3","team":"yellow","position":[3,14]}}}]
+2025-04-27 22:26:10,168 INFO:     Calling check_start_game for SID Hz7er7DdQRPD2tlBAAAF
+2025-04-27 22:26:10,168 INFO:     Inside check_start_game...
+2025-04-27 22:26:10,168 INFO:     check_start_game: Game already active.
+2025-04-27 22:26:10,168 INFO:     Exiting check_start_game function.
+2025-04-27 22:26:10,168 INFO:     Finished check_start_game call for SID Hz7er7DdQRPD2tlBAAAF
+2025-04-27 22:26:10,168 INFO:     Exiting 'with game_lock' block for SID Hz7er7DdQRPD2tlBAAAF. Lock is being released.
+2025-04-27 22:26:10,685 INFO: vp1y0yTu8-hg2ujnAAAE: Received packet MESSAGE data 2["move",{"direction":"down"}]
+2025-04-27 22:26:10,686 INFO: received event "move" from Hz7er7DdQRPD2tlBAAAF [/]
+2025-04-27 22:26:10,687 INFO: emitting event "cell_update" to all [/]
+2025-04-27 22:26:10,688 INFO: ZtaUHoiPMXtBN6zKAAAA: Sending packet MESSAGE data 2["cell_update",{"x":3,"y":15,"color":"yellow","scores":{"blue":1,"yellow":12}}]
+2025-04-27 22:26:10,688 INFO: vp1y0yTu8-hg2ujnAAAE: Sending packet MESSAGE data 2["cell_update",{"x":3,"y":15,"color":"yellow","scores":{"blue":1,"yellow":12}}]
+2025-04-27 22:26:10,689 INFO: emitting event "player_moved" to all [/]
+2025-04-27 22:26:10,689 INFO: ZtaUHoiPMXtBN6zKAAAA: Sending packet MESSAGE data 2["player_moved",{"sid":"Hz7er7DdQRPD2tlBAAAF","position":[3,15],"username":"eee3"}]
+2025-04-27 22:26:10,689 INFO: vp1y0yTu8-hg2ujnAAAE: Sending packet MESSAGE data 2["player_moved",{"sid":"Hz7er7DdQRPD2tlBAAAF","position":[3,15],"username":"eee3"}]
+2025-04-27 22:26:11,185 INFO: vp1y0yTu8-hg2ujnAAAE: Received packet MESSAGE data 2["move",{"direction":"down"}]
+2025-04-27 22:26:11,185 INFO: received event "move" from Hz7er7DdQRPD2tlBAAAF [/]
+2025-04-27 22:26:11,188 INFO: emitting event "cell_update" to all [/]
+2025-04-27 22:26:11,189 INFO: ZtaUHoiPMXtBN6zKAAAA: Sending packet MESSAGE data 2["cell_update",{"x":3,"y":16,"color":"yellow","scores":{"blue":1,"yellow":13}}]
+2025-04-27 22:26:11,189 INFO: vp1y0yTu8-hg2ujnAAAE: Sending packet MESSAGE data 2["cell_update",{"x":3,"y":16,"color":"yellow","scores":{"blue":1,"yellow":13}}]
+2025-04-27 22:26:11,189 INFO: emitting event "player_moved" to all [/]
+2025-04-27 22:26:11,190 INFO: ZtaUHoiPMXtBN6zKAAAA: Sending packet MESSAGE data 2["player_moved",{"sid":"Hz7er7DdQRPD2tlBAAAF","position":[3,16],"username":"eee3"}]
+2025-04-27 22:26:11,190 INFO: vp1y0yTu8-hg2ujnAAAE: Sending packet MESSAGE data 2["player_moved",{"sid":"Hz7er7DdQRPD2tlBAAAF","position":[3,16],"username":"eee3"}]
+2025-04-27 22:26:11,270 INFO: vp1y0yTu8-hg2ujnAAAE: Received packet MESSAGE data 2["move",{"direction":"down"}]
+2025-04-27 22:26:11,271 INFO: received event "move" from Hz7er7DdQRPD2tlBAAAF [/]
+2025-04-27 22:26:11,272 INFO: emitting event "cell_update" to all [/]
+2025-04-27 22:26:11,273 INFO: ZtaUHoiPMXtBN6zKAAAA: Sending packet MESSAGE data 2["cell_update",{"x":3,"y":17,"color":"yellow","scores":{"blue":1,"yellow":14}}]
+2025-04-27 22:26:11,273 INFO: vp1y0yTu8-hg2ujnAAAE: Sending packet MESSAGE data 2["cell_update",{"x":3,"y":17,"color":"yellow","scores":{"blue":1,"yellow":14}}]
+2025-04-27 22:26:11,273 INFO: emitting event "player_moved" to all [/]
+2025-04-27 22:26:11,273 INFO: ZtaUHoiPMXtBN6zKAAAA: Sending packet MESSAGE data 2["player_moved",{"sid":"Hz7er7DdQRPD2tlBAAAF","position":[3,17],"username":"eee3"}]
+2025-04-27 22:26:11,273 INFO: vp1y0yTu8-hg2ujnAAAE: Sending packet MESSAGE data 2["player_moved",{"sid":"Hz7er7DdQRPD2tlBAAAF","position":[3,17],"username":"eee3"}]
+2025-04-27 22:26:11,352 INFO: vp1y0yTu8-hg2ujnAAAE: Received packet MESSAGE data 2["move",{"direction":"down"}]
+2025-04-27 22:26:11,353 INFO: received event "move" from Hz7er7DdQRPD2tlBAAAF [/]
+2025-04-27 22:26:11,354 INFO: emitting event "cell_update" to all [/]
+2025-04-27 22:26:11,355 INFO: ZtaUHoiPMXtBN6zKAAAA: Sending packet MESSAGE data 2["cell_update",{"x":3,"y":18,"color":"yellow","scores":{"blue":1,"yellow":15}}]
+2025-04-27 22:26:11,355 INFO: vp1y0yTu8-hg2ujnAAAE: Sending packet MESSAGE data 2["cell_update",{"x":3,"y":18,"color":"yellow","scores":{"blue":1,"yellow":15}}]
+2025-04-27 22:26:11,355 INFO: emitting event "player_moved" to all [/]
+2025-04-27 22:26:11,355 INFO: ZtaUHoiPMXtBN6zKAAAA: Sending packet MESSAGE data 2["player_moved",{"sid":"Hz7er7DdQRPD2tlBAAAF","position":[3,18],"username":"eee3"}]
+2025-04-27 22:26:11,356 INFO: vp1y0yTu8-hg2ujnAAAE: Sending packet MESSAGE data 2["player_moved",{"sid":"Hz7er7DdQRPD2tlBAAAF","position":[3,18],"username":"eee3"}]
+2025-04-27 22:26:11,472 INFO: vp1y0yTu8-hg2ujnAAAE: Received packet MESSAGE data 2["move",{"direction":"right"}]
+2025-04-27 22:26:11,473 INFO: received event "move" from Hz7er7DdQRPD2tlBAAAF [/]
+2025-04-27 22:26:11,474 INFO: emitting event "cell_update" to all [/]
+2025-04-27 22:26:11,475 INFO: ZtaUHoiPMXtBN6zKAAAA: Sending packet MESSAGE data 2["cell_update",{"x":4,"y":18,"color":"yellow","scores":{"blue":1,"yellow":16}}]
+2025-04-27 22:26:11,475 INFO: vp1y0yTu8-hg2ujnAAAE: Sending packet MESSAGE data 2["cell_update",{"x":4,"y":18,"color":"yellow","scores":{"blue":1,"yellow":16}}]
+2025-04-27 22:26:11,475 INFO: emitting event "player_moved" to all [/]
+2025-04-27 22:26:11,476 INFO: ZtaUHoiPMXtBN6zKAAAA: Sending packet MESSAGE data 2["player_moved",{"sid":"Hz7er7DdQRPD2tlBAAAF","position":[4,18],"username":"eee3"}]
+2025-04-27 22:26:11,476 INFO: vp1y0yTu8-hg2ujnAAAE: Sending packet MESSAGE data 2["player_moved",{"sid":"Hz7er7DdQRPD2tlBAAAF","position":[4,18],"username":"eee3"}]
+2025-04-27 22:26:11,974 INFO: vp1y0yTu8-hg2ujnAAAE: Received packet MESSAGE data 2["move",{"direction":"right"}]
+2025-04-27 22:26:11,974 INFO: received event "move" from Hz7er7DdQRPD2tlBAAAF [/]
+2025-04-27 22:26:11,976 INFO: emitting event "cell_update" to all [/]
+2025-04-27 22:26:11,977 INFO: ZtaUHoiPMXtBN6zKAAAA: Sending packet MESSAGE data 2["cell_update",{"x":5,"y":18,"color":"yellow","scores":{"blue":1,"yellow":17}}]
+2025-04-27 22:26:11,977 INFO: vp1y0yTu8-hg2ujnAAAE: Sending packet MESSAGE data 2["cell_update",{"x":5,"y":18,"color":"yellow","scores":{"blue":1,"yellow":17}}]
+2025-04-27 22:26:11,977 INFO: emitting event "player_moved" to all [/]
+2025-04-27 22:26:11,977 INFO: ZtaUHoiPMXtBN6zKAAAA: Sending packet MESSAGE data 2["player_moved",{"sid":"Hz7er7DdQRPD2tlBAAAF","position":[5,18],"username":"eee3"}]
+2025-04-27 22:26:11,977 INFO: vp1y0yTu8-hg2ujnAAAE: Sending packet MESSAGE data 2["player_moved",{"sid":"Hz7er7DdQRPD2tlBAAAF","position":[5,18],"username":"eee3"}]
+2025-04-27 22:26:12,058 INFO: vp1y0yTu8-hg2ujnAAAE: Received packet MESSAGE data 2["move",{"direction":"right"}]
+2025-04-27 22:26:12,059 INFO: received event "move" from Hz7er7DdQRPD2tlBAAAF [/]
+2025-04-27 22:26:12,060 INFO: emitting event "cell_update" to all [/]
+2025-04-27 22:26:12,060 INFO: ZtaUHoiPMXtBN6zKAAAA: Sending packet MESSAGE data 2["cell_update",{"x":6,"y":18,"color":"yellow","scores":{"blue":1,"yellow":18}}]
+2025-04-27 22:26:12,061 INFO: vp1y0yTu8-hg2ujnAAAE: Sending packet MESSAGE data 2["cell_update",{"x":6,"y":18,"color":"yellow","scores":{"blue":1,"yellow":18}}]
+2025-04-27 22:26:12,061 INFO: emitting event "player_moved" to all [/]
+2025-04-27 22:26:12,061 INFO: ZtaUHoiPMXtBN6zKAAAA: Sending packet MESSAGE data 2["player_moved",{"sid":"Hz7er7DdQRPD2tlBAAAF","position":[6,18],"username":"eee3"}]
+2025-04-27 22:26:12,061 INFO: vp1y0yTu8-hg2ujnAAAE: Sending packet MESSAGE data 2["player_moved",{"sid":"Hz7er7DdQRPD2tlBAAAF","position":[6,18],"username":"eee3"}]
+2025-04-27 22:26:12,141 INFO: vp1y0yTu8-hg2ujnAAAE: Received packet MESSAGE data 2["move",{"direction":"right"}]
+2025-04-27 22:26:12,141 INFO: received event "move" from Hz7er7DdQRPD2tlBAAAF [/]
+2025-04-27 22:26:12,143 INFO: emitting event "cell_update" to all [/]
+2025-04-27 22:26:12,143 INFO: ZtaUHoiPMXtBN6zKAAAA: Sending packet MESSAGE data 2["cell_update",{"x":7,"y":18,"color":"yellow","scores":{"blue":1,"yellow":19}}]
+2025-04-27 22:26:12,144 INFO: vp1y0yTu8-hg2ujnAAAE: Sending packet MESSAGE data 2["cell_update",{"x":7,"y":18,"color":"yellow","scores":{"blue":1,"yellow":19}}]
+2025-04-27 22:26:12,144 INFO: emitting event "player_moved" to all [/]
+2025-04-27 22:26:12,144 INFO: ZtaUHoiPMXtBN6zKAAAA: Sending packet MESSAGE data 2["player_moved",{"sid":"Hz7er7DdQRPD2tlBAAAF","position":[7,18],"username":"eee3"}]
+2025-04-27 22:26:12,144 INFO: vp1y0yTu8-hg2ujnAAAE: Sending packet MESSAGE data 2["player_moved",{"sid":"Hz7er7DdQRPD2tlBAAAF","position":[7,18],"username":"eee3"}]
+2025-04-27 22:26:12,222 INFO: vp1y0yTu8-hg2ujnAAAE: Received packet MESSAGE data 2["move",{"direction":"right"}]
+2025-04-27 22:26:12,222 INFO: received event "move" from Hz7er7DdQRPD2tlBAAAF [/]
+2025-04-27 22:26:12,224 INFO: emitting event "cell_update" to all [/]
+2025-04-27 22:26:12,225 INFO: ZtaUHoiPMXtBN6zKAAAA: Sending packet MESSAGE data 2["cell_update",{"x":8,"y":18,"color":"yellow","scores":{"blue":1,"yellow":20}}]
+2025-04-27 22:26:12,225 INFO: vp1y0yTu8-hg2ujnAAAE: Sending packet MESSAGE data 2["cell_update",{"x":8,"y":18,"color":"yellow","scores":{"blue":1,"yellow":20}}]
+2025-04-27 22:26:12,225 INFO: emitting event "player_moved" to all [/]
+2025-04-27 22:26:12,225 INFO: ZtaUHoiPMXtBN6zKAAAA: Sending packet MESSAGE data 2["player_moved",{"sid":"Hz7er7DdQRPD2tlBAAAF","position":[8,18],"username":"eee3"}]
+2025-04-27 22:26:12,225 INFO: vp1y0yTu8-hg2ujnAAAE: Sending packet MESSAGE data 2["player_moved",{"sid":"Hz7er7DdQRPD2tlBAAAF","position":[8,18],"username":"eee3"}]
+2025-04-27 22:26:12,304 INFO: vp1y0yTu8-hg2ujnAAAE: Received packet MESSAGE data 2["move",{"direction":"right"}]
+2025-04-27 22:26:12,305 INFO: received event "move" from Hz7er7DdQRPD2tlBAAAF [/]
+2025-04-27 22:26:12,306 INFO: emitting event "cell_update" to all [/]
+2025-04-27 22:26:12,307 INFO: ZtaUHoiPMXtBN6zKAAAA: Sending packet MESSAGE data 2["cell_update",{"x":9,"y":18,"color":"yellow","scores":{"blue":1,"yellow":21}}]
+2025-04-27 22:26:12,307 INFO: vp1y0yTu8-hg2ujnAAAE: Sending packet MESSAGE data 2["cell_update",{"x":9,"y":18,"color":"yellow","scores":{"blue":1,"yellow":21}}]
+2025-04-27 22:26:12,307 INFO: emitting event "player_moved" to all [/]
+2025-04-27 22:26:12,307 INFO: ZtaUHoiPMXtBN6zKAAAA: Sending packet MESSAGE data 2["player_moved",{"sid":"Hz7er7DdQRPD2tlBAAAF","position":[9,18],"username":"eee3"}]
+2025-04-27 22:26:12,307 INFO: vp1y0yTu8-hg2ujnAAAE: Sending packet MESSAGE data 2["player_moved",{"sid":"Hz7er7DdQRPD2tlBAAAF","position":[9,18],"username":"eee3"}]
+2025-04-27 22:26:12,388 INFO: vp1y0yTu8-hg2ujnAAAE: Received packet MESSAGE data 2["move",{"direction":"right"}]
+2025-04-27 22:26:12,388 INFO: received event "move" from Hz7er7DdQRPD2tlBAAAF [/]
+2025-04-27 22:26:12,390 INFO: emitting event "cell_update" to all [/]
+2025-04-27 22:26:12,391 INFO: ZtaUHoiPMXtBN6zKAAAA: Sending packet MESSAGE data 2["cell_update",{"x":10,"y":18,"color":"yellow","scores":{"blue":1,"yellow":22}}]
+2025-04-27 22:26:12,391 INFO: vp1y0yTu8-hg2ujnAAAE: Sending packet MESSAGE data 2["cell_update",{"x":10,"y":18,"color":"yellow","scores":{"blue":1,"yellow":22}}]
+2025-04-27 22:26:12,391 INFO: emitting event "player_moved" to all [/]
+2025-04-27 22:26:12,392 INFO: ZtaUHoiPMXtBN6zKAAAA: Sending packet MESSAGE data 2["player_moved",{"sid":"Hz7er7DdQRPD2tlBAAAF","position":[10,18],"username":"eee3"}]
+2025-04-27 22:26:12,392 INFO: vp1y0yTu8-hg2ujnAAAE: Sending packet MESSAGE data 2["player_moved",{"sid":"Hz7er7DdQRPD2tlBAAAF","position":[10,18],"username":"eee3"}]
+2025-04-27 22:26:12,705 INFO: vp1y0yTu8-hg2ujnAAAE: Received packet MESSAGE data 2["move",{"direction":"up"}]
+2025-04-27 22:26:12,706 INFO: received event "move" from Hz7er7DdQRPD2tlBAAAF [/]
+2025-04-27 22:26:12,707 INFO: emitting event "cell_update" to all [/]
+2025-04-27 22:26:12,708 INFO: ZtaUHoiPMXtBN6zKAAAA: Sending packet MESSAGE data 2["cell_update",{"x":10,"y":17,"color":"yellow","scores":{"blue":1,"yellow":23}}]
+2025-04-27 22:26:12,709 INFO: vp1y0yTu8-hg2ujnAAAE: Sending packet MESSAGE data 2["cell_update",{"x":10,"y":17,"color":"yellow","scores":{"blue":1,"yellow":23}}]
+2025-04-27 22:26:12,709 INFO: emitting event "player_moved" to all [/]
+2025-04-27 22:26:12,709 INFO: ZtaUHoiPMXtBN6zKAAAA: Sending packet MESSAGE data 2["player_moved",{"sid":"Hz7er7DdQRPD2tlBAAAF","position":[10,17],"username":"eee3"}]
+2025-04-27 22:26:12,710 INFO: vp1y0yTu8-hg2ujnAAAE: Sending packet MESSAGE data 2["player_moved",{"sid":"Hz7er7DdQRPD2tlBAAAF","position":[10,17],"username":"eee3"}]
+2025-04-27 22:26:13,203 INFO: vp1y0yTu8-hg2ujnAAAE: Received packet MESSAGE data 2["move",{"direction":"up"}]
+2025-04-27 22:26:13,204 INFO: received event "move" from Hz7er7DdQRPD2tlBAAAF [/]
+2025-04-27 22:26:13,205 INFO: emitting event "cell_update" to all [/]
+2025-04-27 22:26:13,206 INFO: ZtaUHoiPMXtBN6zKAAAA: Sending packet MESSAGE data 2["cell_update",{"x":10,"y":16,"color":"yellow","scores":{"blue":1,"yellow":24}}]
+2025-04-27 22:26:13,206 INFO: vp1y0yTu8-hg2ujnAAAE: Sending packet MESSAGE data 2["cell_update",{"x":10,"y":16,"color":"yellow","scores":{"blue":1,"yellow":24}}]
+2025-04-27 22:26:13,206 INFO: emitting event "player_moved" to all [/]
+2025-04-27 22:26:13,206 INFO: ZtaUHoiPMXtBN6zKAAAA: Sending packet MESSAGE data 2["player_moved",{"sid":"Hz7er7DdQRPD2tlBAAAF","position":[10,16],"username":"eee3"}]
+2025-04-27 22:26:13,206 INFO: vp1y0yTu8-hg2ujnAAAE: Sending packet MESSAGE data 2["player_moved",{"sid":"Hz7er7DdQRPD2tlBAAAF","position":[10,16],"username":"eee3"}]
+2025-04-27 22:26:13,287 INFO: vp1y0yTu8-hg2ujnAAAE: Received packet MESSAGE data 2["move",{"direction":"up"}]
+2025-04-27 22:26:13,288 INFO: received event "move" from Hz7er7DdQRPD2tlBAAAF [/]
+2025-04-27 22:26:13,290 INFO: emitting event "cell_update" to all [/]
+2025-04-27 22:26:13,291 INFO: ZtaUHoiPMXtBN6zKAAAA: Sending packet MESSAGE data 2["cell_update",{"x":10,"y":15,"color":"yellow","scores":{"blue":1,"yellow":25}}]
+2025-04-27 22:26:13,291 INFO: vp1y0yTu8-hg2ujnAAAE: Sending packet MESSAGE data 2["cell_update",{"x":10,"y":15,"color":"yellow","scores":{"blue":1,"yellow":25}}]
+2025-04-27 22:26:13,291 INFO: emitting event "player_moved" to all [/]
+2025-04-27 22:26:13,291 INFO: ZtaUHoiPMXtBN6zKAAAA: Sending packet MESSAGE data 2["player_moved",{"sid":"Hz7er7DdQRPD2tlBAAAF","position":[10,15],"username":"eee3"}]
+2025-04-27 22:26:13,291 INFO: vp1y0yTu8-hg2ujnAAAE: Sending packet MESSAGE data 2["player_moved",{"sid":"Hz7er7DdQRPD2tlBAAAF","position":[10,15],"username":"eee3"}]
+2025-04-27 22:26:13,371 INFO: vp1y0yTu8-hg2ujnAAAE: Received packet MESSAGE data 2["move",{"direction":"up"}]
+2025-04-27 22:26:13,372 INFO: received event "move" from Hz7er7DdQRPD2tlBAAAF [/]
+2025-04-27 22:26:13,373 INFO: emitting event "cell_update" to all [/]
+2025-04-27 22:26:13,374 INFO: ZtaUHoiPMXtBN6zKAAAA: Sending packet MESSAGE data 2["cell_update",{"x":10,"y":14,"color":"yellow","scores":{"blue":1,"yellow":26}}]
+2025-04-27 22:26:13,374 INFO: vp1y0yTu8-hg2ujnAAAE: Sending packet MESSAGE data 2["cell_update",{"x":10,"y":14,"color":"yellow","scores":{"blue":1,"yellow":26}}]
+2025-04-27 22:26:13,374 INFO: emitting event "player_moved" to all [/]
+2025-04-27 22:26:13,374 INFO: ZtaUHoiPMXtBN6zKAAAA: Sending packet MESSAGE data 2["player_moved",{"sid":"Hz7er7DdQRPD2tlBAAAF","position":[10,14],"username":"eee3"}]
+2025-04-27 22:26:13,374 INFO: vp1y0yTu8-hg2ujnAAAE: Sending packet MESSAGE data 2["player_moved",{"sid":"Hz7er7DdQRPD2tlBAAAF","position":[10,14],"username":"eee3"}]
+2025-04-27 22:26:13,456 INFO: vp1y0yTu8-hg2ujnAAAE: Received packet MESSAGE data 2["move",{"direction":"up"}]
+2025-04-27 22:26:13,456 INFO: received event "move" from Hz7er7DdQRPD2tlBAAAF [/]
+2025-04-27 22:26:13,458 INFO: emitting event "cell_update" to all [/]
+2025-04-27 22:26:13,459 INFO: ZtaUHoiPMXtBN6zKAAAA: Sending packet MESSAGE data 2["cell_update",{"x":10,"y":13,"color":"yellow","scores":{"blue":1,"yellow":27}}]
+2025-04-27 22:26:13,459 INFO: vp1y0yTu8-hg2ujnAAAE: Sending packet MESSAGE data 2["cell_update",{"x":10,"y":13,"color":"yellow","scores":{"blue":1,"yellow":27}}]
+2025-04-27 22:26:13,459 INFO: emitting event "player_moved" to all [/]
+2025-04-27 22:26:13,459 INFO: ZtaUHoiPMXtBN6zKAAAA: Sending packet MESSAGE data 2["player_moved",{"sid":"Hz7er7DdQRPD2tlBAAAF","position":[10,13],"username":"eee3"}]
+2025-04-27 22:26:13,459 INFO: vp1y0yTu8-hg2ujnAAAE: Sending packet MESSAGE data 2["player_moved",{"sid":"Hz7er7DdQRPD2tlBAAAF","position":[10,13],"username":"eee3"}]
+2025-04-27 22:26:13,539 INFO: vp1y0yTu8-hg2ujnAAAE: Received packet MESSAGE data 2["move",{"direction":"up"}]
+2025-04-27 22:26:13,540 INFO: received event "move" from Hz7er7DdQRPD2tlBAAAF [/]
+2025-04-27 22:26:13,541 INFO: emitting event "cell_update" to all [/]
+2025-04-27 22:26:13,542 INFO: ZtaUHoiPMXtBN6zKAAAA: Sending packet MESSAGE data 2["cell_update",{"x":10,"y":12,"color":"yellow","scores":{"blue":1,"yellow":28}}]
+2025-04-27 22:26:13,542 INFO: vp1y0yTu8-hg2ujnAAAE: Sending packet MESSAGE data 2["cell_update",{"x":10,"y":12,"color":"yellow","scores":{"blue":1,"yellow":28}}]
+2025-04-27 22:26:13,542 INFO: emitting event "player_moved" to all [/]
+2025-04-27 22:26:13,542 INFO: ZtaUHoiPMXtBN6zKAAAA: Sending packet MESSAGE data 2["player_moved",{"sid":"Hz7er7DdQRPD2tlBAAAF","position":[10,12],"username":"eee3"}]
+2025-04-27 22:26:13,543 INFO: vp1y0yTu8-hg2ujnAAAE: Sending packet MESSAGE data 2["player_moved",{"sid":"Hz7er7DdQRPD2tlBAAAF","position":[10,12],"username":"eee3"}]
+2025-04-27 22:26:28,084 INFO: ZtaUHoiPMXtBN6zKAAAA: Sending packet PING data None
+2025-04-27 22:26:28,087 INFO: ZtaUHoiPMXtBN6zKAAAA: Received packet PONG data 
+2025-04-27 22:26:33,121 INFO: Game ending...
+2025-04-27 22:26:33,121 INFO: Game Over! Winner: yellow with score 28
+2025-04-27 22:26:33,122 INFO: emitting event "game_over" to all [/]
+2025-04-27 22:26:33,122 INFO: ZtaUHoiPMXtBN6zKAAAA: Sending packet MESSAGE data 2["game_over",{"scores":{"blue":1,"yellow":28},"winner":"yellow","restart_in":5}]
+2025-04-27 22:26:33,122 INFO: vp1y0yTu8-hg2ujnAAAE: Sending packet MESSAGE data 2["game_over",{"scores":{"blue":1,"yellow":28},"winner":"yellow","restart_in":5}]
+2025-04-27 22:26:34,124 INFO: Emitting restart countdown: 4s remaining
+2025-04-27 22:26:34,124 INFO: emitting event "restart_timer" to all [/]
+2025-04-27 22:26:34,124 INFO: ZtaUHoiPMXtBN6zKAAAA: Sending packet MESSAGE data 2["restart_timer",{"seconds":4}]
+2025-04-27 22:26:34,124 INFO: vp1y0yTu8-hg2ujnAAAE: Sending packet MESSAGE data 2["restart_timer",{"seconds":4}]
+2025-04-27 22:26:35,124 INFO: Emitting restart countdown: 3s remaining
+2025-04-27 22:26:35,125 INFO: emitting event "restart_timer" to all [/]
+2025-04-27 22:26:35,125 INFO: ZtaUHoiPMXtBN6zKAAAA: Sending packet MESSAGE data 2["restart_timer",{"seconds":3}]
+2025-04-27 22:26:35,125 INFO: vp1y0yTu8-hg2ujnAAAE: Sending packet MESSAGE data 2["restart_timer",{"seconds":3}]
+2025-04-27 22:26:35,156 INFO: vp1y0yTu8-hg2ujnAAAE: Sending packet PING data None
+2025-04-27 22:26:35,158 INFO: vp1y0yTu8-hg2ujnAAAE: Received packet PONG data 
+2025-04-27 22:26:36,125 INFO: Emitting restart countdown: 2s remaining
+2025-04-27 22:26:36,126 INFO: emitting event "restart_timer" to all [/]
+2025-04-27 22:26:36,127 INFO: ZtaUHoiPMXtBN6zKAAAA: Sending packet MESSAGE data 2["restart_timer",{"seconds":2}]
+2025-04-27 22:26:36,127 INFO: vp1y0yTu8-hg2ujnAAAE: Sending packet MESSAGE data 2["restart_timer",{"seconds":2}]
+2025-04-27 22:26:37,125 INFO: Emitting restart countdown: 1s remaining
+2025-04-27 22:26:37,126 INFO: emitting event "restart_timer" to all [/]
+2025-04-27 22:26:37,127 INFO: ZtaUHoiPMXtBN6zKAAAA: Sending packet MESSAGE data 2["restart_timer",{"seconds":1}]
+2025-04-27 22:26:37,127 INFO: vp1y0yTu8-hg2ujnAAAE: Sending packet MESSAGE data 2["restart_timer",{"seconds":1}]
+2025-04-27 22:26:38,127 INFO: Executing delayed_reset...
+2025-04-27 22:26:38,128 INFO: Resetting game state
+2025-04-27 22:26:38,128 INFO: Game reset after delay.
+2025-04-27 22:26:38,129 INFO: Calling check_start_game after reset to potentially start new round.
+2025-04-27 22:26:38,129 INFO:     Inside check_start_game...
+2025-04-27 22:26:38,130 INFO:     check_start_game: Teams with players = 2
+2025-04-27 22:26:38,130 INFO:     check_start_game: Starting game...
+2025-04-27 22:26:38,131 INFO:     check_start_game: Resetting player positions...
+2025-04-27 22:26:38,131 INFO:     check_start_game: Finished player position reset.
+2025-04-27 22:26:38,132 INFO:     check_start_game: Timer started (30s).
+2025-04-27 22:26:38,132 INFO:     check_start_game: Emitting game_start event.
+2025-04-27 22:26:38,132 INFO: emitting event "game_start" to all [/]
+2025-04-27 22:26:38,133 INFO: ZtaUHoiPMXtBN6zKAAAA: Sending packet MESSAGE data 2["game_start",{"active":true,"grid":{"27,18":"blue","24,18":"yellow"},"players":{"qBUyHI2botEG7w7IAAAC":{"username":"eleanora.undrus","team":"blue","position":[27,18]},"Hz7er7DdQRPD2tlBAAAF":{"username":"eee3","team":"yellow","position":[24,18]}},"scores":{"blue":1,"yellow":1},"time_remaining":29.99877691268921,"grid_width":30,"grid_height":20,"teams":["red","blue","green","yellow"]}]
+2025-04-27 22:26:38,133 INFO: vp1y0yTu8-hg2ujnAAAE: Sending packet MESSAGE data 2["game_start",{"active":true,"grid":{"27,18":"blue","24,18":"yellow"},"players":{"qBUyHI2botEG7w7IAAAC":{"username":"eleanora.undrus","team":"blue","position":[27,18]},"Hz7er7DdQRPD2tlBAAAF":{"username":"eee3","team":"yellow","position":[24,18]}},"scores":{"blue":1,"yellow":1},"time_remaining":29.99877691268921,"grid_width":30,"grid_height":20,"teams":["red","blue","green","yellow"]}]
+2025-04-27 22:26:38,133 INFO:     check_start_game: Game started event emitted.
+2025-04-27 22:26:38,134 INFO:     Exiting check_start_game function.
+2025-04-27 22:26:38,134 INFO: Finished executing delayed_reset.

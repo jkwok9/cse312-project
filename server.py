@@ -1,12 +1,16 @@
+import select
+if hasattr(select, 'kqueue'):
+    import sys
+    if sys.platform == 'darwin':
+        select.kqueue = None
+
 import eventlet
-
 from util.logger import setup_logging
-
 eventlet.monkey_patch()
 import os
 import time
 import threading
-from flask import Flask, render_template, request, redirect, url_for, session, jsonify, flash
+from flask import Flask, render_template, request, redirect, url_for, session, jsonify, flash, make_response
 from flask_pymongo import PyMongo
 from flask_socketio import SocketIO, emit, join_room, leave_room, send
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -14,14 +18,16 @@ from passlib.hash import pbkdf2_sha256 as sha256 # Using passlib for better hash
 import random
 from collections import defaultdict
 import logging
-
+from bson import ObjectId  # Add this import for MongoDB ObjectID handling
+from util.auth_util import create_session, get_user_by_token, set_auth_cookie, clear_auth_cookie, invalidate_session
 
 # --- Configuration ---
 app = Flask(__name__)
+
 setup_logging(app)
 @app.before_request
 def log_request_info():
-    logging.info(request)
+     logging.info(request)
 # IMPORTANT: Change this secret key in a real application!
 app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY", "a_very_secret_key_12345")
 # Configure MongoDB - Replace with your connection string if necessary
@@ -55,6 +61,7 @@ game_state = {
     "team_counts": defaultdict(int), # {team_color: count}
     "timer": None,
     "winner": None,
+    "restart_timer": None,
 }
 game_lock = threading.Lock() # To protect concurrent access to game_state
 
@@ -96,7 +103,6 @@ def reset_game():
     # Recalculate scores based on the (now empty) grid
     game_state["scores"] = calculate_scores()
 
-
 def end_game():
     """Ends the current game round."""
     with game_lock:
@@ -125,16 +131,36 @@ def end_game():
         else:
              log.info("Game Over! No winner (no scores).")
 
-
-        # Notify all clients
+        # Notify all clients with restart info
         socketio.emit('game_over', {
             'scores': dict(final_scores),
-            'winner': winner
+            'winner': winner,
+            'restart_in': 5  # Add restart countdown initial value
         })
 
-        # Schedule a reset after a delay (e.g., 10 seconds) to show results
-        threading.Timer(10.0, delayed_reset).start()
+        # Set up restart timer emitters
+        game_state["restart_timer"] = 5
+        # Schedule timers to emit countdown updates
+        threading.Timer(1.0, lambda: emit_restart_countdown(4)).start()
+        threading.Timer(2.0, lambda: emit_restart_countdown(3)).start()
+        threading.Timer(3.0, lambda: emit_restart_countdown(2)).start()
+        threading.Timer(4.0, lambda: emit_restart_countdown(1)).start()
 
+        # Schedule a reset after 5 seconds
+        threading.Timer(5.0, delayed_reset).start()
+
+# Add this new function to emit restart countdown updates
+def emit_restart_countdown(seconds):
+    """Emit a restart timer update to all clients."""
+    try:
+        with game_lock:
+            # Only update if we're still in between games (not started a new one yet)
+            if not game_state["active"] and game_state["restart_timer"] is not None:
+                game_state["restart_timer"] = seconds
+                log.info(f"Emitting restart countdown: {seconds}s remaining")
+                socketio.emit('restart_timer', {'seconds': seconds})
+    except Exception as e:
+        log.error(f"Error in emit_restart_countdown: {e}", exc_info=True)
 
 def delayed_reset():
      """Resets the game state after a delay and attempts to start a new game."""
@@ -192,7 +218,6 @@ def check_start_game():
             game_state["timer"].start()
             log.info(f"    check_start_game: Timer started ({GAME_DURATION_SECONDS}s).")
 
-
             log.info("    check_start_game: Emitting game_start event.")
             socketio.emit('game_start', get_game_state_payload())
             log.info("    check_start_game: Game started event emitted.")
@@ -223,7 +248,6 @@ def get_game_state_payload():
          for sid, data in game_state["players"].items()
      }
 
-
      return {
          'active': game_state["active"],
          'grid': serializable_grid,
@@ -235,11 +259,33 @@ def get_game_state_payload():
          'teams': TEAMS
      }
 
+# --- Helper for auth ---
+def get_current_user():
+    """Get the current user from the auth token cookie"""
+    auth_token = request.cookies.get('auth_token')
+    if auth_token:
+        user = get_user_by_token(auth_token)
+        if user:
+            log.info(f"User authenticated via token: {user.get('username')}")
+            return user
+    
+    # Fallback to session-based authentication for compatibility
+    if 'username' in session:
+        username = session['username']
+        user = mongo.db.users.find_one({"username": username})
+        if user:
+            log.info(f"User authenticated via session: {username}")
+            return user
+    
+    log.info("No authenticated user found")
+    return None
 
 # --- Flask Routes ---
 @app.route('/')
 def index():
-    if 'username' in session:
+    # Check for user auth from token instead of session
+    user = get_current_user()
+    if user:
         return redirect(url_for('game'))
     return render_template('index.html')
 
@@ -256,10 +302,28 @@ def register():
         flash("Username already exists.", "error")
         return redirect(url_for('index'))
 
+    # Create user
     hashed_password = sha256.hash(password)
-    mongo.db.users.insert_one({"username": username, "password_hash": hashed_password})
-    flash("Registration successful! Please login.", "success")
-    return redirect(url_for('index'))
+    user_id = mongo.db.users.insert_one({
+        "username": username, 
+        "password_hash": hashed_password
+    }).inserted_id
+    
+    # Create a session token and get a response object
+    auth_token = create_session(user_id)
+    if not auth_token:
+        flash("Error creating session. Please try again.", "error")
+        return redirect(url_for('index'))
+    
+    # Create response and set session for backward compatibility
+    response = make_response(redirect(url_for('game')))
+    session['username'] = username  # Keep session for compatibility
+    
+    # Set the auth cookie in the response
+    set_auth_cookie(response, auth_token)
+    
+    flash("Registration successful! You are now logged in.", "success")
+    return response
 
 @app.route('/login', methods=['POST'])
 def login():
@@ -273,46 +337,112 @@ def login():
     user = mongo.db.users.find_one({"username": username})
 
     if user and sha256.verify(password, user['password_hash']):
-        session['username'] = username
-        log.info(f"User '{username}' logged in.")
-        return redirect(url_for('game'))
+        # Create a session token
+        auth_token = create_session(user['_id'])
+        if not auth_token:
+            flash("Error creating session. Please try again.", "error")
+            return redirect(url_for('index'))
+        
+        # Create response and set session for backward compatibility
+        response = make_response(redirect(url_for('game')))
+        session['username'] = username  # Keep session for compatibility
+        
+        # Set the auth cookie in the response
+        set_auth_cookie(response, auth_token)
+        
+        log.info(f"User '{username}' logged in with token.")
+        return response
     else:
         flash("Invalid username or password.", "error")
         return redirect(url_for('index'))
 
 @app.route('/logout')
 def logout():
+    # Get username from session for logging
     username = session.pop('username', None)
+    
+    # Invalidate the token
+    auth_token = request.cookies.get('auth_token')
+    if auth_token:
+        invalidate_session(auth_token)
+    
+    # Prepare response
+    response = make_response(redirect(url_for('index')))
+    clear_auth_cookie(response)
+    
     if username:
         log.info(f"User '{username}' logged out.")
         # Note: Player removal from game happens on socket disconnect
+    
     flash("You have been logged out.", "info")
-    return redirect(url_for('index'))
+    return response
 
 @app.route('/game')
 def game():
-    if 'username' not in session:
+    # Check authentication from token
+    user = get_current_user()
+    if not user:
+        log.warning("Attempted to access /game without authentication")
         flash("Please login to play.", "error")
         return redirect(url_for('index'))
-    return render_template('game.html', username=session['username'])
+    
+    # Ensure username is in session for socket compatibility
+    if 'username' not in session:
+        session['username'] = user['username']
+        log.info(f"Added username '{user['username']}' to session for socket compatibility")
+    
+    log.info(f"User '{user['username']}' accessing game page")
+    return render_template('game.html', username=user['username'])
+
+# --- Debug routes ---
+@app.route('/debug/auth')
+def debug_auth():
+    """Debug route to check authentication status"""
+    auth_token = request.cookies.get('auth_token')
+    session_username = session.get('username')
+    
+    user = None
+    token_user = None
+    session_user = None
+    
+    if auth_token:
+        token_user = get_user_by_token(auth_token)
+    
+    if session_username:
+        session_user = mongo.db.users.find_one({"username": session_username})
+    
+    user = get_current_user()
+    
+    return jsonify({
+        "has_auth_token": bool(auth_token),
+        "token_user": token_user['username'] if token_user else None,
+        "session_username": session_username,
+        "session_user": session_user['username'] if session_user else None,
+        "current_user": user['username'] if user else None
+    })
 
 # --- SocketIO Event Handlers ---
 @socketio.on('connect')
 def handle_connect():
     sid = request.sid
-    if 'username' not in session:
-        log.warning(f"Connection attempt without session: {sid}")
-        # Optional: Disconnect if not logged in, but joining handles this better
-        # return False # Prevents connection
+    
+    # Get user from token - fallback to session if needed
+    user = get_current_user()
+    if not user and 'username' not in session:
+        log.warning(f"Connection attempt without authentication: {sid}")
         emit('error_msg', {'message': 'Authentication required. Please refresh and login.'})
         return
 
+    # If we have a token-authenticated user but no session, add username to session
+    if user and 'username' not in session:
+        session['username'] = user['username']
+        log.info(f"Added username '{user['username']}' to session for socket")
+    
     username = session['username']
     log.info(f"Client connected: {username} ({sid})")
-    # Don't add player to game yet, wait for 'join_game' event
-    emit('connection_ack', {'sid': sid}) # Acknowledge connection
+    emit('connection_ack', {'sid': sid})  # Acknowledge connection
 
-
+# The rest of your socket handlers remain the same...
 @socketio.on('disconnect')
 def handle_disconnect():
     sid = request.sid
@@ -333,7 +463,6 @@ def handle_disconnect():
             # check_stop_game_condition() # Implement if needed
         else:
             log.info(f"Client disconnected without joining game: {sid}")
-
 
 @socketio.on('join_game')
 def handle_join_game():
@@ -375,7 +504,6 @@ def handle_join_game():
          return
     # --- End Team Persistence Logic ---
 
-
     try:
         log.info(f"    Attempting to acquire game_lock for SID {sid} (Team: {assigned_team})")
         with game_lock:
@@ -400,7 +528,6 @@ def handle_join_game():
                          # Decide if this is critical - maybe proceed without saving but log warning
                          emit('error_msg', {'message': f'Could not save team preference: {e_db_update}'})
                 # --- End DB Update ---
-
 
                 # --- Main logic inside the lock ---
                 if sid in game_state["players"]:
@@ -515,4 +642,4 @@ def handle_move(data):
 if __name__ == '__main__':
      log.info("Starting Flask-SocketIO server...")
      # Keep reloader=False while debugging this
-     socketio.run(app, host='0.0.0.0', port=5000, debug=True, use_reloader=False)
+     socketio.run(app, host='0.0.0.0', port=500, debug=True, use_reloader=False)
