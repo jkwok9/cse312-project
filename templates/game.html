@@ -3,453 +3,395 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Territory Claim (Multiplayer)</title>
+    <title>Territory Claim Teams!</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.5/socket.io.min.js"></script>
     <style>
-        /* CSS Styles (same as previous version) */
+        /* --- Reset & Base --- */
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow: hidden; /* Prevent body scrollbars */
+        }
         body {
             display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            background-color: #1a1a1a; /* Dark background */
-            color: #fff; /* White text */
-            font-family: 'Press Start 2P', cursive;
-            margin: 0;
-            padding: 20px;
-            box-sizing: border-box;
-        }
-
-        h1 {
-            color: #ffff00; /* Yellow title */
-            margin-bottom: 10px;
-            text-shadow: 2px 2px #ff00ff; /* Magenta shadow */
-        }
-
-        canvas {
-            border: 5px solid #fff; /* White border */
-            background-color: #333; /* Dark grey grid background */
-            display: block; /* Prevents extra space below canvas */
-            margin-bottom: 20px;
-            max-width: 100%; /* Ensure canvas fits smaller screens */
-            height: auto; /* Maintain aspect ratio */
-            image-rendering: pixelated; /* Keep pixels sharp */
-            border-radius: 8px; /* Rounded corners */
-        }
-
-        .game-info {
-            display: flex;
-            justify-content: center;
-            width: 100%;
-            max-width: 800px; /* Increased width */
-            margin-bottom: 15px;
-            flex-wrap: wrap; /* Wrap scores on smaller screens */
-            gap: 10px;
-        }
-
-        .info-box {
-            background-color: #444; /* Slightly lighter grey */
-            padding: 10px 15px;
-            border-radius: 8px;
-            border: 2px solid #fff;
-            text-align: center;
-            box-shadow: 3px 3px 0px rgba(0, 0, 0, 0.5);
-            margin: 5px;
-            min-width: 150px;
-        }
-
-        .info-box span {
-            display: block;
-            font-size: 1.2em;
-            margin-top: 5px;
-        }
-
-        #timer {
-            font-size: 1.5em;
-            color: #ff851b; /* Orange */
-        }
-
-        #status {
-            font-size: 1.2em;
-            color: #ffff00; /* Yellow */
-            margin-bottom: 15px;
-            min-height: 1.5em; /* Reserve space */
-            text-align: center;
-        }
-         /* Highlight current player */
-        .my-player-indicator {
-            font-weight: bold;
-            border: 2px solid yellow; /* Highlight box of the current player */
-            box-shadow: 0 0 10px yellow;
-        }
-
-
-        .controls, .instructions {
-            background-color: #2a2a2a;
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 15px;
-            border: 2px dashed #aaa;
-            width: 100%;
-            max-width: 800px; /* Increased width */
-            text-align: center;
-        }
-        .controls h2, .instructions h2 {
-            margin-top: 0;
-            color: #7fdbff; /* Aqua */
-            margin-bottom: 10px;
-        }
-         .controls p, .instructions p {
-            margin: 5px 0;
-            line-height: 1.6;
-         }
-
-        button {
-            font-family: 'Press Start 2P', cursive;
-            font-size: 1em;
-            padding: 15px 30px;
-            background: linear-gradient(145deg, #5a5a5a, #3a3a3a); /* Grey gradient */
+            flex-direction: column; /* Stack header, main content */
+            background-color: #1a1a1a;
             color: #fff;
-            border: 3px solid #fff;
-            border-radius: 10px;
-            cursor: pointer;
-            text-shadow: 1px 1px #000;
-            box-shadow: 4px 4px 0px #000; /* Simple shadow */
-            transition: all 0.1s ease;
-            margin-top: 10px;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 10px; /* Base font size */
         }
+        * { box-sizing: border-box; }
 
-        button:hover {
-            background: linear-gradient(145deg, #6a6a6a, #4a4a4a);
-            box-shadow: 5px 5px 0px #111;
-            transform: translate(-1px, -1px);
-        }
-        button:active {
-            background: linear-gradient(145deg, #3a3a3a, #5a5a5a);
-            box-shadow: 2px 2px 0px #000;
-            transform: translate(2px, 2px);
-        }
-         #resetButton {
-            display: none; /* Hide reset initially */
-         }
-         
-         /* Reconnect button */
-         #reconnectButton {
-            display: none; /* Hidden by default */
-            margin-bottom: 15px;
-            background: linear-gradient(145deg, #4a5a4a, #3a4a3a); /* Green-ish gradient */
-         }
-
-        /* New style for welcome message */
-        .welcome-container {
+        /* --- Header Area --- */
+        .header {
+            padding: 10px 20px;
+            background-color: #111; /* Darker header */
+            border-bottom: 2px solid #444;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            flex-shrink: 0; /* Prevent header from shrinking */
+        }
+        h1 {
+            color: #ffff00;
+            margin: 0;
+            text-shadow: 2px 2px #ff00ff;
+            font-size: 1.8em; /* Adjusted size */
+        }
+        .welcome-message { color: #7fdbff; font-size: 1.1em; text-shadow: 1px 1px #000; white-space: nowrap; margin-left: 20px;}
+        #logoutButton { background: linear-gradient(145deg, #aa3030, #771515); padding: 6px 12px; font-size: 0.8em; margin-left: 15px; }
+        #logoutButton:hover { background: linear-gradient(145deg, #cc3030, #881515); }
+
+        /* --- Main Content Area (Flex Container) --- */
+        #main-content-area {
+            display: flex;
+            flex-direction: row; /* Canvas | Sidebar */
+            flex-grow: 1; /* Take remaining vertical space */
             width: 100%;
-            max-width: 800px; /* Increased width */
-            margin-bottom: 15px;
+            overflow: hidden; /* Prevent overflow within main area */
+            align-items: stretch; /* Explicitly ensure children stretch vertically (default) */
         }
 
-        .welcome-message {
-            color: #7fdbff; /* Aqua blue */
-            font-size: 1em;
-            text-shadow: 1px 1px #000;
+        /* --- Canvas Container (Left Side) --- */
+        #canvas-container {
+            flex-grow: 1; /* Allow canvas area to expand */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 15px; /* Spacing around the canvas */
+            overflow: hidden; /* Hide any minor overflow */
+            background-color: #252525; /* Slightly different bg */
+        }
+        canvas#gameCanvas {
+            display: block;
+            border: 4px solid #fff;
+            background-color: #333;
+            max-width: 100%;   /* Fill container width */
+            max-height: 100%;  /* Fill container height */
+            object-fit: contain; /* Maintain aspect ratio */
+            image-rendering: pixelated;
+            border-radius: 8px;
+            /* Width/Height set by JS, aspect ratio handled there */
         }
 
-        /* Logout button style */
-        #logoutButton {
-            background: linear-gradient(145deg, #aa3030, #771515); /* Red gradient */
-            padding: 10px 20px;
-            font-size: 0.8em;
-        }
-
-        #logoutButton:hover {
-            background: linear-gradient(145deg, #cc3030, #881515);
-        }
-        
-        /* Players list styles */
-        .players-list {
+        /* --- Sidebar (Right Side) --- */
+        #sidebar {
+            width: 300px; /* Fixed width for sidebar */
+            flex-shrink: 0; /* Prevent sidebar from shrinking */
+            padding: 15px;
+            background-color: #2a2a2a;
+            border-left: 2px solid #444;
             display: flex;
             flex-direction: column;
-            max-height: 200px;
-            overflow-y: auto;
-            width: 100%;
-            max-width: 800px;
-            background-color: #2a2a2a;
-            border-radius: 8px;
-            padding: 10px;
-            margin-bottom: 15px;
+            gap: 10px; /* Space between sidebar items */
+            overflow-y: auto; /* Allow sidebar scrolling if content overflows */
+            /* height: 100%; Removed this, rely on align-items: stretch from parent */
         }
-        
-        .players-list-title {
-            text-align: center;
-            color: #7fdbff;
-            margin-bottom: 10px;
+
+        /* --- Sidebar Elements Styling --- */
+        .info-box { background-color: #444; padding: 8px 12px; border-radius: 6px; border: 2px solid #fff; text-align: center; box-shadow: 2px 2px 0px rgba(0, 0, 0, 0.5); font-size: 1.0em; /* Adjusted size */ width: 100%; }
+        .info-box span { display: block; font-size: 1.1em; /* Adjusted size */ margin-top: 4px; font-weight: bold; }
+        #timer-box span { color: #ff851b; font-size: 1.4em; /* Adjusted size */ }
+        .team-scores { display: flex; flex-direction: column; gap: 4px; /* Adjusted gap */ }
+        .team-score-item { display: flex; align-items: center; justify-content: space-between; width: 100%; text-align: left; font-size: 0.9em; /* Adjusted size */ }
+        .team-color-box { width: 12px; height: 12px; border: 1px solid #fff; margin-right: 6px; display: inline-block; vertical-align: middle; flex-shrink: 0; }
+        .team-name { flex-grow: 1; margin-right: 6px; }
+        .team-score-value { font-weight: bold; }
+
+        #status { font-size: 1.2em; /* Adjusted size */ color: #ffff00; min-height: 1.3em; text-align: center; width: 100%; background-color: #3a3a3a; padding: 5px; border-radius: 4px;}
+
+        .players-list-container { background-color: #3a3a3a; padding: 8px; border-radius: 6px; border: 2px dashed #aaa; width: 100%; flex-shrink: 0; /* Prevent shrinking */ max-height: 200px; /* Limit height */ display: flex; flex-direction: column;}
+        .players-list-title { text-align: center; color: #7fdbff; margin-bottom: 8px; font-size: 1.1em; /* Adjusted size */ flex-shrink: 0;}
+        #playersList { display: flex; flex-direction: column; gap: 4px; /* Adjusted gap */ overflow-y: auto; flex-grow: 1; /* Allow list to take space */ }
+        .player-item { display: flex; align-items: center; font-size: 0.9em; /* Adjusted size */ }
+        .player-color-box { width: 12px; height: 12px; border: 1px solid #fff; margin-right: 6px; flex-shrink: 0; }
+        .player-name { flex-grow: 1; margin-right: 8px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;}
+        .player-status { font-size: 0.8em; color: #aaa; margin-left: 4px; flex-shrink: 0;}
+        .my-player { font-weight: bold; color: #ffff00; }
+
+        .button-container { text-align: center; width: 100%; display: flex; justify-content: center; gap: 10px; flex-wrap: wrap;} /* Centered buttons */
+
+        .instructions, .controls { background-color: #3a3a3a; padding: 8px; border-radius: 6px; margin-bottom: 0; /* Remove bottom margin */ border: 2px dashed #aaa; width: 100%; text-align: center; flex-shrink: 0; }
+        .instructions h2, .controls h2 { margin-top: 0; color: #7fdbff; margin-bottom: 6px; font-size: 1.1em; /* Adjusted size */ }
+        .controls p, .instructions p { margin: 4px 0; line-height: 1.4; font-size: 0.9em; /* Adjusted size */ }
+
+        button {
+            font-family: 'Press Start 2P', cursive; font-size: 0.9em; /* Adjusted size */ padding: 8px 15px; /* Adjusted padding */
+            background: linear-gradient(145deg, #5a5a5a, #3a3a3a); color: #fff; border: 2px solid #fff;
+            border-radius: 6px; cursor: pointer; text-shadow: 1px 1px #000; box-shadow: 2px 2px 0px #000;
+            transition: all 0.1s ease; margin: 0; /* Removed specific margins */
         }
-        
-        .player-item {
-            display: flex;
-            align-items: center;
-            margin-bottom: 5px;
-        }
-        
-        .player-color {
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            margin-right: 10px;
-            border: 2px solid #fff;
-        }
-        
-        .player-name {
-            flex-grow: 1;
-        }
-        
-        .player-score {
-            margin-left: 10px;
-            font-weight: bold;
-        }
+        button:hover:not(:disabled) { background: linear-gradient(145deg, #6a6a6a, #4a4a4a); box-shadow: 3px 3px 0px #111; transform: translate(-1px, -1px); }
+        button:active:not(:disabled) { background: linear-gradient(145deg, #3a3a3a, #5a5a5a); box-shadow: 1px 1px 0px #000; transform: translate(1px, 1px); }
+        button:disabled { background: #444; color: #888; border-color: #888; cursor: not-allowed; box-shadow: 1px 1px 0px #000; transform: none;}
+
+        #resetButton, #startButton { display: none; } /* Hide initially */
+        #startButton { background: linear-gradient(145deg, #30aa30, #157715); }
+        #startButton:hover:not(:disabled) { background: linear-gradient(145deg, #30cc30, #158815); }
+        #reconnectButton { display: none; background: linear-gradient(145deg, #4a5a4a, #3a4a3a); }
+
     </style>
 </head>
 <body>
 
-    <h1>Territory Claim! (Multiplayer)</h1>
-
-    <!-- New: Welcome message and logout button -->
-    <div class="welcome-container">
-        <div class="welcome-message">Welcome <span id="username">Player</span>!</div>
-        <a href="/logout"><button id="logoutButton">Logout</button></a>
-    </div>
-
-    <canvas id="gameCanvas"></canvas>
-
-    <div class="game-info">
-        <div class="info-box">Time: <span id="timer">--:--</span></div>
-        <!-- Player boxes will be dynamically added here -->
-    </div>
-
-    <div id="status">Connecting to server...</div>
-    
-    <!-- Players list container -->
-    <div class="players-list">
-        <div class="players-list-title">ACTIVE PLAYERS</div>
-        <div id="playersList">
-            <!-- Player items will be dynamically added here -->
+    <div class="header">
+        <h1>Territory Claim Teams!</h1>
+        <div style="display: flex; align-items: center;"> <div class="welcome-message">Welcome <span id="username">Player</span>!</div>
+            <a href="/logout"><button id="logoutButton">Logout</button></a>
         </div>
     </div>
-    
-    <!-- Reconnect button -->
-    <button id="reconnectButton">Reconnect to Server</button>
 
-    <div class="instructions">
-        <h2>Instructions</h2>
-        <p>Move your player to claim territory. The floor turns your color! The player with the most territory wins.</p>
-    </div>
+    <div id="main-content-area">
+        <div id="canvas-container">
+            <canvas id="gameCanvas"></canvas>
+        </div>
 
-    <div class="controls">
-        <h2>Controls</h2>
-        <p>Use WASD keys to move YOUR player.</p>
-    </div>
+        <div id="sidebar">
+            <div class="info-box" id="timer-box">Time Left: <span id="timer">--:--</span></div>
 
-    <button id="resetButton">Request Reset</button>
+            <div class="info-box team-scores">
+                <div style="font-weight:bold; margin-bottom: 5px; text-align:center; color:#7fdbff;">TEAM SCORES</div>
+                <div id="teamScoresDisplay"></div>
+            </div>
 
-    <script>
-        // --- Game Configuration ---
-        const GRID_SIZE = 40; // Larger grid
-        const DEFAULT_CELL_COLOR = '#333'; // Dark grey grid background
-        const GRID_LINE_COLOR = '#555'; // Slightly lighter grey for lines
-        const PLAYER_SIZE_FACTOR = 0.7; // How much of a cell the player circle occupies
+            <div id="status">Connecting to server...</div>
 
-        // Player Controls Mapping
-        const MOVEMENT_KEYS = {
-            'KeyW': { dx: 0, dy: -1 }, // Up
-            'KeyS': { dx: 0, dy: 1 },  // Down
-            'KeyA': { dx: -1, dy: 0 }, // Left
-            'KeyD': { dx: 1, dy: 0 }   // Right
+             <div class="button-container">
+                 <button id="startButton">Start Game</button>
+                 <button id="reconnectButton">Reconnect</button>
+                 <button id="resetButton">Request Reset</button>
+            </div>
+
+            <div class="players-list-container">
+                <div class="players-list-title">ACTIVE PLAYERS</div>
+                <div id="playersList"></div>
+            </div>
+
+            <div class="instructions">
+                <h2>Instructions</h2>
+                <p>Use WASD to move & claim. Press "Start Game" when {MIN_PLAYERS_PLACEHOLDER} players join!</p>
+                 <p style="color:#aaa; font-size: 0.8em;">Spectate if joining mid-game.</p>
+            </div>
+
+            <div class="controls">
+                <h2>Controls</h2>
+                <p>WASD keys to move.</p>
+            </div>
+        </div> </div> <script>
+        // --- Game Configuration (Client-Side) ---
+        const GRID_SIZE = 60; // Must match server
+        const DEFAULT_CELL_COLOR = '#333';
+        const GRID_LINE_COLOR = '#555';
+        const PLAYER_SIZE_FACTOR = 0.7;
+        const MOVE_DELAY = 100; // ms between move emits
+
+        // --- Team Colors (Must match server) ---
+        const TEAM_COLORS = {
+             0: '#FF0000', 1: '#0000FF', 2: '#00FF00', 3: '#FFFF00'
         };
+        const DEFAULT_SPECTATOR_COLOR = '#888888'; // Grey
 
-        // --- Rate Limiting ---
-        const MOVE_DELAY = 100; // Milliseconds - Minimum delay between moves (Adjust as needed)
-        let lastMoveTime = 0;   // Timestamp of the last emitted move
+        const MOVEMENT_KEYS = {
+            'KeyW': { dx: 0, dy: -1 }, 'KeyS': { dx: 0, dy: 1 },
+            'KeyA': { dx: -1, dy: 0 }, 'KeyD': { dx: 1, dy: 0 }
+        };
 
         // --- DOM Elements ---
         const canvas = document.getElementById('gameCanvas');
         const ctx = canvas.getContext('2d');
-        const gameInfoContainer = document.querySelector('.game-info');
+        const canvasContainer = document.getElementById('canvas-container'); // Added
         const timerElement = document.getElementById('timer');
         const statusElement = document.getElementById('status');
+        const startButton = document.getElementById('startButton');
         const resetButton = document.getElementById('resetButton');
         const reconnectButton = document.getElementById('reconnectButton');
         const usernameElement = document.getElementById('username');
         const playersListContainer = document.getElementById('playersList');
+        const teamScoresDisplay = document.getElementById('teamScoresDisplay');
+        const instructionsElement = document.querySelector('.instructions p:first-child');
 
-        // --- Game State (Client-Side Mirror) ---
+
+        // --- Client Game State ---
         let grid = [];
         let players = [];
+        let teams = {};
         let myPlayerId = null;
+        let myPlayerData = null;
         let gameActive = false;
+        let isSpectator = false;
         let cellSize = 0;
         let isConnected = false;
         let socket = null;
-        let playerColors = {}; // Map of player IDs to colors
-        
-        // Helper function to show status messages
-        function showMessage(message) {
+        let lastMoveTime = 0;
+        let minPlayersToStart = 2; // Default, will be updated from server
+
+        // --- Helper Functions ---
+        function showMessage(message, isError = false) {
             statusElement.textContent = message;
+            statusElement.style.color = isError ? '#FF5555' : '#FFFF00';
         }
 
-        // Initialize canvas on page load
-        window.addEventListener('load', initCanvas);
-        window.addEventListener('resize', initCanvas);
-
-        function initCanvas() {
-            const availableWidth = Math.min(window.innerWidth * 0.9, 800); // Increased max width
-            const availableHeight = Math.min(window.innerHeight * 0.6, 800); // Increased max height
-            const minDimension = Math.min(availableWidth, availableHeight);
-            cellSize = Math.floor(minDimension / GRID_SIZE);
-            canvas.width = GRID_SIZE * cellSize;
-            canvas.height = GRID_SIZE * cellSize;
-            
-            // Draw empty grid initially
-            ctx.fillStyle = DEFAULT_CELL_COLOR;
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            
-            for (let y = 0; y < GRID_SIZE; y++) {
-                for (let x = 0; x < GRID_SIZE; x++) {
-                    ctx.strokeStyle = GRID_LINE_COLOR;
-                    ctx.lineWidth = 1;
-                    ctx.strokeRect(x * cellSize, y * cellSize, cellSize, cellSize);
-                }
+        function updateTimerDisplay(time) {
+            if (typeof time !== 'number' || time < 0) {
+                timerElement.textContent = "--:--"; return;
             }
+            const minutes = Math.floor(time / 60);
+            const seconds = time % 60;
+            timerElement.textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+        }
+
+        // --- Canvas Initialization and Drawing (MODIFIED) ---
+        function initCanvas() {
+            // Get dimensions of the container DIV, not the window
+            const containerWidth = canvasContainer.offsetWidth;
+            const containerHeight = canvasContainer.offsetHeight;
+
+            // Subtract padding/border if you want canvas edge-to-edge with container border
+            const availableWidth = containerWidth - 30; // approx padding * 2
+            const availableHeight = containerHeight - 30; // approx padding * 2
+
+            // Calculate cell size based on fitting GRID_SIZE into the smaller dimension
+            const sizeBasedOnWidth = Math.floor(availableWidth / GRID_SIZE);
+            const sizeBasedOnHeight = Math.floor(availableHeight / GRID_SIZE);
+            cellSize = Math.max(1, Math.min(sizeBasedOnWidth, sizeBasedOnHeight)); // Ensure at least 1px
+
+            // Calculate the actual canvas dimensions
+            const canvasWidth = GRID_SIZE * cellSize;
+            const canvasHeight = GRID_SIZE * cellSize;
+
+            // Set the canvas drawing buffer size
+            canvas.width = canvasWidth;
+            canvas.height = canvasHeight;
+
+            // // Keep CSS sizing for layout if needed, but drawing buffer is now correct
+            // canvas.style.width = `${canvasWidth}px`;
+            // canvas.style.height = `${canvasHeight}px`;
+             // Let CSS handle the display size via max-width/max-height in #canvas-container
+
+            console.log(`Canvas Init: Container(${containerWidth}x${containerHeight}), CellSize: ${cellSize}, Canvas(${canvasWidth}x${canvasHeight})`);
+
+            drawGame(); // Redraw with new size
         }
 
         function drawGame() {
-            if (!grid || grid.length === 0) return;
+            if (cellSize <= 0) { /* console.warn("Cell size not positive, skipping draw."); */ return; } // Less noisy log
 
             ctx.fillStyle = DEFAULT_CELL_COLOR;
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-            for (let y = 0; y < GRID_SIZE; y++) {
-                for (let x = 0; x < GRID_SIZE; x++) {
-                    if (grid[y] && grid[y][x] !== undefined && grid[y][x] !== null && grid[y][x] !== -1) {
-                        const ownerId = grid[y][x];
-                        if (playerColors[ownerId]) {
-                            ctx.fillStyle = playerColors[ownerId];
+            // Draw Grid Cells & Lines
+            if (grid && grid.length > 0) {
+                for (let y = 0; y < GRID_SIZE; y++) {
+                    for (let x = 0; x < GRID_SIZE; x++) {
+                        const teamId = grid[y]?.[x];
+                        if (teamId !== undefined && teamId !== null && teamId !== -1) {
+                            ctx.fillStyle = TEAM_COLORS[teamId] || DEFAULT_CELL_COLOR;
                             ctx.fillRect(x * cellSize, y * cellSize, cellSize, cellSize);
                         }
+                        // Draw Grid Lines (optional, can clutter)
+                        if (cellSize > 4) { // Only draw if cells are big enough
+                           ctx.strokeStyle = GRID_LINE_COLOR;
+                           ctx.lineWidth = 0.5;
+                           ctx.strokeRect(x * cellSize, y * cellSize, cellSize, cellSize);
+                        }
                     }
-                    ctx.strokeStyle = GRID_LINE_COLOR;
-                    ctx.lineWidth = 1;
-                    ctx.strokeRect(x * cellSize, y * cellSize, cellSize, cellSize);
                 }
-            }
+            } else { /* Draw empty grid lines if needed, or just leave default bg */ }
 
+            // Draw Players & Usernames
             const playerRadius = (cellSize * PLAYER_SIZE_FACTOR) / 2;
+             // Limit username size to avoid excessive overlap
+             const maxFontSize = 22;
+             const minFontSize = 10;
+             const fontSize = Math.max(minFontSize, Math.min(maxFontSize, Math.floor(cellSize / 3.0)));
+
             players.forEach(player => {
-                if (player && player.id !== undefined && playerColors[player.id]) {
-                    // Draw player circle
-                    ctx.fillStyle = playerColors[player.id];
-                    ctx.beginPath();
-                    ctx.arc(
-                        player.x * cellSize + cellSize / 2,
-                        player.y * cellSize + cellSize / 2,
-                        playerRadius,
-                        0,
-                        Math.PI * 2
-                    );
-                    ctx.fill();
-                    
-                    // Draw username with shadow for visibility
-                    ctx.fillStyle = '#ffffff';
-                    ctx.font = `${Math.max(10, cellSize/3)}px 'Press Start 2P'`; // Dynamic font size
-                    ctx.textAlign = 'center';
-                    ctx.textBaseline = 'top';
-                    
-                    // Text shadow
-                    ctx.shadowColor = '#000000';
-                    ctx.shadowBlur = 3;
-                    
-                    ctx.fillText(
-                        player.username || `Player ${player.id}`,
-                        player.x * cellSize + cellSize / 2,
-                        player.y * cellSize + cellSize / 2 + playerRadius + 2
-                    );
-                    
-                    // Reset shadow
-                    ctx.shadowBlur = 0;
+                if (player && player.id !== undefined && player.x >= 0 && player.y >= 0) {
+                    const playerColor = TEAM_COLORS[player.team_id] ?? DEFAULT_SPECTATOR_COLOR;
+                    const playerCenterX = player.x * cellSize + cellSize / 2;
+                    const playerCenterY = player.y * cellSize + cellSize / 2;
+
+                    // Player Circle
+                    ctx.fillStyle = playerColor;
+                    ctx.beginPath(); ctx.arc(playerCenterX, playerCenterY, playerRadius, 0, Math.PI * 2); ctx.fill();
+
+                    // Outline
+                    ctx.strokeStyle = (player.id === myPlayerId && !isSpectator) ? '#FFFFFF' : '#000000';
+                    ctx.lineWidth = (player.id === myPlayerId && !isSpectator) ? Math.max(1, Math.floor(cellSize * 0.05)) : 1; // Scale outline slightly
+                    ctx.stroke();
+
+                    // Draw Username (only if cell size allows)
+                    if (cellSize > 8) {
+                        ctx.font = `${fontSize}px 'Press Start 2P'`;
+                        ctx.fillStyle = '#FFFFFF'; ctx.textAlign = 'center'; ctx.textBaseline = 'bottom'; // Draw below center
+                        ctx.shadowColor = '#000000'; ctx.shadowBlur = 2;
+                         // Truncate long names
+                        const maxNameLength = 10;
+                        const displayName = (player.username || `P${player.id}`).length > maxNameLength
+                            ? player.username.substring(0, maxNameLength - 1) + '…'
+                            : player.username || `P${player.id}`;
+
+                        ctx.fillText( displayName, playerCenterX, playerCenterY - playerRadius - 2 ); // Position above circle slightly
+                        ctx.shadowBlur = 0;
+                    }
                 }
+            });
+        }
+
+
+        // --- UI Update Functions ---
+        function updateTeamScores() {
+            teamScoresDisplay.innerHTML = '';
+            if (!teams || Object.keys(teams).length === 0) return;
+            const sortedTeamIds = Object.keys(teams).sort((a, b) => a - b);
+            sortedTeamIds.forEach(tid => {
+                const team = teams[tid]; if (!team) return;
+                const item = document.createElement('div'); item.className = 'team-score-item';
+                const colorBox = document.createElement('span'); colorBox.className = 'team-color-box'; colorBox.style.backgroundColor = team.color || '#ccc';
+                const nameSpan = document.createElement('span'); nameSpan.className = 'team-name'; nameSpan.textContent = team.name || `Team ${tid}`;
+                const scoreSpan = document.createElement('span'); scoreSpan.className = 'team-score-value'; scoreSpan.textContent = team.score !== undefined ? team.score : '0';
+                item.appendChild(colorBox); item.appendChild(nameSpan); item.appendChild(scoreSpan);
+                teamScoresDisplay.appendChild(item);
             });
         }
 
         function updatePlayersList() {
-            // Sort players by score (descending)
-            const sortedPlayers = [...players].sort((a, b) => {
-                // If player has a score field, use it, otherwise default to 0
-                const scoreA = a.score !== undefined ? a.score : 0;
-                const scoreB = b.score !== undefined ? b.score : 0;
-                return scoreB - scoreA; // Descending order
-            });
-            
-            // Clear the current list
-            playersListContainer.innerHTML = '';
-            
-            // Add each player to the list
+            playersListContainer.innerHTML = ''; // Clear only the list, not the title
+            if (!players || players.length === 0) return;
+
+             // Re-add title if needed, or adjust structure so title isn't cleared
+             // const titleElement = document.createElement('div');
+             // titleElement.className = 'players-list-title';
+             // titleElement.textContent = 'ACTIVE PLAYERS';
+             // playersListContainer.appendChild(titleElement); // If clearing the whole container
+
+            const sortedPlayers = [...players].sort((a, b) => (a.username?.toLowerCase() || '').localeCompare(b.username?.toLowerCase() || ''));
             sortedPlayers.forEach(player => {
                 if (!player || player.id === undefined) return;
-                
-                const playerItem = document.createElement('div');
-                playerItem.className = 'player-item';
-                if (player.id === myPlayerId) {
-                    playerItem.style.fontWeight = 'bold';
+                const playerItem = document.createElement('div'); playerItem.className = 'player-item';
+                const colorBox = document.createElement('div'); colorBox.className = 'player-color-box'; colorBox.style.backgroundColor = TEAM_COLORS[player.team_id] ?? DEFAULT_SPECTATOR_COLOR;
+                const playerName = document.createElement('div'); playerName.className = 'player-name'; playerName.textContent = player.username || `Player ${player.id}`;
+                if (player.id === myPlayerId) { playerName.classList.add('my-player'); }
+                playerItem.appendChild(colorBox); playerItem.appendChild(playerName);
+                if (player.is_spectator) {
+                    const statusSpan = document.createElement('span'); statusSpan.className = 'player-status'; statusSpan.textContent = '(Spec)'; // Shorter
+                    playerItem.appendChild(statusSpan);
                 }
-                
-                const colorCircle = document.createElement('div');
-                colorCircle.className = 'player-color';
-                colorCircle.style.backgroundColor = playerColors[player.id] || '#fff';
-                
-                const playerName = document.createElement('div');
-                playerName.className = 'player-name';
-                playerName.textContent = player.username || `Player ${player.id}`;
-                
-                const playerScore = document.createElement('div');
-                playerScore.className = 'player-score';
-                playerScore.textContent = player.score !== undefined ? player.score : '0';
-                
-                playerItem.appendChild(colorCircle);
-                playerItem.appendChild(playerName);
-                playerItem.appendChild(playerScore);
-                
-                playersListContainer.appendChild(playerItem);
+                playersListContainer.appendChild(playerItem); // Append to the list container
             });
         }
 
-        function updatePlayerHighlight() {
-            // Remove any existing player indicators
-            document.querySelectorAll('.info-box').forEach(box => {
-                box.classList.remove('my-player-indicator');
-            });
-            
-            // Find and highlight the current player's box if it exists
-            if (myPlayerId !== null) {
-                const myBox = document.getElementById(`infobox-${myPlayerId}`);
-                if (myBox) {
-                    myBox.classList.add('my-player-indicator');
-                }
-            }
-        }
-
-        // Function to handle key presses for movement
+        // --- Input Handling ---
         function handleKeyDown(event) {
-            if (!gameActive || myPlayerId === null || !isConnected) return;
-            
+            if (!isConnected || myPlayerId === null || isSpectator || !gameActive) return;
             const move = MOVEMENT_KEYS[event.code];
             if (move) {
+                event.preventDefault();
                 const now = Date.now();
-                
                 if (now - lastMoveTime > MOVE_DELAY) {
                     socket.emit('player_move', { dx: move.dx, dy: move.dy });
                     lastMoveTime = now;
@@ -457,167 +399,138 @@
             }
         }
 
-        // Initialize the game when the page loads
-        document.addEventListener('DOMContentLoaded', function() {
-            initCanvas();
-            connectToServer();
-            
-            // Set up event listeners
-            window.addEventListener('keydown', handleKeyDown);
-            
-            // Reset button
-            resetButton.addEventListener('click', function() {
-                if (isConnected) {
-                    socket.emit('request_reset');
-                }
-            });
-            
-            // Reconnect button
-            reconnectButton.addEventListener('click', function() {
-                connectToServer();
-            });
-        });
 
-        // Establish socket connection
+        // --- SocketIO Connection and Event Handlers ---
         function connectToServer() {
-            // Display connecting message
-            showMessage('Connecting to server...');
+            showMessage('Connecting...');
             reconnectButton.style.display = 'none';
-            
-            // Clean up existing socket if there is one
-            if (socket) {
-                socket.disconnect();
-                socket = null;
-            }
-            
-            // Create a new socket
-            socket = io(window.location.origin, {
-                transports: ['polling'],  // Use polling only - NO WebSocket
-                upgrade: false,           // Disable transport upgrades
-                reconnection: true,
-                reconnectionAttempts: 5,
-                reconnectionDelay: 1000
-            });
-            
-            // Connection event
-            socket.on('connect', function() {
-                console.log('Connected to server with ID:', socket.id);
-                showMessage('Connected! Waiting for game to start...');
+            startButton.style.display = 'none';
+            resetButton.style.display = 'none';
+            if (socket) { socket.disconnect(); socket = null; }
+            socket = io(window.location.origin, { reconnection: true, reconnectionAttempts: 5, reconnectionDelay: 1000, });
+
+            socket.on('connect', () => {
+                console.log('Connected. SID:', socket.id);
                 isConnected = true;
+                showMessage('Connected! Waiting...');
                 reconnectButton.style.display = 'none';
             });
-            
-            // Disconnection event
-            socket.on('disconnect', function() {
-                console.log('Disconnected from server');
-                showMessage('Disconnected from server. Click reconnect to try again.');
-                isConnected = false;
+            socket.on('disconnect', (reason) => {
+                console.log('Disconnected. Reason:', reason);
+                isConnected = false; showMessage('Disconnected!', true);
                 reconnectButton.style.display = 'inline-block';
+                startButton.style.display = 'none'; resetButton.style.display = 'none';
+                gameActive = false; myPlayerData = null; isSpectator = false;
             });
-            
-            // Connection error
-            socket.on('connect_error', function(error) {
-                console.error('Connection error:', error);
-                showMessage('Error connecting to server');
-                isConnected = false;
+            socket.on('connect_error', (error) => {
+                console.error('Connection Error:', error);
+                isConnected = false; showMessage(`Connect Fail!`, true);
                 reconnectButton.style.display = 'inline-block';
+                startButton.style.display = 'none'; resetButton.style.display = 'none';
+                gameActive = false;
             });
-            
-            // Game events
-            socket.on('assign_player', function(data) {
-                myPlayerId = data.playerId;
-                console.log(`Assigned Player ID: ${myPlayerId}`);
-                showMessage(`You are Player ${myPlayerId}! Game in progress...`);
-                updatePlayerHighlight();
+            socket.on('assign_player', (data) => {
+                myPlayerId = data.playerId; isSpectator = data.isSpectator || false;
+                console.log(`Assigned PID: ${myPlayerId}, Spectator: ${isSpectator}`);
             });
-            
-            socket.on('game_update', function(serverState) {
-                grid = serverState.grid;
-                players = serverState.players;
+
+            socket.on('game_update', (serverState) => {
+                grid = serverState.grid; players = serverState.players; teams = serverState.teams;
                 gameActive = serverState.game_active;
-                
-                // Update color map
-                playerColors = {};
-                players.forEach(player => {
-                    if (player && player.id !== undefined && player.color) {
-                        playerColors[player.id] = player.color;
-                    }
-                });
-                
-                updateTimerDisplay(serverState.remaining_time);
-                updatePlayersList();
-                drawGame();
-                
-                // Update username in welcome message if available
-                if (players && players.length > 0) {
-                    for (let i = 0; i < players.length; i++) {
-                        if (players[i] && players[i].id === myPlayerId && players[i].username) {
-                            usernameElement.textContent = players[i].username;
-                            break;
-                        }
-                    }
-                }
-            });
-            
-            socket.on('game_event', function(data) {
-                console.log("Game Event:", data.message);
-                showMessage(data.message);
-                if (data.isGameOver) {
-                    resetButton.style.display = 'inline-block';
+                minPlayersToStart = serverState.min_players_to_start || 2;
+                const activePlayersCount = serverState.active_players_count || 0;
+
+                myPlayerData = players.find(p => p.id === myPlayerId);
+                if (myPlayerData) {
+                    isSpectator = myPlayerData.is_spectator;
+                    usernameElement.textContent = myPlayerData.username || 'Player';
+                    if (isSpectator && gameActive) { showMessage("Spectating..."); }
+                    else if (!gameActive) { showMessage(`Waiting (${activePlayersCount}/${minPlayersToStart})...`); }
+                    else { showMessage(""); } // Playing
                 } else {
-                    resetButton.style.display = 'none';
+                    usernameElement.textContent = 'Player'; isSpectator = false;
+                    if (!gameActive) showMessage(`Waiting (${activePlayersCount}/${minPlayersToStart})...`); else showMessage("");
+                }
+
+                updateTimerDisplay(serverState.remaining_time); updateTeamScores(); updatePlayersList(); drawGame();
+
+                const canStart = !gameActive && activePlayersCount >= minPlayersToStart;
+                startButton.style.display = (isConnected && !gameActive) ? 'inline-block' : 'none'; // Show if connected & inactive
+                startButton.disabled = !canStart; // Enable only if enough players
+
+                resetButton.style.display = (isConnected && !gameActive) ? 'inline-block' : 'none'; // Show Reset only if inactive & connected
+                resetButton.disabled = gameActive;
+
+                if(instructionsElement) {
+                    instructionsElement.textContent = `Use WASD to move & claim. Press "Start Game" when ${minPlayersToStart} players join!`;
                 }
             });
-            
-            socket.on('game_reset', function(initialState) {
-                console.log("Game Reset by Server.");
-                showMessage('Game Reset! Waiting for players...');
-                myPlayerId = null;
-                grid = initialState.grid;
-                players = initialState.players;
-                gameActive = initialState.game_active;
-                
-                // Update color map
-                playerColors = {};
-                players.forEach(player => {
-                    if (player && player.id !== undefined && player.color) {
-                        playerColors[player.id] = player.color;
-                    }
-                });
-                
-                updateTimerDisplay(initialState.remaining_time);
-                updatePlayersList();
-                updatePlayerHighlight();
-                resetButton.style.display = 'none';
-                drawGame();
+
+            socket.on('game_event', (data) => {
+                console.log("Event:", data.message);
+                 // Prioritize game over message or spectator message
+                if (data.isGameOver) { showMessage(data.message); gameActive = false; }
+                else if (isSpectator && gameActive) { showMessage("Spectating..."); }
+                else { showMessage(data.message); } // Show other messages if not spectating/game over
+
+                 // Button state might be updated by game_update shortly after, but ensure correct state
+                 if (data.isGameOver) {
+                     startButton.style.display = (isConnected) ? 'inline-block' : 'none'; // Show start if connected
+                     startButton.disabled = true; // Needs player check from game_update
+                     resetButton.style.display = (isConnected) ? 'inline-block' : 'none'; // Show reset if connected
+                     resetButton.disabled = false;
+                 }
             });
-            
-            // Redirect event
-            socket.on('redirect', function(data) {
-                if (data.url) {
-                    console.log('Redirecting to:', data.url);
-                    window.location.href = data.url;
-                }
+
+            socket.on('game_reset', (initialState) => {
+                 console.log("Game Reset by Server.");
+                 grid = initialState.grid; players = initialState.players; teams = initialState.teams;
+                 gameActive = initialState.game_active; minPlayersToStart = initialState.min_players_to_start || 2;
+                 const activePlayersCount = initialState.active_players_count || 0;
+                 myPlayerData = players.find(p => p.id === myPlayerId);
+                 if (myPlayerData) { isSpectator = myPlayerData.is_spectator; usernameElement.textContent = myPlayerData.username || 'Player'; }
+                 else { isSpectator = false; }
+
+                 showMessage('Game Reset! Waiting...');
+                 updateTimerDisplay(initialState.remaining_time); updateTeamScores(); updatePlayersList(); drawGame();
+
+                 const canStart = !gameActive && activePlayersCount >= minPlayersToStart;
+                 startButton.style.display = 'inline-block'; startButton.disabled = !canStart;
+                 resetButton.style.display = 'inline-block'; resetButton.disabled = false;
             });
+
+            socket.on('redirect', (data) => { if (data.url) { window.location.href = data.url; } });
         }
-        
-        function updateTimerDisplay(time) {
-             if (typeof time !== 'number') {
-                  timerElement.textContent = "--:--";
-                  return;
+
+        // --- Page Load and Event Listeners ---
+        document.addEventListener('DOMContentLoaded', () => {
+            // Initial setup before connection
+            initCanvas(); // Initial size calculation
+            connectToServer();
+
+            window.addEventListener('resize', initCanvas); // Recalculate size on resize
+            window.addEventListener('keydown', handleKeyDown);
+
+            startButton.addEventListener('click', () => {
+                if (isConnected && !gameActive && !startButton.disabled) {
+                    console.log("Requesting game start..."); socket.emit('request_start');
+                    startButton.disabled = true; showMessage("Requesting start...");
+                }
+            });
+            resetButton.addEventListener('click', () => {
+                if (isConnected && !gameActive) {
+                    console.log("Requesting game reset..."); socket.emit('request_reset');
+                }
+            });
+            reconnectButton.addEventListener('click', connectToServer);
+
+             const placeholder = document.querySelector('.instructions p:first-child');
+             if(placeholder) { // Initial update before connection info arrives
+                 placeholder.textContent = placeholder.textContent.replace('{MIN_PLAYERS_PLACEHOLDER}', minPlayersToStart);
              }
-            const minutes = Math.floor(time / 60);
-            const seconds = time % 60;
-            timerElement.textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
-        }
-        
-        // Clean up when the page is unloaded
-        window.addEventListener('beforeunload', function() {
-            if (socket) {
-                socket.disconnect();
-                socket = null;
-            }
         });
+        window.addEventListener('beforeunload', () => { if (socket) { socket.disconnect(); socket = null; } });
+
     </script>
 </body>
 </html>
