@@ -15,8 +15,22 @@ import warnings
 # flask has things that get ip address using .remote_addr can i use that to get ip or some other way or will that get the wrong ip
 # how would you recommend getting the ip address
 
+# log.txt - Your main application log containing:
+# General server events
+# Authentication attempts (logins/logouts)
+# Error messages with stack traces
+# Formatted with your existing timestamp format
+
+# http_log.txt - Raw HTTP traffic log containing:
+# Every incoming request (method + path)
+# Response status codes
+# Basic auth attempts (just usernames, no passwords)
+# Simple IP-based format
+
 def setup_logging(app=None):
-    log_file = "server.log"  # 👈 Just the filename, no directory
+    log_dir = "log"
+    log_file = os.path.join(log_dir, "log.txt")
+    os.makedirs(log_dir, exist_ok=True)
 
     formatter = logging.Formatter('%(asctime)s %(levelname)s: %(message)s')
 
@@ -34,7 +48,7 @@ def setup_logging(app=None):
     root_logger.addHandler(file_handler)
     root_logger.addHandler(stream_handler)
 
-    # Attach to Flask's app.logger too, if given
+    # Also attach to Flask app.logger if available
     if app:
         app.logger.handlers = []
         app.logger.setLevel(logging.INFO)
@@ -43,24 +57,17 @@ def setup_logging(app=None):
 
     logging.info("Logging is set up.")
 
-
-# def setup_logging():
-#     log_dir = "log"
-#     log_file = os.path.join(log_dir, "server.log")
-#
-#     os.makedirs(log_dir, exist_ok=True)  # Make sure log directory exists
-#
-#     logging.basicConfig(
-#         level=logging.INFO,
-#         format='%(asctime)s %(levelname)s: %(message)s',
-#         handlers=[
-#             logging.FileHandler(log_file),
-#             logging.StreamHandler()  # Optional: also log to console
-#         ]
-#     )
-#
-#     logging.info("Logging is set up.")
+def get_raw_logger():
+    """Returns a logger that writes only raw HTTP request/response logs to log/http_log.txt."""
+    raw_log_path = os.path.join("log", "http_log.txt")
+    raw_logger = logging.getLogger("raw_http")
+    if not raw_logger.handlers:
+        raw_logger.setLevel(logging.INFO)
+        handler = logging.FileHandler(raw_log_path)
+        formatter = logging.Formatter('%(asctime)s: %(message)s')
+        handler.setFormatter(formatter)
+        raw_logger.addHandler(handler)
+    raw_logger.propagate = False
+    return raw_logger
 
 
-    # add this to main script for this to work setup_logging(app)
-    #getting enginx ip address  but works if testing locally

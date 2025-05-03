@@ -12,7 +12,7 @@ import eventlet.wsgi
 from flask import Flask, flash, jsonify, make_response, render_template, request, session, redirect, url_for
 from flask_socketio import SocketIO, emit, join_room, leave_room, send, disconnect
 from util.leaderboard import handle_leaderboard_page, handle_territory_leaderboard_api, handle_wins_leaderboard_api
-from util.logger import setup_logging
+from util.logger import setup_logging, get_raw_logger
 
 import time
 import threading
@@ -50,9 +50,112 @@ TEAM_NAMES = { # Optional names for display
 # --- Flask App Setup ---
 app = Flask(__name__)
 setup_logging(app)
+raw_logger = get_raw_logger()
+#@app.before_request
+# def log_request_info():
+#     logging.info(request)
+
+# --- Helper: Structured Event Logger ---
+def log_structured_event(status_code):
+    ip = request.headers.get("X-Forwarded-For", request.remote_addr).split(',')[0].strip()
+    method = request.method
+    url = request.url
+    username = session.get("username", "anonymous")
+    timestamp = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())
+    logging.info(f"{timestamp} - {ip} - {method} {url} - Response Code: {status_code} - User: {username}")
+
+#--- Log Raw HTTP Requests ---
 @app.before_request
-def log_request_info():
-    logging.info(request)
+def log_raw_request():
+    try:
+        ip = request.headers.get("X-Forwarded-For", request.remote_addr).split(',')[0].strip()
+        method = request.method
+        full_path = request.full_path
+
+        lines = [f"{method} {full_path} HTTP/1.1"]
+        for key, value in request.headers.items():
+            if key.lower() == "authorization":
+                continue
+            elif key.lower() == "cookie":
+                cookies = value.split(";")
+                filtered = [
+                    c for c in cookies
+                    if "auth_token" not in c.lower() and "session" not in c.lower()
+                ]
+                if filtered:
+                    lines.append(f"Cookie: {'; '.join(filtered)}")
+                else:
+                    lines.append("Cookie: [redacted]")
+            else:
+                lines.append(f"{key}: {value}")
+
+        log_body = (
+            request.method not in ['POST', 'PUT'] or
+            request.path not in ['/login', '/register']
+        )
+
+        if log_body:
+            raw_data = request.get_data(cache=True)
+            body = raw_data[:2048].decode("utf-8", errors="replace")
+            lines.append("\n" + body)
+        else:
+            lines.append("\n[Body redacted]")
+
+        raw_logger.info("=== Raw HTTP Request ===\n" + "\n".join(lines))
+
+    except Exception as e:
+        raw_logger.exception("Failed to log raw HTTP request:")
+
+
+
+
+# --- Log Structured Events and Responses ---
+@app.after_request
+def log_response_and_raw(response):
+    try:
+        log_structured_event(response.status_code)
+
+        headers = []
+        for k, v in response.headers.items():
+            if k.lower() == "set-cookie":
+                cookies = v.split(";")
+                filtered = [c for c in cookies if "auth_token" not in c.lower() and "session" not in c.lower()]
+                if filtered:
+                    headers.append(f"Set-Cookie: {';'.join(filtered)}")
+                else:
+                    headers.append("Set-Cookie: [redacted]")
+            elif k.lower() == "authorization":
+                continue
+            else:
+                headers.append(f"{k}: {v}")
+
+        # Only log body if not login/register and not redirect and not HTML
+        content_type = response.headers.get("Content-Type", "").lower()
+        is_html = "text/html" in content_type
+
+        log_body = (
+            not is_html and
+            request.path not in ['/login', '/register'] and
+            response.status_code not in [301, 302, 303, 307, 308]
+        )
+
+        if log_body:
+            body_data = response.get_data()
+            body_text = body_data[:2048].decode("utf-8", errors="replace") if body_data else ""
+        else:
+            body_text = "[Body redacted]"
+
+        raw_logger.info(
+            "=== Raw HTTP Response ===\n" +
+            "\n".join(headers) +
+            "\n\n" + body_text
+        )
+    except Exception:
+        raw_logger.exception("Failed to log raw HTTP response:")
+
+    return response
+
+
 
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', secrets.token_hex(32))
 app.config['SESSION_COOKIE_SECURE'] = True
