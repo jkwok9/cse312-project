@@ -479,8 +479,10 @@ def register():
 @app.route('/logout')
 def logout():
     from util.auth_utli import clear_auth_cookie
+    session.clear()
     response = make_response(redirect(url_for('login')))
     clear_auth_cookie(response)
+    response.set_cookie('session', '', expires=0)
     flash('You have been logged out.', 'success')
     return response
 
