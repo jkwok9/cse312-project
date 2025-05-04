@@ -42,6 +42,26 @@
             text-shadow: 2px 2px #ff00ff;
             font-size: 1.8em; /* Adjusted size */
         }
+        #profileButton {
+        background: linear-gradient(145deg, #4a5a4a, #3a4a3a);
+        padding: 6px 12px;
+        font-size: 0.8em;
+        margin-left: 15px;
+    }
+    #profileButton:hover {
+        background: linear-gradient(145deg, #5a6a5a, #4a5a4a);
+    }
+    
+    /* Player avatar styles */
+    .player-avatar {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
         .welcome-message { color: #7fdbff; font-size: 1.1em; text-shadow: 1px 1px #000; white-space: nowrap; margin-left: 20px;}
         #logoutButton { background: linear-gradient(145deg, #aa3030, #771515); padding: 6px 12px; font-size: 0.8em; margin-left: 15px; }
         #logoutButton:hover { background: linear-gradient(145deg, #cc3030, #881515); }
@@ -108,7 +128,17 @@
         .players-list-title { text-align: center; color: #7fdbff; margin-bottom: 8px; font-size: 1.1em; /* Adjusted size */ flex-shrink: 0;}
         #playersList { display: flex; flex-direction: column; gap: 4px; /* Adjusted gap */ overflow-y: auto; flex-grow: 1; /* Allow list to take space */ }
         .player-item { display: flex; align-items: center; font-size: 0.9em; /* Adjusted size */ }
-        .player-color-box { width: 12px; height: 12px; border: 1px solid #fff; margin-right: 6px; flex-shrink: 0; }
+        .player-color-box {
+    width: 12px; 
+    height: 12px; 
+    border: 1px solid #fff; 
+    margin-right: 6px; 
+    display: inline-block; 
+    vertical-align: middle; 
+    flex-shrink: 0;
+    position: relative; /* Added for absolute positioning of avatar */
+    overflow: hidden; /* Ensure image doesn't overflow */
+}
         .player-name { flex-grow: 1; margin-right: 8px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;}
         .player-status { font-size: 0.8em; color: #aaa; margin-left: 4px; flex-shrink: 0;}
         .my-player { font-weight: bold; color: #ffff00; }
@@ -140,7 +170,9 @@
 
     <div class="header">
         <h1>Territory Claim Teams!</h1>
-        <div style="display: flex; align-items: center;"> <div class="welcome-message">Welcome <span id="username">Player</span>!</div>
+        <div style="display: flex; align-items: center;"> 
+            <div class="welcome-message">Welcome <span id="username">Player</span>!</div>
+            <a href="/profile"><button id="profileButton">Profile</button></a>
             <a href="/logout"><button id="logoutButton">Logout</button></a>
         </div>
     </div>
@@ -277,71 +309,100 @@
             drawGame(); // Redraw with new size
         }
 
-        function drawGame() {
-            if (cellSize <= 0) { /* console.warn("Cell size not positive, skipping draw."); */ return; } // Less noisy log
+        // Modified drawGame function to make profile pictures the size of one grid square
+function drawGame() {
+    if (cellSize <= 0) { return; }
 
-            ctx.fillStyle = DEFAULT_CELL_COLOR;
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = DEFAULT_CELL_COLOR;
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-            // Draw Grid Cells & Lines
-            if (grid && grid.length > 0) {
-                for (let y = 0; y < GRID_SIZE; y++) {
-                    for (let x = 0; x < GRID_SIZE; x++) {
-                        const teamId = grid[y]?.[x];
-                        if (teamId !== undefined && teamId !== null && teamId !== -1) {
-                            ctx.fillStyle = TEAM_COLORS[teamId] || DEFAULT_CELL_COLOR;
-                            ctx.fillRect(x * cellSize, y * cellSize, cellSize, cellSize);
-                        }
-                        // Draw Grid Lines (optional, can clutter)
-                        if (cellSize > 4) { // Only draw if cells are big enough
-                           ctx.strokeStyle = GRID_LINE_COLOR;
-                           ctx.lineWidth = 0.5;
-                           ctx.strokeRect(x * cellSize, y * cellSize, cellSize, cellSize);
-                        }
-                    }
+    // Draw Grid Cells & Lines
+    if (grid && grid.length > 0) {
+        for (let y = 0; y < GRID_SIZE; y++) {
+            for (let x = 0; x < GRID_SIZE; x++) {
+                const teamId = grid[y]?.[x];
+                if (teamId !== undefined && teamId !== null && teamId !== -1) {
+                    ctx.fillStyle = TEAM_COLORS[teamId] || DEFAULT_CELL_COLOR;
+                    ctx.fillRect(x * cellSize, y * cellSize, cellSize, cellSize);
                 }
-            } else { /* Draw empty grid lines if needed, or just leave default bg */ }
-
-            // Draw Players & Usernames
-            const playerRadius = (cellSize * PLAYER_SIZE_FACTOR) / 2;
-             // Limit username size to avoid excessive overlap
-             const maxFontSize = 22;
-             const minFontSize = 10;
-             const fontSize = Math.max(minFontSize, Math.min(maxFontSize, Math.floor(cellSize / 3.0)));
-
-            players.forEach(player => {
-                if (player && player.id !== undefined && player.x >= 0 && player.y >= 0) {
-                    const playerColor = TEAM_COLORS[player.team_id] ?? DEFAULT_SPECTATOR_COLOR;
-                    const playerCenterX = player.x * cellSize + cellSize / 2;
-                    const playerCenterY = player.y * cellSize + cellSize / 2;
-
-                    // Player Circle
-                    ctx.fillStyle = playerColor;
-                    ctx.beginPath(); ctx.arc(playerCenterX, playerCenterY, playerRadius, 0, Math.PI * 2); ctx.fill();
-
-                    // Outline
-                    ctx.strokeStyle = (player.id === myPlayerId && !isSpectator) ? '#FFFFFF' : '#000000';
-                    ctx.lineWidth = (player.id === myPlayerId && !isSpectator) ? Math.max(1, Math.floor(cellSize * 0.05)) : 1; // Scale outline slightly
-                    ctx.stroke();
-
-                    // Draw Username (only if cell size allows)
-                    if (cellSize > 8) {
-                        ctx.font = `${fontSize}px 'Press Start 2P'`;
-                        ctx.fillStyle = '#FFFFFF'; ctx.textAlign = 'center'; ctx.textBaseline = 'bottom'; // Draw below center
-                        ctx.shadowColor = '#000000'; ctx.shadowBlur = 2;
-                         // Truncate long names
-                        const maxNameLength = 10;
-                        const displayName = (player.username || `P${player.id}`).length > maxNameLength
-                            ? player.username.substring(0, maxNameLength - 1) + '…'
-                            : player.username || `P${player.id}`;
-
-                        ctx.fillText( displayName, playerCenterX, playerCenterY - playerRadius - 2 ); // Position above circle slightly
-                        ctx.shadowBlur = 0;
-                    }
+                // Draw Grid Lines (optional, can clutter)
+                if (cellSize > 4) { // Only draw if cells are big enough
+                   ctx.strokeStyle = GRID_LINE_COLOR;
+                   ctx.lineWidth = 0.5;
+                   ctx.strokeRect(x * cellSize, y * cellSize, cellSize, cellSize);
                 }
-            });
+            }
         }
+    }
 
+    // Draw Players & Usernames
+    // IMPORTANT CHANGE: Use cellSize directly instead of scaling with PLAYER_SIZE_FACTOR
+    const fontSize = Math.max(10, Math.min(22, Math.floor(cellSize / 3.0)));
+
+    players.forEach(player => {
+        if (player && player.id !== undefined && player.x >= 0 && player.y >= 0) {
+            const playerColor = TEAM_COLORS[player.team_id] ?? DEFAULT_SPECTATOR_COLOR;
+            // Calculate the position to draw the player (top-left corner of the cell)
+            const playerX = player.x * cellSize;
+            const playerY = player.y * cellSize;
+            
+            // Player background circle or profile pic
+            if (!player.profile_pic) {
+                // If no profile pic, fill the cell with team color
+                ctx.fillStyle = playerColor;
+                ctx.fillRect(playerX, playerY, cellSize, cellSize);
+                
+                // Add a small outline
+                ctx.strokeStyle = (player.id === myPlayerId && !isSpectator) ? '#FFFFFF' : '#000000';
+                ctx.lineWidth = (player.id === myPlayerId && !isSpectator) ? 2 : 1;
+                ctx.strokeRect(playerX, playerY, cellSize, cellSize);
+            } else {
+                // Create a clipping region for the profile picture (square cell)
+                ctx.save();
+                ctx.beginPath();
+                // Use a square clip the size of the cell
+                ctx.rect(playerX, playerY, cellSize, cellSize);
+                ctx.clip();
+                
+                // Load and draw the profile picture to fill the cell perfectly
+                const img = new Image();
+                img.src = "data:image/png;base64," + player.profile_pic;
+                
+                ctx.drawImage(img, playerX, playerY, cellSize, cellSize);
+                ctx.restore();
+                
+                // Draw outline for the player
+                ctx.beginPath();
+                ctx.strokeStyle = (player.id === myPlayerId && !isSpectator) ? '#FFFFFF' : '#000000';
+                ctx.lineWidth = (player.id === myPlayerId && !isSpectator) ? 2 : 1;
+                ctx.strokeRect(playerX, playerY, cellSize, cellSize);
+            }
+
+            // Draw Username
+            if (cellSize > 8) {
+                ctx.font = `${fontSize}px 'Press Start 2P'`;
+                ctx.fillStyle = '#FFFFFF';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'bottom';
+                ctx.shadowColor = '#000000';
+                ctx.shadowBlur = 2;
+                
+                // Truncate long names
+                const maxNameLength = 10;
+                const displayName = (player.username || `P${player.id}`).length > maxNameLength
+                    ? player.username.substring(0, maxNameLength - 1) + '…'
+                    : player.username || `P${player.id}`;
+
+                // Position username above player square
+                const playerCenterX = playerX + cellSize / 2;
+                const playerTop = playerY - 2; // 2px above cell
+                
+                ctx.fillText(displayName, playerCenterX, playerTop);
+                ctx.shadowBlur = 0;
+            }
+        }
+    });
+}
 
         // --- UI Update Functions ---
         function updateTeamScores() {
@@ -360,31 +421,54 @@
         }
 
         function updatePlayersList() {
-            playersListContainer.innerHTML = ''; // Clear only the list, not the title
-            if (!players || players.length === 0) return;
+    playersListContainer.innerHTML = '';
+    if (!players || players.length === 0) return;
 
-             // Re-add title if needed, or adjust structure so title isn't cleared
-             // const titleElement = document.createElement('div');
-             // titleElement.className = 'players-list-title';
-             // titleElement.textContent = 'ACTIVE PLAYERS';
-             // playersListContainer.appendChild(titleElement); // If clearing the whole container
-
-            const sortedPlayers = [...players].sort((a, b) => (a.username?.toLowerCase() || '').localeCompare(b.username?.toLowerCase() || ''));
-            sortedPlayers.forEach(player => {
-                if (!player || player.id === undefined) return;
-                const playerItem = document.createElement('div'); playerItem.className = 'player-item';
-                const colorBox = document.createElement('div'); colorBox.className = 'player-color-box'; colorBox.style.backgroundColor = TEAM_COLORS[player.team_id] ?? DEFAULT_SPECTATOR_COLOR;
-                const playerName = document.createElement('div'); playerName.className = 'player-name'; playerName.textContent = player.username || `Player ${player.id}`;
-                if (player.id === myPlayerId) { playerName.classList.add('my-player'); }
-                playerItem.appendChild(colorBox); playerItem.appendChild(playerName);
-                if (player.is_spectator) {
-                    const statusSpan = document.createElement('span'); statusSpan.className = 'player-status'; statusSpan.textContent = '(Spec)'; // Shorter
-                    playerItem.appendChild(statusSpan);
-                }
-                playersListContainer.appendChild(playerItem); // Append to the list container
-            });
+    const sortedPlayers = [...players].sort((a, b) => (a.username?.toLowerCase() || '').localeCompare(b.username?.toLowerCase() || ''));
+    sortedPlayers.forEach(player => {
+        if (!player || player.id === undefined) return;
+        const playerItem = document.createElement('div');
+        playerItem.className = 'player-item';
+        
+        // Create color box or profile pic container
+        const colorBox = document.createElement('div');
+        colorBox.className = 'player-color-box';
+        
+        if (player.profile_pic) {
+            // Use profile pic as content
+            const img = document.createElement('img');
+            img.src = "data:image/png;base64," + player.profile_pic;
+            img.className = 'player-avatar';
+            colorBox.appendChild(img);
+            
+            // Add border color based on team
+            colorBox.style.borderColor = TEAM_COLORS[player.team_id] ?? DEFAULT_SPECTATOR_COLOR;
+        } else {
+            // Use team color as background
+            colorBox.style.backgroundColor = TEAM_COLORS[player.team_id] ?? DEFAULT_SPECTATOR_COLOR;
         }
-
+        
+        const playerName = document.createElement('div');
+        playerName.className = 'player-name';
+        playerName.textContent = player.username || `Player ${player.id}`;
+        
+        if (player.id === myPlayerId) {
+            playerName.classList.add('my-player');
+        }
+        
+        playerItem.appendChild(colorBox);
+        playerItem.appendChild(playerName);
+        
+        if (player.is_spectator) {
+            const statusSpan = document.createElement('span');
+            statusSpan.className = 'player-status';
+            statusSpan.textContent = '(Spec)';
+            playerItem.appendChild(statusSpan);
+        }
+        
+        playersListContainer.appendChild(playerItem);
+    });
+}
         // --- Input Handling ---
         function handleKeyDown(event) {
             if (!isConnected || myPlayerId === null || isSpectator || !gameActive) return;

@@ -1,5 +1,6 @@
 import select
 
+
 # Compatibility check for kqueue on older macOS with eventlet
 if hasattr(select, 'kqueue'):
     import sys
@@ -20,6 +21,7 @@ import secrets
 import os
 import logging
 import random
+from util.profile_pic import get_profile_pic_by_username, handle_profile_page, serve_profile_pic
 
 from util.register import handle_register
 from util.login import handle_login
@@ -175,6 +177,9 @@ def reset_game_state():
         min_teams = [tid for tid, count in temp_team_counts.items() if count == min_count]
         assigned_team_id = random.choice(min_teams) if min_teams else 0
 
+        # Preserve profile pic data if present
+        profile_pic = player.get('profile_pic')
+        
         player['team_id'] = assigned_team_id
         player['is_spectator'] = False # No longer spectating
         player['score'] = 0
@@ -183,6 +188,11 @@ def reset_game_state():
         player['y'] = y
         game_state["grid"][y][x] = player['team_id']
         temp_team_counts[assigned_team_id] += 1
+        
+        # Make sure profile_pic is still present
+        if profile_pic:
+            player['profile_pic'] = profile_pic
+            
         logging.debug(f"Player {player['username']} (SID: {sid[:5]}) assigned to Team {assigned_team_id} at ({x},{y})")
         # Store new team assignment for persistence
         with username_to_last_team_lock:
@@ -205,7 +215,8 @@ def get_state_for_client():
             'color': TEAM_COLORS.get(player_data.get('team_id'), '#888888'),
             'username': player_data.get('username', f'Player {player_data["id"]}'),
             'score': player_data.get('score', 0),
-            'is_spectator': player_data.get('is_spectator', False)
+            'is_spectator': player_data.get('is_spectator', False),
+            'profile_pic': player_data.get('profile_pic', None)  # Include profile pic data
         }
         players_list.append(player_copy)
 
@@ -387,6 +398,15 @@ def debug_auth(user):
         "current_game_state_summary": state_summary
     })
 
+@app.route('/profile', methods=['GET', 'POST'])
+@auth_required
+def profile(user):
+    return handle_profile_page(user)
+
+@app.route('/profile_pic/<filename>')
+def profile_pic(filename):
+    return serve_profile_pic(filename)
+
 @app.route('/leaderboard')
 @auth_required
 def leaderboard(user):
@@ -425,6 +445,10 @@ def handle_connect():
     username = user['username']
     logging.info(f"User '{username}' (SID: {sid[:5]}) authenticated successfully.")
 
+    # Get user's profile picture if available
+    profile_pic_data = get_profile_pic_by_username(username)
+    profile_pic_base64 = profile_pic_data.get('base64_data') if profile_pic_data else None
+
     player_id = -1 # Will be assigned inside lock
     player_data = None
     assigned_team_id = None
@@ -436,8 +460,15 @@ def handle_connect():
         player_id = get_next_player_id() # Get ID first
 
         player_data = {
-            'id': player_id, 'sid': sid, 'username': username, 'score': 0,
-            'x': -1, 'y': -1, 'team_id': None, 'is_spectator': False
+            'id': player_id, 
+            'sid': sid, 
+            'username': username, 
+            'score': 0,
+            'x': -1, 
+            'y': -1, 
+            'team_id': None, 
+            'is_spectator': False,
+            'profile_pic': profile_pic_base64  # Add profile pic to player data
         }
 
         is_active = game_state["game_active"]
@@ -499,9 +530,6 @@ def handle_connect():
     # (Send state again to ensure everyone has the latest active player count etc.)
     socketio.emit('game_update', initial_state_for_client)
     socketio.emit('game_event', {'message': join_message})
-
-    # No automatic start check needed here anymore
-
 
 @socketio.on('disconnect')
 def handle_disconnect():

@@ -2,3 +2,4 @@ pymongo
 Flask
 flask_socketio
 eventlet
+Pillow

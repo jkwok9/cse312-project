@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Profile - Territory Claim Teams!</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <style>
+        /* --- Reset & Base --- */
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            display: flex;
+            flex-direction: column;
+            background-color: #1a1a1a;
+            color: #fff;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 10px;
+        }
+        * { box-sizing: border-box; }
+
+        /* --- Header Area --- */
+        .header {
+            padding: 10px 20px;
+            background-color: #111;
+            border-bottom: 2px solid #444;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-shrink: 0;
+        }
+        h1 {
+            color: #ffff00;
+            margin: 0;
+            text-shadow: 2px 2px #ff00ff;
+            font-size: 1.8em;
+        }
+        .welcome-message { 
+            color: #7fdbff; 
+            font-size: 1.1em; 
+            text-shadow: 1px 1px #000; 
+            white-space: nowrap; 
+            margin-left: 20px;
+        }
+        
+        /* --- Nav Menu --- */
+        .nav-menu {
+            display: flex;
+            gap: 15px;
+        }
+        .nav-menu a {
+            text-decoration: none;
+        }
+        
+        /* --- Main Content --- */
+        .main-content {
+            flex-grow: 1;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        /* --- Flash Messages --- */
+        .flash-messages {
+            width: 100%;
+            margin-bottom: 20px;
+        }
+        .flash-message {
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            font-size: 1em;
+        }
+        .flash-message.success {
+            background-color: #2ecc71;
+            color: #fff;
+        }
+        .flash-message.error {
+            background-color: #e74c3c;
+            color: #fff;
+        }
+        
+        /* --- Profile Card --- */
+        .profile-card {
+            background-color: #2a2a2a;
+            border: 3px solid #444;
+            border-radius: 10px;
+            padding: 20px;
+            width: 100%;
+            max-width: 500px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .profile-header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .profile-title {
+            color: #7fdbff;
+            font-size: 1.5em;
+            text-align: center;
+            margin: 0;
+        }
+        
+        .profile-pic-container {
+    width: 150px;
+    height: 150px;
+    border: 3px solid #fff;
+    border-radius: 5px; /* Less rounded, more square */
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #333;
+}
+        
+        .profile-pic {
+            max-width: 100%;
+            max-height: 100%;
+            display: block;
+        }
+        
+        .no-profile-pic {
+            color: #888;
+            font-size: 0.9em;
+            text-align: center;
+        }
+        
+        .profile-info {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .info-item {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        
+        .info-label {
+            color: #ffff00;
+            font-size: 1em;
+        }
+        
+        .info-value {
+            color: #fff;
+            font-size: 1.1em;
+            word-break: break-all;
+        }
+        
+        /* --- Form Styles --- */
+        .upload-form {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .form-title {
+            color: #7fdbff;
+            font-size: 1.2em;
+            margin: 0;
+        }
+        
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .form-label {
+            color: #ffff00;
+            font-size: 0.9em;
+        }
+        
+        .file-input-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        input[type="file"] {
+            font-family: inherit;
+            font-size: 0.8em;
+            background-color: #333;
+            color: #fff;
+            padding: 8px;
+            border: 2px solid #555;
+            border-radius: 5px;
+            max-width: 100%;
+        }
+        
+        input[type="file"]::-webkit-file-upload-button {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.9em;
+            padding: 8px;
+            background: linear-gradient(145deg, #5a5a5a, #3a3a3a);
+            color: #fff;
+            border: 2px solid #fff;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+        
+        .file-requirements {
+            font-size: 0.8em;
+            color: #aaa;
+            margin-top: 5px;
+        }
+        
+        /* --- Button Styles --- */
+        button {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.9em;
+            padding: 10px 15px;
+            background: linear-gradient(145deg, #5a5a5a, #3a3a3a);
+            color: #fff;
+            border: 2px solid #fff;
+            border-radius: 6px;
+            cursor: pointer;
+            text-shadow: 1px 1px #000;
+            box-shadow: 2px 2px 0px #000;
+            transition: all 0.1s ease;
+        }
+        
+        button:hover {
+            background: linear-gradient(145deg, #6a6a6a, #4a4a4a);
+            box-shadow: 3px 3px 0px #111;
+            transform: translate(-1px, -1px);
+        }
+        
+        button:active {
+            background: linear-gradient(145deg, #3a3a3a, #5a5a5a);
+            box-shadow: 1px 1px 0px #000;
+            transform: translate(1px, 1px);
+        }
+        
+        button:disabled {
+            background: #444;
+            color: #888;
+            border-color: #888;
+            cursor: not-allowed;
+            box-shadow: 1px 1px 0px #000;
+            transform: none;
+        }
+        
+        #uploadButton {
+            background: linear-gradient(145deg, #30aa30, #157715);
+        }
+        
+        #uploadButton:hover {
+            background: linear-gradient(145deg, #30cc30, #158815);
+        }
+        
+        #backButton {
+            background: linear-gradient(145deg, #aa3030, #771515);
+        }
+        
+        #backButton:hover {
+            background: linear-gradient(145deg, #cc3030, #881515);
+        }
+        
+        .button-row {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            width: 100%;
+            margin-top: 20px;
+        }
+        
+        /* --- Preview --- */
+        .preview-container {
+            margin-top: 15px;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .preview-label {
+            color: #7fdbff;
+            font-size: 0.9em;
+        }
+        
+        .preview-image-container {
+    width: 96px;
+    height: 96px;
+    border: 2px solid #fff;
+    border-radius: 5px; /* Less rounded, more square */
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #333;
+}
+        
+        .preview-image {
+            max-width: 100%;
+            max-height: 100%;
+            display: block;
+        }
+        
+        .preview-text {
+            color: #aaa;
+            font-size: 0.8em;
+            text-align: center;
+        }
+        
+        /* --- Game Avatar Preview --- */
+        .game-preview {
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .game-preview-title {
+            color: #7fdbff;
+            font-size: 1.2em;
+            margin: 0;
+        }
+        
+        .game-preview-container {
+            width: 250px;
+            height: 250px;
+            background-color: #333;
+            border: 3px solid #444;
+            border-radius: 8px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .preview-grid {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            grid-template-rows: repeat(5, 1fr);
+            gap: 2px;
+        }
+        
+        .preview-cell {
+            background-color: #444;
+        }
+        
+        .preview-trail {
+            background-color: #FF0000; /* Team color */
+        }
+        
+        .preview-player {
+    position: absolute;
+    top: calc(50% - 48px);
+    left: calc(50% - 48px);
+    width: 96px;
+    height: 96px;
+    border: 2px solid #fff;
+    border-radius: 5px; /* Less rounded, more square */
+    background-color: #333;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+}
+        
+        .game-preview-note {
+            color: #aaa;
+            font-size: 0.8em;
+            text-align: center;
+            max-width: 250px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Territory Claim Teams!</h1>
+        <div class="nav-menu">
+            <a href="/"><button>Game</button></a>
+            <a href="/leaderboard"><button>Leaderboard</button></a>
+            <a href="/logout"><button id="backButton">Logout</button></a>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <!-- Flash Messages -->
+        <div class="flash-messages">
+            {% for category, message in get_flashed_messages(with_categories=true) %}
+                <div class="flash-message {{ category }}">{{ message }}</div>
+            {% endfor %}
+        </div>
+        
+        <div class="profile-card">
+            <div class="profile-header">
+                <h2 class="profile-title">Your Profile</h2>
+                <div class="profile-pic-container">
+                    {% if profile_pic and profile_pic.filename %}
+                        <img src="/profile_pic/{{ profile_pic.filename }}" alt="Profile Picture" class="profile-pic">
+                    {% else %}
+                        <div class="no-profile-pic">No profile picture</div>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <div class="profile-info">
+                <div class="info-item">
+                    <div class="info-label">Username:</div>
+                    <div class="info-value">{{ username }}</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Email:</div>
+                    <div class="info-value">{{ email }}</div>
+                </div>
+            </div>
+            
+            <form class="upload-form" action="/profile" method="POST" enctype="multipart/form-data" id="profileForm">
+                <h3 class="form-title">Update Profile Picture</h3>
+                <div class="form-group">
+                    <label for="profile_pic" class="form-label">Select an image:</label>
+                    <div class="file-input-wrapper">
+                        <input type="file" name="profile_pic" id="profile_pic" accept=".jpg,.jpeg,.png">
+                    </div>
+                    <div class="file-requirements">
+                        * JPG and PNG files only<br>
+                        * Image will be cropped to a square and resized to fit in the game
+                    </div>
+                </div>
+                
+                <!-- Image Preview -->
+                <div class="preview-container" id="previewContainer">
+                    <div class="preview-label">Preview:</div>
+                    <div class="preview-image-container">
+                        <img id="previewImage" class="preview-image">
+                    </div>
+                    <div class="preview-text">This is how your avatar will appear in-game</div>
+                </div>
+                
+                <div class="button-row">
+                    <button type="submit" id="uploadButton">Upload Image</button>
+                </div>
+            </form>
+            
+            <div class="game-preview">
+                <h3 class="game-preview-title">Game Preview</h3>
+                <div class="game-preview-container">
+                    <div class="preview-grid">
+                        <!-- Grid cells for trail visualization -->
+                        {% for i in range(25) %}
+                            <div class="preview-cell 
+                                {% if i in [7, 8, 12, 13, 17, 18] %}preview-trail{% endif %}"></div>
+                        {% endfor %}
+                    </div>
+                    <div class="preview-player">
+                        {% if profile_pic and profile_pic.filename %}
+                            <img src="/profile_pic/{{ profile_pic.filename }}" alt="Profile Picture" class="profile-pic">
+                        {% else %}
+                            <div class="no-profile-pic">No profile picture</div>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="game-preview-note">
+                    Your avatar will move with your character, leaving a trail of your team color behind.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Preview uploaded image before form submission
+        document.addEventListener('DOMContentLoaded', function() {
+            const fileInput = document.getElementById('profile_pic');
+            const previewContainer = document.getElementById('previewContainer');
+            const previewImage = document.getElementById('previewImage');
+            const uploadButton = document.getElementById('uploadButton');
+            const profileForm = document.getElementById('profileForm');
+            
+            // Disable upload button initially
+            uploadButton.disabled = true;
+            
+            // Handle file input change
+            fileInput.addEventListener('change', function() {
+                const file = this.files[0];
+                
+                if (file) {
+                    // Enable upload button when file is selected
+                    uploadButton.disabled = false;
+                    
+                    const reader = new FileReader();
+                    
+                    reader.onload = function(e) {
+                        previewImage.src = e.target.result;
+                        previewContainer.style.display = 'flex';
+                        
+                        // Also update the game preview
+                        const playerPreview = document.querySelector('.preview-player');
+                        if (playerPreview) {
+                            // Clear previous content
+                            playerPreview.innerHTML = '';
+                            
+                            // Create new image element
+                            const img = document.createElement('img');
+                            img.src = e.target.result;
+                            img.classList.add('profile-pic');
+                            playerPreview.appendChild(img);
+                        }
+                    };
+                    
+                    reader.readAsDataURL(file);
+                } else {
+                    // Disable upload button when no file is selected
+                    uploadButton.disabled = true;
+                    previewContainer.style.display = 'none';
+                }
+            });
+            
+            // Prevent form submission if no file is selected
+            profileForm.addEventListener('submit', function(e) {
+                if (!fileInput.files || !fileInput.files[0]) {
+                    e.preventDefault();
+                    alert('Please select an image file to upload.');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
