@@ -68,6 +68,13 @@ def log_structured_event(status_code):
 @app.before_request
 def log_raw_request():
     try:
+        if "username" not in session:
+            token = request.cookies.get("auth_token")
+            if token:
+                user = get_user_by_token(token)
+                if user and "username" in user:
+                    session["username"] = user["username"]
+
         ip = request.headers.get("X-Forwarded-For", request.remote_addr).split(',')[0].strip()
         method = request.method
         full_path = request.full_path
