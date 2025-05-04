@@ -129,7 +129,7 @@ def register_user(username, email, password):
         
         # Insert the user into the database
         result = users_collection.insert_one(user)
-        logger.info(f"User registered successfully: {username}, ID: {user_id}")
+        logger.info(f"User registered successfully: {username}")
         
         # Create an authentication session and get the token
         auth_token = create_session(user_id)
