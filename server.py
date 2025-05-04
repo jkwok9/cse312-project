@@ -891,8 +891,8 @@ if __name__ == '__main__':
     print(f"Team Colors: {TEAM_COLORS}")
     print(f"Min Players to Start: {MIN_PLAYERS_TO_START}")
     try:
-        host = '0.0.0.0'
-        port = int(os.environ.get('PORT', 8080))
+        host = '127.0.0.1'
+        port = 8080
         print(f"Starting eventlet WSGI server on http://{host}:{port}")
         socketio.run(app, host=host, port=port, use_reloader=False)
     except Exception as e:
