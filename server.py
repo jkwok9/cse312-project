@@ -516,23 +516,23 @@ def leaderboard_territory_api(user):
 @socketio.on('connect')
 def handle_connect():
     sid = request.sid
-    logging.info(f"Connection attempt from SID: {sid[:5]}...")
+    logging.info(f"Connection attempt from SID ...")
 
     auth_token = request.cookies.get('auth_token')
     if not auth_token:
-        logging.warning(f"Connection {sid[:5]} rejected: No auth token.")
+        logging.warning(f"Connection rejected: No auth token.")
         emit('redirect', {'url': url_for('login')})
         disconnect(sid)
         return
 
     user = get_user_by_token(auth_token)
     if not user:
-        logging.error(f"User object became invalid? SID: {sid[:5]}")
+        logging.error(f"User object became invalid? SID")
         emit('redirect', {'url': url_for('login')}) # Redirect if token invalid
         disconnect(sid)
         return
     username = user['username']
-    logging.info(f"User '{username}' (SID: {sid[:5]}) authenticated successfully.")
+    logging.info(f"User '{username}' authenticated successfully.")
 
     player_id = -1 # Will be assigned inside lock
     player_data = None
@@ -555,7 +555,7 @@ def handle_connect():
             # Game in progress, join as spectator
             player_data['is_spectator'] = True
             is_spectator_join = True
-            logging.info(f"User '{username}' (SID: {sid[:5]}) joining as spectator.")
+            logging.info(f"User '{username}' joining as spectator.")
             join_message += " as a spectator."
         else:
             # Game not active, assign team and position
@@ -570,7 +570,7 @@ def handle_connect():
                         assigned_team_id = last_team
                         player_data['team_id'] = assigned_team_id
                         team_assigned = True
-                        logging.info(f"User '{username}' (SID: {sid[:5]}) rejoining last known Team {assigned_team_id}.")
+                        logging.info(f"User '{username}' rejoining last known Team {assigned_team_id}.")
                     else:
                          logging.warning(f"User '{username}' last known team {last_team} is invalid. Reassigning.")
                          # Remove invalid team from memory
@@ -582,7 +582,7 @@ def handle_connect():
                 player_data['team_id'] = assigned_team_id
                 with username_to_last_team_lock:
                     username_to_last_team[username] = assigned_team_id
-                logging.info(f"User '{username}' (SID: {sid[:5]}) assigned balanced Team {assigned_team_id}.")
+                logging.info(f"User '{username}' assigned balanced Team {assigned_team_id}.")
 
             x, y = get_random_empty_position()
             player_data['x'] = x
@@ -629,7 +629,7 @@ def handle_disconnect():
             should_emit_update = True
             username = player_data.get('username', f"PID {player_data.get('id', '???')}")
             last_team_id = player_data.get('team_id')
-            logging.info(f"Player {username} (SID: {sid[:5]}) disconnected from Team {last_team_id}.")
+            logging.info(f"Player {username} disconnected from Team {last_team_id}.")
 
             if not player_data.get('is_spectator', False):
                 player_was_active = True
@@ -678,7 +678,7 @@ def handle_player_move(data):
 
         player_team_id = player.get('team_id')
         if player_team_id is None:
-            logging.warning(f"Active player {p_username} has no team_id! SID: {sid[:5]}")
+            logging.warning(f"Active player {p_username} has no team_id! SID")
             return
 
         current_x = player['x']; current_y = player['y']
@@ -712,7 +712,7 @@ def handle_start_request():
     with game_state_lock:
         player = game_state["players"].get(sid)
         if player: player_username = player.get('username', 'Unknown')
-        else: logging.warning(f"Start req from unknown SID: {sid[:5]}"); return
+        else: logging.warning(f"Start req from unknown SID"); return
 
         num_active_players = get_active_players_count()
         logging.debug(f"Start req from {player_username}. Active: {game_state['game_active']}, Players: {num_active_players}/{MIN_PLAYERS_TO_START}")
@@ -768,12 +768,12 @@ def handle_reset_request():
             player_username = player.get('username', 'Unknown')
 
         if not game_state["game_active"]:
-             logging.info(f"Reset requested by {player_username} (SID: {sid[:5]}) - Game inactive. Performing reset.")
+             logging.info(f"Reset requested by {player_username}) - Game inactive. Performing reset.")
              can_reset = True
              reset_game_state() # Perform the reset logic (holds lock)
              reset_state_after = get_state_for_client() # Get state after reset
         else:
-             logging.warning(f"Reset requested by {player_username} (SID: {sid[:5]}) - Denied (Game Active).")
+             logging.warning(f"Reset requested by {player_username} - Denied (Game Active).")
 
     # --- Operations outside the lock ---
     if can_reset:
