@@ -80,7 +80,7 @@ def log_raw_request():
                 cookies = value.split(";")
                 filtered = [
                     c for c in cookies
-                    if "auth_token" not in c.lower() and "session" not in c.lower()
+                    if "auth_token" not in c.lower()
                 ]
                 if filtered:
                     lines.append(f"Cookie: {'; '.join(filtered)}")
@@ -119,7 +119,7 @@ def log_response_and_raw(response):
         for k, v in response.headers.items():
             if k.lower() == "set-cookie":
                 cookies = v.split(";")
-                filtered = [c for c in cookies if "auth_token" not in c.lower() and "session" not in c.lower()]
+                filtered = [c for c in cookies if "auth_token" not in c.lower()]
                 if filtered:
                     headers.append(f"Set-Cookie: {';'.join(filtered)}")
                 else:
