@@ -155,6 +155,12 @@ def log_response_and_raw(response):
 
     return response
 
+# handles stack trace error in logs
+@app.errorhandler(Exception)
+def handle_exception(e):
+    logging.exception("Unhandled exception during request:")
+    return "Internal Server Error", 500
+
 
 
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', secrets.token_hex(32))
@@ -791,5 +797,5 @@ if __name__ == '__main__':
         print(f"Starting eventlet WSGI server on http://{host}:{port}")
         socketio.run(app, host=host, port=port, use_reloader=False)
     except Exception as e:
-        logging.exception(f"Failed to start server: {e}")
+        logging.exception(f"Unhandled exception occurred while starting the server: {e}")
         print(f"Failed to start server: {e}")
