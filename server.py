@@ -11,7 +11,7 @@ eventlet.monkey_patch() # Make standard libraries cooperative
 import eventlet.wsgi
 from flask import Flask, flash, jsonify, make_response, render_template, request, session, redirect, url_for
 from flask_socketio import SocketIO, emit, join_room, leave_room, send, disconnect
-from util.leaderboard import handle_leaderboard_page, handle_territory_leaderboard_api, handle_wins_leaderboard_api
+from util.leaderboard import handle_leaderboard_page, handle_territory_leaderboard_api, handle_wins_leaderboard_api, leaderboard_collection
 from util.logger import setup_logging, get_raw_logger
 
 import time
@@ -511,6 +511,30 @@ def leaderboard_wins_api(user):
 def leaderboard_territory_api(user):
     return handle_territory_leaderboard_api()
 
+@app.route('/Player-Stats')
+@auth_required
+def stats(user):
+    return render_template('player_stats.html')
+
+@app.route('/api/player/stats')
+@auth_required
+def stats_api(user):
+    player_stats = leaderboard_collection.find_one({'user_id':user['username']})
+    try:
+        if player_stats:
+            return jsonify({
+                    'username': user['username'],
+                    'wins': player_stats.get('wins', 0),  # Default to 0 if not found
+                    'gamesPlayed': player_stats.get('games_played', 0),
+                }), 200
+        else:
+            return jsonify({
+                'username': user['username'],
+                'wins': 0,
+                'gamesPlayed': 0,
+            }), 200
+    except Exception as e:
+        return jsonify({'error': 'Internal server error'}), 500
 
 # --- SocketIO Event Handlers ---
 @socketio.on('connect')

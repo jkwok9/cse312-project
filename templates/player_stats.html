@@ -1,0 +1,176 @@
+<!-- templates/login.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Player Stats</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background-color: #1a1a1a;
+            color: #fff;
+            font-family: 'Press Start 2P', cursive;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        h1 {
+            color: #ffff00;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px #ff00ff;
+            text-align: center;
+        }
+
+        .stats-container {
+            width: 100%;
+            max-width: 600px;
+            background-color: #333;
+            border: 5px solid #fff;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .stats-table {
+            width: 100%;
+            margin-top: 10px;
+            border-collapse: collapse;
+        }
+
+        .stats-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 2px solid #666;
+        }
+
+        .stats-table td:first-child {
+            font-weight: bold;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 30px;
+            width: 100%;
+            max-width: 800px;
+        }
+
+        .nav-button {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.9em;
+            padding: 12px 20px;
+            background: linear-gradient(145deg, #5a5a5a, #3a3a3a);
+            color: #fff;
+            border: 3px solid #fff;
+            border-radius: 5px;
+            cursor: pointer;
+            text-shadow: 1px 1px #000;
+            box-shadow: 3px 3px 0px #000;
+            transition: all 0.1s ease;
+            text-decoration: none;
+            text-align: center;
+        }
+
+        .nav-button:hover {
+            background: linear-gradient(145deg, #6a6a6a, #4a4a4a);
+            box-shadow: 4px 4px 0px #111;
+            transform: translate(-1px, -1px);
+        }
+
+        .nav-button:active {
+            background: linear-gradient(145deg, #3a3a3a, #5a5a5a);
+            box-shadow: 1px 1px 0px #000;
+            transform: translate(2px, 2px);
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                align-items: center;
+            }
+            .nav-button {
+                width: 100%;
+            }
+            .stats-container {
+                width: 95%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <a href="/" class="nav-button">Play Game</a>
+        <a href="/leaderboard" class="nav-button">Leaderboard</a>
+        <a href="/logout" class="nav-button">Logout</a>
+    </div>
+
+    <h1>Player Stats</h1>
+
+    <div class="stats-container">
+        <table class="stats-table">
+            <tr>
+                <td>Username:</td>
+                <td id="username">Loading...</td>
+            </tr>
+            <tr>
+                <td>Total Wins:</td>
+                <td id="total-wins">Loading...</td>
+            </tr>
+            <tr>
+                <td>Games Played:</td>
+                <td id="games-played">Loading...</td>
+            </tr>
+            <tr>
+                <td>Win Rate:</td>
+                <td id="win-rate">Loading...</td>
+            </tr>
+        </table>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            fetchPlayerStats();
+        });
+
+        async function fetchPlayerStats() {
+            try {
+                const response = await fetch('/api/player/stats');
+                const data = await response.json();
+
+                if (response.ok) {
+                    document.getElementById('username').textContent = data.username;
+                    document.getElementById('total-wins').textContent = data.wins;
+                    document.getElementById('games-played').textContent = data.gamesPlayed;
+                    const winRate = data.gamesPlayed > 0
+                        ? Math.round((data.wins / data.gamesPlayed) * 100)
+                        : 0;
+                    document.getElementById('win-rate').textContent = `${winRate}%`;
+                } else {
+                    console.error('Error fetching player stats:', data.error);
+                    document.getElementById('username').textContent = 'Error loading data';
+                    document.getElementById('total-wins').textContent = 'Error loading data';
+                    document.getElementById('games-played').textContent = 'Error loading data';
+                    document.getElementById('win-rate').textContent = 'Error loading data';
+                }
+            } catch (error) {
+                console.error('Error fetching player stats:', error);
+                document.getElementById('username').textContent = 'Error loading data';
+                document.getElementById('total-wins').textContent = 'Error loading data';
+                document.getElementById('games-played').textContent = 'Error loading data';
+                document.getElementById('win-rate').textContent = 'Error loading data';
+            }
+        }
+    </script>
+</body>
+</html>
