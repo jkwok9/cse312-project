@@ -12,8 +12,8 @@ eventlet.monkey_patch() # Make standard libraries cooperative
 import eventlet.wsgi
 from flask import Flask, flash, jsonify, make_response, render_template, request, session, redirect, url_for
 from flask_socketio import SocketIO, emit, join_room, leave_room, send, disconnect
-from util.leaderboard import handle_leaderboard_page, handle_territory_leaderboard_api, handle_wins_leaderboard_api
-from util.logger import setup_logging
+from util.leaderboard import handle_leaderboard_page, handle_territory_leaderboard_api, handle_wins_leaderboard_api, leaderboard_collection
+from util.logger import setup_logging, get_raw_logger
 
 import time
 import threading
@@ -52,9 +52,125 @@ TEAM_NAMES = { # Optional names for display
 # --- Flask App Setup ---
 app = Flask(__name__)
 setup_logging(app)
+raw_logger = get_raw_logger()
+#@app.before_request
+# def log_request_info():
+#     logging.info(request)
+
+# --- Helper: Structured Event Logger ---
+def log_structured_event(status_code):
+    ip = request.headers.get("X-Forwarded-For", request.remote_addr).split(',')[0].strip()
+    method = request.method
+    url = request.url
+    username = session.get("username", "anonymous")
+    timestamp = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())
+    logging.info(f"{timestamp} - {ip} - {method} {url} - Response Code: {status_code} - User: {username}")
+
+#--- Log Raw HTTP Requests ---
 @app.before_request
-def log_request_info():
-    logging.info(request)
+def log_raw_request():
+    try:
+        if "username" not in session:
+            token = request.cookies.get("auth_token")
+            if token:
+                user = get_user_by_token(token)
+                if user and "username" in user:
+                    session["username"] = user["username"]
+
+        ip = request.headers.get("X-Forwarded-For", request.remote_addr).split(',')[0].strip()
+        method = request.method
+        full_path = request.full_path
+
+        lines = [f"{method} {full_path} HTTP/1.1"]
+        for key, value in request.headers.items():
+            if key.lower() == "authorization":
+                continue
+            elif key.lower() == "cookie":
+                cookies = value.split(";")
+                filtered = [
+                    c for c in cookies
+                    if "auth_token" not in c.lower()
+                ]
+                if filtered:
+                    lines.append(f"Cookie: {'; '.join(filtered)}")
+                else:
+                    lines.append("Cookie: [redacted]")
+            else:
+                lines.append(f"{key}: {value}")
+
+        log_body = (
+            request.method not in ['POST', 'PUT'] or
+            request.path not in ['/login', '/register']
+        )
+
+        if log_body:
+            raw_data = request.get_data(cache=True)
+            body = raw_data[:2048].decode("utf-8", errors="replace")
+            lines.append("\n" + body)
+        else:
+            lines.append("\n[Body redacted]")
+
+        raw_logger.info("=== Raw HTTP Request ===\n" + "\n".join(lines))
+
+    except Exception as e:
+        raw_logger.exception("Failed to log raw HTTP request:")
+
+
+
+
+# --- Log Structured Events and Responses ---
+@app.after_request
+def log_response_and_raw(response):
+    try:
+        log_structured_event(response.status_code)
+
+        headers = []
+        for k, v in response.headers.items():
+            if k.lower() == "set-cookie":
+                cookies = v.split(";")
+                filtered = [c for c in cookies if "auth_token" not in c.lower()]
+                if filtered:
+                    headers.append(f"Set-Cookie: {';'.join(filtered)}")
+                else:
+                    headers.append("Set-Cookie: [redacted]")
+            elif k.lower() == "authorization":
+                continue
+            else:
+                headers.append(f"{k}: {v}")
+
+        # Only log body if not login/register and not redirect and not HTML
+        content_type = response.headers.get("Content-Type", "").lower()
+        is_html = "text/html" in content_type
+
+        log_body = (
+            not is_html and
+            request.path not in ['/login', '/register'] and
+            response.status_code not in [301, 302, 303, 307, 308]
+        )
+
+        if log_body:
+            body_data = response.get_data()
+            body_text = body_data[:2048].decode("utf-8", errors="replace") if body_data else ""
+        else:
+            body_text = "[Body redacted]"
+
+        raw_logger.info(
+            "=== Raw HTTP Response ===\n" +
+            "\n".join(headers) +
+            "\n\n" + body_text
+        )
+    except Exception:
+        raw_logger.exception("Failed to log raw HTTP response:")
+
+    return response
+
+# handles stack trace error in logs
+@app.errorhandler(Exception)
+def handle_exception(e):
+    logging.exception("Unhandled exception during request:")
+    return "Internal Server Error", 500
+
+
 
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', secrets.token_hex(32))
 app.config['SESSION_COOKIE_SECURE'] = True
@@ -374,8 +490,12 @@ def register():
 @app.route('/logout')
 def logout():
     from util.auth_utli import clear_auth_cookie
+    username = session.get("username", "anonymous")
+    logging.info(f"User '{username}' is logging out.")
+    session.clear()
     response = make_response(redirect(url_for('login')))
     clear_auth_cookie(response)
+    response.set_cookie('session', '', expires=0)
     flash('You have been logged out.', 'success')
     return response
 
@@ -422,28 +542,52 @@ def leaderboard_wins_api(user):
 def leaderboard_territory_api(user):
     return handle_territory_leaderboard_api()
 
+@app.route('/Player-Stats')
+@auth_required
+def stats(user):
+    return render_template('player_stats.html')
+
+@app.route('/api/player/stats')
+@auth_required
+def stats_api(user):
+    player_stats = leaderboard_collection.find_one({'user_id':user['username']})
+    try:
+        if player_stats:
+            return jsonify({
+                    'username': user['username'],
+                    'wins': player_stats.get('wins', 0),  # Default to 0 if not found
+                    'gamesPlayed': player_stats.get('games_played', 0),
+                }), 200
+        else:
+            return jsonify({
+                'username': user['username'],
+                'wins': 0,
+                'gamesPlayed': 0,
+            }), 200
+    except Exception as e:
+        return jsonify({'error': 'Internal server error'}), 500
 
 # --- SocketIO Event Handlers ---
 @socketio.on('connect')
 def handle_connect():
     sid = request.sid
-    logging.info(f"Connection attempt from SID: {sid[:5]}...")
+    logging.info(f"Connection attempt from SID ...")
 
     auth_token = request.cookies.get('auth_token')
     if not auth_token:
-        logging.warning(f"Connection {sid[:5]} rejected: No auth token.")
+        logging.warning(f"Connection rejected: No auth token.")
         emit('redirect', {'url': url_for('login')})
         disconnect(sid)
         return
 
     user = get_user_by_token(auth_token)
     if not user:
-        logging.error(f"User object became invalid? SID: {sid[:5]}")
+        logging.error(f"User object became invalid? SID")
         emit('redirect', {'url': url_for('login')}) # Redirect if token invalid
         disconnect(sid)
         return
     username = user['username']
-    logging.info(f"User '{username}' (SID: {sid[:5]}) authenticated successfully.")
+    logging.info(f"User '{username}' authenticated successfully.")
 
     # Get user's profile picture if available
     profile_pic_data = get_profile_pic_by_username(username)
@@ -477,7 +621,7 @@ def handle_connect():
             # Game in progress, join as spectator
             player_data['is_spectator'] = True
             is_spectator_join = True
-            logging.info(f"User '{username}' (SID: {sid[:5]}) joining as spectator.")
+            logging.info(f"User '{username}' joining as spectator.")
             join_message += " as a spectator."
         else:
             # Game not active, assign team and position
@@ -492,7 +636,7 @@ def handle_connect():
                         assigned_team_id = last_team
                         player_data['team_id'] = assigned_team_id
                         team_assigned = True
-                        logging.info(f"User '{username}' (SID: {sid[:5]}) rejoining last known Team {assigned_team_id}.")
+                        logging.info(f"User '{username}' rejoining last known Team {assigned_team_id}.")
                     else:
                          logging.warning(f"User '{username}' last known team {last_team} is invalid. Reassigning.")
                          # Remove invalid team from memory
@@ -504,7 +648,7 @@ def handle_connect():
                 player_data['team_id'] = assigned_team_id
                 with username_to_last_team_lock:
                     username_to_last_team[username] = assigned_team_id
-                logging.info(f"User '{username}' (SID: {sid[:5]}) assigned balanced Team {assigned_team_id}.")
+                logging.info(f"User '{username}' assigned balanced Team {assigned_team_id}.")
 
             x, y = get_random_empty_position()
             player_data['x'] = x
@@ -548,7 +692,7 @@ def handle_disconnect():
             should_emit_update = True
             username = player_data.get('username', f"PID {player_data.get('id', '???')}")
             last_team_id = player_data.get('team_id')
-            logging.info(f"Player {username} (SID: {sid[:5]}) disconnected from Team {last_team_id}.")
+            logging.info(f"Player {username} disconnected from Team {last_team_id}.")
 
             if not player_data.get('is_spectator', False):
                 player_was_active = True
@@ -597,7 +741,7 @@ def handle_player_move(data):
 
         player_team_id = player.get('team_id')
         if player_team_id is None:
-            logging.warning(f"Active player {p_username} has no team_id! SID: {sid[:5]}")
+            logging.warning(f"Active player {p_username} has no team_id! SID")
             return
 
         current_x = player['x']; current_y = player['y']
@@ -631,7 +775,7 @@ def handle_start_request():
     with game_state_lock:
         player = game_state["players"].get(sid)
         if player: player_username = player.get('username', 'Unknown')
-        else: logging.warning(f"Start req from unknown SID: {sid[:5]}"); return
+        else: logging.warning(f"Start req from unknown SID"); return
 
         num_active_players = get_active_players_count()
         logging.debug(f"Start req from {player_username}. Active: {game_state['game_active']}, Players: {num_active_players}/{MIN_PLAYERS_TO_START}")
@@ -687,12 +831,12 @@ def handle_reset_request():
             player_username = player.get('username', 'Unknown')
 
         if not game_state["game_active"]:
-             logging.info(f"Reset requested by {player_username} (SID: {sid[:5]}) - Game inactive. Performing reset.")
+             logging.info(f"Reset requested by {player_username}) - Game inactive. Performing reset.")
              can_reset = True
              reset_game_state() # Perform the reset logic (holds lock)
              reset_state_after = get_state_for_client() # Get state after reset
         else:
-             logging.warning(f"Reset requested by {player_username} (SID: {sid[:5]}) - Denied (Game Active).")
+             logging.warning(f"Reset requested by {player_username} - Denied (Game Active).")
 
     # --- Operations outside the lock ---
     if can_reset:
@@ -716,5 +860,5 @@ if __name__ == '__main__':
         print(f"Starting eventlet WSGI server on http://{host}:{port}")
         socketio.run(app, host=host, port=port, use_reloader=False)
     except Exception as e:
-        logging.exception(f"Failed to start server: {e}")
+        logging.exception(f"Unhandled exception occurred while starting the server: {e}")
         print(f"Failed to start server: {e}")

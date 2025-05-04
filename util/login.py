@@ -89,8 +89,10 @@ def handle_login():
             
             if not username:
                 errors['username'] = 'Username is required'
+                logging.info(f"Username is required")
             if not password:
                 errors['password'] = 'Password is required'
+                logging.info(f"Password is required")
             
             # Handle response based on request type
             if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
@@ -122,6 +124,7 @@ def handle_login():
                 response = set_auth_cookie(response, auth_token)
                 
                 logger.info(f"Auth cookie set for user: {username}")
+                logger.info(f"Successfull Login Welcome!: {username}")
                 return response
             else:
                 flash('Login successful!', 'success')
@@ -131,6 +134,7 @@ def handle_login():
                 response = set_auth_cookie(response, auth_token)
                 
                 logger.info(f"Auth cookie set for user: {username}")
+                logger.info(f"Successfull Login Welcome!: {username}")
                 return response
         else:
             logger.warning(f"Login failed: {message}")
