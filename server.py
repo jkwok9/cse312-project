@@ -12,7 +12,7 @@ eventlet.monkey_patch() # Make standard libraries cooperative
 import eventlet.wsgi
 from flask import Flask, flash, jsonify, make_response, render_template, request, session, redirect, url_for
 from flask_socketio import SocketIO, emit, join_room, leave_room, send, disconnect
-from util.leaderboard import handle_leaderboard_page, handle_territory_leaderboard_api, handle_wins_leaderboard_api, leaderboard_collection
+from util.leaderboard import handle_leaderboard_page, handle_territory_leaderboard_api, handle_wins_leaderboard_api, leaderboard_collection, record_game_result
 from util.logger import setup_logging, get_raw_logger
 
 import time
@@ -406,8 +406,10 @@ def end_game():
 
             timer = game_state.get("timer_thread")
             if timer:
-                try: timer.kill()
-                except Exception: pass
+                try:
+                    timer.kill()
+                except Exception:
+                    pass
                 game_state["timer_thread"] = None
 
             calculate_team_scores()
@@ -423,26 +425,60 @@ def end_game():
 
     if was_active:
         winner_message = "Game Over! "
-        if not winners or max_score < 0 :
-             winner_message += "No winner!?"
+        if not winners or max_score < 0:
+            winner_message += "No winner!?"
         elif len(winners) == 1:
             winner_tid = winners[0]
             team_info = game_state["teams"].get(winner_tid, {})
-            winner_message += f"Team {team_info.get('name', winner_tid+1)} ({team_info.get('color','#?')}) Wins with {max_score} cells!"
+            winner_message += f"Team {team_info.get('name', winner_tid + 1)} ({team_info.get('color', '#?')}) Wins with {max_score} cells!"
         else:
             winner_message += "It's a tie between Teams: "
             winner_strs = []
             for tid in winners:
-                 team_info = game_state["teams"].get(tid, {})
-                 winner_strs.append(f"{team_info.get('name', tid+1)} ({team_info.get('color','#?')}, {max_score} cells)")
+                team_info = game_state["teams"].get(tid, {})
+                winner_strs.append(
+                    f"{team_info.get('name', tid + 1)} ({team_info.get('color', '#?')}, {max_score} cells)")
             winner_message += ", ".join(winner_strs)
 
-        # Need lock to get final state accurately
         with game_state_lock:
             final_state = get_state_for_client()
-        socketio.emit('game_update', final_state) # Send final scores/state
+        socketio.emit('game_update', final_state)
         socketio.emit('game_event', {'message': winner_message, 'isGameOver': True})
         logging.info(f"Sent game over event: {winner_message}")
+
+        # === NEW CODE START ===
+        # Collect player data for leaderboard
+        player_scores = {}
+        players_info = {}
+        winning_users = []
+
+        with game_state_lock:
+            # Get all players from winning teams
+            for sid, player in game_state["players"].items():
+                if player.get('is_spectator', False):
+                    continue
+
+                username = player.get('username')
+                if not username:
+                    continue
+
+                # Record individual scores and info
+                player_scores[username] = player.get('score', 0)
+                players_info[username] = {
+                    'team_id': player.get('team_id'),
+                    'profile_pic': player.get('profile_pic', None)
+                }
+
+                # Check if player is on a winning team
+                if player['team_id'] in winners:
+                    winning_users.append(username)
+
+        # Update leaderboard with team-based results
+        record_game_result(
+            winner_ids=winning_users,
+            player_scores=player_scores,
+            players_info=players_info
+        )
 
 # --- Authentication Middleware ---
 def check_auth():

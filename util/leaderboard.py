@@ -13,67 +13,52 @@ users_collection = db["users"]
 games_collection = db["games"]
 leaderboard_collection = db["leaderboard_stats"]
 
+
 def update_leaderboard_stats(game_result):
     """
-    Update leaderboard statistics when a game ends
-    game_result should contain:
-    - winner_id: user ID of the winner (can be None for draws)
-    - player_scores: dictionary mapping user IDs to their territory scores
-    - timestamp: when the game ended
+    Update leaderboard statistics for team-based wins
     """
     try:
-        # Get all player IDs who participated
         player_ids = list(game_result['player_scores'].keys())
-        
-        # Get the winner ID (might be None for draws)
-        winner_id = game_result.get('winner_id')
-        
-        # Process each player's stats
+        winner_ids = game_result.get('winner_ids', [])  # Now a list
+
         for player_id in player_ids:
-            # Find existing stats for this player
             player_stats = leaderboard_collection.find_one({'user_id': player_id})
             territory_score = game_result['player_scores'].get(player_id, 0)
-            
+
             if player_stats:
-                # Update existing stats
                 update_data = {
-                    '$inc': {
-                        'games_played': 1
-                    },
-                    '$set': {
-                        'last_played': game_result['timestamp']
-                    }
+                    '$inc': {'games_played': 1},
+                    '$set': {'last_played': game_result['timestamp']}
                 }
-                
-                # Check if this player is the winner
-                if player_id == winner_id:
+
+                # Add win if player is in winner list
+                if player_id in winner_ids:
                     update_data['$inc']['wins'] = 1
-                
-                # Check if this is their best territory score
+
+                # Update best territory score
                 if territory_score > player_stats.get('best_territory_score', 0):
-                    update_data['$set']['best_territory_score'] = territory_score
-                    update_data['$set']['best_score_date'] = game_result['timestamp']
-                
-                # Update the database
+                    update_data['$set'].update({
+                        'best_territory_score': territory_score,
+                        'best_score_date': game_result['timestamp']
+                    })
+
                 leaderboard_collection.update_one(
                     {'user_id': player_id},
                     update_data
                 )
             else:
-                # Create new stats record
                 new_stats = {
                     'user_id': player_id,
                     'games_played': 1,
-                    'wins': 1 if player_id == winner_id else 0,
+                    'wins': 1 if player_id in winner_ids else 0,
                     'best_territory_score': territory_score,
                     'best_score_date': game_result['timestamp'],
                     'last_played': game_result['timestamp']
                 }
-                
-                # Insert into database
                 leaderboard_collection.insert_one(new_stats)
-        
-        logger.info(f"Updated leaderboard for game with players: {player_ids}")
+
+        logger.info(f"Updated team-based leaderboard for game")
         return True
     except Exception as e:
         logger.error(f"Error updating leaderboard: {str(e)}")
@@ -220,31 +205,22 @@ def handle_territory_leaderboard_api():
         return jsonify({"error": "Failed to fetch leaderboard data"}), 500
 
 # Function to record game results when a game ends
-def record_game_result(winner_id, player_scores, players_info):
+def record_game_result(winner_ids, player_scores, players_info):
     """
-    Record a completed game in the database and update leaderboard stats
-    
-    Args:
-        winner_id: User ID of the winner (None for draws)
-        player_scores: Dictionary mapping user IDs to their territory scores
-        players_info: Dictionary with additional player information
+    Modified to accept multiple winner IDs
     """
     try:
-        # Create a game record
         game_record = {
             'timestamp': datetime.utcnow(),
-            'winner_id': winner_id,
+            'winner_ids': winner_ids,
             'player_scores': player_scores,
             'players_info': players_info
         }
-        
-        # Insert the game record
+
         games_collection.insert_one(game_record)
-        
-        # Update leaderboard statistics
         update_leaderboard_stats(game_record)
-        
-        logger.info(f"Recorded game result with winner: {winner_id}")
+
+        logger.info(f"Recorded team game result with {len(winner_ids)} winners")
         return True
     except Exception as e:
         logger.error(f"Error recording game result: {str(e)}")
