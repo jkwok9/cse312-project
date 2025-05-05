@@ -578,7 +578,7 @@ def leaderboard_wins_api(user):
 def leaderboard_territory_api(user):
     return handle_territory_leaderboard_api()
 
-@app.route('/Player-Stats')
+@app.route('/player_stats')
 @auth_required
 def stats(user):
     return render_template('player_stats.html')
