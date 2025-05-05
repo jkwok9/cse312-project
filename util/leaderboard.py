@@ -76,7 +76,7 @@ def get_wins_leaderboard(limit=20):
                 '$lookup': {
                     'from': 'users',
                     'localField': 'user_id',
-                    'foreignField': '_id',
+                    'foreignField': 'username',
                     'as': 'user_info'
                 }
             },
