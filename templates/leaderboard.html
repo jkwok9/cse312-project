@@ -8,6 +8,18 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     <style>
+        @media (max-width: 480px) {
+            .leaderboard-table th,
+            .leaderboard-table td {
+                padding: 8px 3px;
+                font-size: 0.7em;
+            }
+
+            h1 {
+                font-size: 1.5em;
+                margin-bottom: 20px;
+            }
+        }
         body {
             display: flex;
             flex-direction: column;
@@ -267,31 +279,48 @@
 
         async function fetchLeaderboardData() {
             try {
-                // Fetch the wins leaderboard
-                const winsResponse = await fetch('/api/leaderboard/wins');
-                const winsData = await winsResponse.json();
-                
-                // Fetch the territory leaderboard
-                const territoryResponse = await fetch('/api/leaderboard/territory');
-                const territoryData = await territoryResponse.json();
-                
-                // Populate wins table
+                // Use Promise.all to fetch both endpoints simultaneously
+                const [winsResponse, territoryResponse] = await Promise.all([
+                    fetch('/api/leaderboard/wins'),
+                    fetch('/api/leaderboard/territory')
+                ]);
+
+                // Check for authentication issues
+                if (winsResponse.status === 401 || territoryResponse.status === 401) {
+                    window.location.href = '/login';
+                    return;
+                }
+
+                // Check for other errors
+                if (!winsResponse.ok || !territoryResponse.ok) {
+                    throw new Error(`HTTP error! wins: ${winsResponse.status}, territory: ${territoryResponse.status}`);
+                }
+
+                const [winsData, territoryData] = await Promise.all([
+                    winsResponse.json(),
+                    territoryResponse.json()
+                ]);
+
+                // Populate tables
                 populateWinsTable(winsData);
-                
-                // Populate territory table
                 populateTerritoryTable(territoryData);
+
             } catch (error) {
                 console.error('Error fetching leaderboard data:', error);
-                document.getElementById('wins-table-body').innerHTML = `
+
+                // Show user-friendly error messages
+                const errorHtml = `
                     <tr>
-                        <td colspan="5" class="no-data">Failed to load leaderboard data. Please try again later.</td>
+                        <td colspan="5" class="no-data">
+                            ${error.message.includes('401') ?
+                              'Please login to view leaderboards' :
+                              'Failed to load data. Try refreshing'}
+                        </td>
                     </tr>
                 `;
-                document.getElementById('territory-table-body').innerHTML = `
-                    <tr>
-                        <td colspan="4" class="no-data">Failed to load leaderboard data. Please try again later.</td>
-                    </tr>
-                `;
+
+                document.getElementById('wins-table-body').innerHTML = errorHtml;
+                document.getElementById('territory-table-body').innerHTML = errorHtml;
             }
         }
 
@@ -377,6 +406,7 @@
             
             tableBody.innerHTML = tableHtml;
         }
+
     </script>
 </body>
 </html>
