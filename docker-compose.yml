@@ -8,7 +8,6 @@ services:
   myapp:
     build: .
     environment:
-      WAIT_HOSTS: mongo:27017
       DOCKER_DB: true
     ports:
       - '8080:8080'
