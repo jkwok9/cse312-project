@@ -450,3 +450,82 @@
 2025-05-05 01:03:07,741 INFO: 2025-05-05 01:03:07 - 127.0.0.1 - GET http://localhost:8080/api/leaderboard/wins - Response Code: 200 - User: ellyel
 2025-05-05 01:03:07,742 INFO: 2025-05-05 01:03:07 - 127.0.0.1 - GET http://localhost:8080/api/leaderboard/territory - Response Code: 200 - User: ellyel
 2025-05-05 01:03:20,357 INFO: 2025-05-05 01:03:20 - 127.0.0.1 - GET http://localhost:8080/api/player/profile_pic - Response Code: 200 - User: somethingggg
+2025-05-05 01:20:07,061 INFO: Logging is set up.
+2025-05-05 01:20:10,724 INFO: 2025-05-05 01:20:10 - 127.0.0.1 - GET http://0.0.0.0:8080/ - Response Code: 200 - User: ellyel
+2025-05-05 01:20:10,798 INFO: Connection attempt from SID ...
+2025-05-05 01:20:10,802 INFO: User 'ellyel' authenticated successfully.
+2025-05-05 01:20:10,804 INFO: User 'ellyel' assigned balanced Team 2.
+2025-05-05 01:20:11,803 INFO: 2025-05-05 01:20:11 - 127.0.0.1 - GET http://0.0.0.0:8080/api/player/profile_pic - Response Code: 200 - User: ellyel
+2025-05-05 01:20:11,812 INFO: Profile picture updated for player ellyel
+2025-05-05 01:20:13,462 INFO: Player ellyel disconnected from Team 2.
+2025-05-05 01:20:13,481 INFO: 2025-05-05 01:20:13 - 127.0.0.1 - GET http://0.0.0.0:8080/profile - Response Code: 200 - User: ellyel
+2025-05-05 01:20:13,501 INFO: 2025-05-05 01:20:13 - 127.0.0.1 - GET http://0.0.0.0:8080/profile_pic/1c513c3d-8a2b-4d81-be41-55fac5d350cb.png - Response Code: 200 - User: ellyel
+2025-05-05 01:20:36,992 INFO: 2025-05-05 01:20:36 - 127.0.0.1 - GET http://localhost:8080/api/player/profile_pic - Response Code: 200 - User: somethingggg
+2025-05-05 01:20:52,527 INFO: 2025-05-05 01:20:52 - 127.0.0.1 - GET http://0.0.0.0:8080/leaderboard - Response Code: 200 - User: ellyel
+2025-05-05 01:20:52,557 INFO: 2025-05-05 01:20:52 - 127.0.0.1 - GET http://0.0.0.0:8080/api/leaderboard/territory - Response Code: 200 - User: ellyel
+2025-05-05 01:20:52,558 INFO: 2025-05-05 01:20:52 - 127.0.0.1 - GET http://0.0.0.0:8080/api/leaderboard/wins - Response Code: 200 - User: ellyel
+2025-05-05 01:20:54,139 INFO: 2025-05-05 01:20:54 - 127.0.0.1 - GET http://0.0.0.0:8080/player_stats - Response Code: 200 - User: ellyel
+2025-05-05 01:20:54,172 INFO: 2025-05-05 01:20:54 - 127.0.0.1 - GET http://0.0.0.0:8080/api/player/stats - Response Code: 200 - User: ellyel
+2025-05-05 01:20:56,883 INFO: 2025-05-05 01:20:56 - 127.0.0.1 - GET http://0.0.0.0:8080/ - Response Code: 200 - User: ellyel
+2025-05-05 01:20:56,905 INFO: Connection attempt from SID ...
+2025-05-05 01:20:56,911 INFO: User 'ellyel' authenticated successfully.
+2025-05-05 01:20:56,912 INFO: User 'ellyel' rejoining last known Team 2.
+2025-05-05 01:20:57,904 INFO: 2025-05-05 01:20:57 - 127.0.0.1 - GET http://0.0.0.0:8080/api/player/profile_pic - Response Code: 200 - User: ellyel
+2025-05-05 01:20:57,912 INFO: Profile picture updated for player ellyel
+2025-05-05 01:21:02,774 INFO: Connection attempt from SID ...
+2025-05-05 01:21:02,781 INFO: User 'somethingggg' authenticated successfully.
+2025-05-05 01:21:02,784 INFO: User 'somethingggg' assigned balanced Team 0.
+2025-05-05 01:21:03,753 INFO: 2025-05-05 01:21:03 - 127.0.0.1 - GET http://localhost:8080/api/player/profile_pic - Response Code: 200 - User: somethingggg
+2025-05-05 01:21:06,987 INFO: 2025-05-05 01:21:06 - 127.0.0.1 - GET http://localhost:8080/api/player/profile_pic - Response Code: 200 - User: somethingggg
+2025-05-05 01:21:09,049 INFO: Start request approved from ellyel. Resetting and starting game...
+2025-05-05 01:21:09,049 INFO: Resetting game state...
+2025-05-05 01:21:09,050 INFO: Reassigning 2 players for new game.
+2025-05-05 01:21:09,053 INFO: Game state reset complete.
+2025-05-05 01:21:09,056 INFO: Game timer started.
+2025-05-05 01:21:18,104 INFO: Timer stopping: Time ran out.
+2025-05-05 01:21:18,105 INFO: Ending game...
+2025-05-05 01:21:18,106 INFO: Game ended. Max score: 25, Winning teams: [3]
+2025-05-05 01:21:18,109 INFO: Sent game over event: Game Over! Team Yellow (#FFFF00) Wins with 25 cells!
+2025-05-05 01:21:18,117 INFO: Updated team-based leaderboard for game
+2025-05-05 01:21:18,118 INFO: Recorded team game result with 1 winners
+2025-05-05 01:21:18,118 INFO: Game timer finished.
+2025-05-05 01:21:19,537 INFO: Player ellyel disconnected from Team 3.
+2025-05-05 01:21:19,550 INFO: 2025-05-05 01:21:19 - 127.0.0.1 - GET http://0.0.0.0:8080/player_stats - Response Code: 200 - User: ellyel
+2025-05-05 01:21:19,576 INFO: 2025-05-05 01:21:19 - 127.0.0.1 - GET http://0.0.0.0:8080/api/player/stats - Response Code: 200 - User: ellyel
+2025-05-05 01:21:21,934 INFO: 2025-05-05 01:21:21 - 127.0.0.1 - GET http://0.0.0.0:8080/leaderboard - Response Code: 200 - User: ellyel
+2025-05-05 01:21:21,959 INFO: 2025-05-05 01:21:21 - 127.0.0.1 - GET http://0.0.0.0:8080/api/leaderboard/wins - Response Code: 200 - User: ellyel
+2025-05-05 01:21:21,959 INFO: 2025-05-05 01:21:21 - 127.0.0.1 - GET http://0.0.0.0:8080/api/leaderboard/territory - Response Code: 200 - User: ellyel
+2025-05-05 01:21:28,831 INFO: Reset requested by somethingggg) - Game inactive. Performing reset.
+2025-05-05 01:21:28,832 INFO: Resetting game state...
+2025-05-05 01:21:28,832 INFO: Reassigning 1 players for new game.
+2025-05-05 01:21:28,834 INFO: Game state reset complete.
+2025-05-05 01:21:34,047 INFO: Reset requested by somethingggg) - Game inactive. Performing reset.
+2025-05-05 01:21:34,048 INFO: Resetting game state...
+2025-05-05 01:21:34,048 INFO: Reassigning 1 players for new game.
+2025-05-05 01:21:34,050 INFO: Game state reset complete.
+2025-05-05 01:21:36,987 INFO: 2025-05-05 01:21:36 - 127.0.0.1 - GET http://localhost:8080/api/player/profile_pic - Response Code: 200 - User: somethingggg
+2025-05-05 01:21:39,145 INFO: 2025-05-05 01:21:39 - 127.0.0.1 - GET http://0.0.0.0:8080/ - Response Code: 200 - User: ellyel
+2025-05-05 01:21:39,172 INFO: Connection attempt from SID ...
+2025-05-05 01:21:39,175 INFO: User 'ellyel' authenticated successfully.
+2025-05-05 01:21:39,177 INFO: User 'ellyel' rejoining last known Team 3.
+2025-05-05 01:21:40,171 INFO: 2025-05-05 01:21:40 - 127.0.0.1 - GET http://0.0.0.0:8080/api/player/profile_pic - Response Code: 200 - User: ellyel
+2025-05-05 01:21:40,179 INFO: Profile picture updated for player ellyel
+2025-05-05 01:21:44,510 INFO: Start request approved from somethingggg. Resetting and starting game...
+2025-05-05 01:21:44,511 INFO: Resetting game state...
+2025-05-05 01:21:44,511 INFO: Reassigning 2 players for new game.
+2025-05-05 01:21:44,515 INFO: Game state reset complete.
+2025-05-05 01:21:44,518 INFO: Game timer started.
+2025-05-05 01:21:53,570 INFO: Timer stopping: Time ran out.
+2025-05-05 01:21:53,571 INFO: Ending game...
+2025-05-05 01:21:53,572 INFO: Game ended. Max score: 11, Winning teams: [1]
+2025-05-05 01:21:53,576 INFO: Sent game over event: Game Over! Team Blue (#0000FF) Wins with 11 cells!
+2025-05-05 01:21:53,585 INFO: Updated team-based leaderboard for game
+2025-05-05 01:21:53,585 INFO: Recorded team game result with 1 winners
+2025-05-05 01:21:53,585 INFO: Game timer finished.
+2025-05-05 01:21:56,967 INFO: Player ellyel disconnected from Team 3.
+2025-05-05 01:21:56,981 INFO: 2025-05-05 01:21:56 - 127.0.0.1 - GET http://0.0.0.0:8080/leaderboard - Response Code: 200 - User: ellyel
+2025-05-05 01:21:57,008 INFO: 2025-05-05 01:21:57 - 127.0.0.1 - GET http://0.0.0.0:8080/api/leaderboard/wins - Response Code: 200 - User: ellyel
+2025-05-05 01:21:57,008 INFO: 2025-05-05 01:21:57 - 127.0.0.1 - GET http://0.0.0.0:8080/api/leaderboard/territory - Response Code: 200 - User: ellyel
+2025-05-05 01:21:58,928 INFO: 2025-05-05 01:21:58 - 127.0.0.1 - GET http://0.0.0.0:8080/player_stats - Response Code: 200 - User: ellyel
+2025-05-05 01:21:58,952 INFO: 2025-05-05 01:21:58 - 127.0.0.1 - GET http://0.0.0.0:8080/api/player/stats - Response Code: 200 - User: ellyel
+2025-05-05 01:22:03,532 INFO: Player somethingggg disconnected from Team 1.
