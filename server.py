@@ -21,6 +21,7 @@ import secrets
 import os
 import logging
 import random
+from typing import Optional
 from util.profile_pic import get_profile_pic_by_username, handle_profile_page, serve_profile_pic
 
 from util.register import handle_register
@@ -66,6 +67,14 @@ def log_structured_event(status_code):
     timestamp = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())
     logging.info(f"{timestamp} - {ip} - {method} {url} - Response Code: {status_code} - User: {username}")
 
+
+def is_text_content(content_type: Optional[str]) -> bool:
+    if not content_type:
+        return False
+    ct = content_type.lower()
+    return ct.startswith("text/")
+
+
 #--- Log Raw HTTP Requests ---
 @app.before_request
 def log_raw_request():
@@ -99,8 +108,9 @@ def log_raw_request():
                 lines.append(f"{key}: {value}")
 
         log_body = (
-            request.method not in ['POST', 'PUT'] or
-            request.path not in ['/login', '/register']
+                is_text_content(request.content_type)  # ← new rule
+                and request.method not in ('POST', 'PUT')  # keep existing rule
+                and request.path not in ('/login', '/register')
         )
 
         if log_body:
@@ -139,13 +149,11 @@ def log_response_and_raw(response):
                 headers.append(f"{k}: {v}")
 
         # Only log body if not login/register and not redirect and not HTML
-        content_type = response.headers.get("Content-Type", "").lower()
-        is_html = "text/html" in content_type
-
+        content_type = response.headers.get("Content-Type", "")
         log_body = (
-            not is_html and
-            request.path not in ['/login', '/register'] and
-            response.status_code not in [301, 302, 303, 307, 308]
+            is_text_content(content_type)                  # ONLY text/*
+            and response.status_code not in (301, 302, 303, 307, 308)
+            and request.path   not in ('/login', '/register')
         )
 
         if log_body:
