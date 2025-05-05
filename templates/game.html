@@ -263,6 +263,10 @@
         let lastMoveTime = 0;
         let minPlayersToStart = 2; // Default, will be updated from server
 
+        const VIEWPORT_TILES = 20; // Number of tiles visible across the viewport
+        let cameraX = 0;
+        let cameraY = 0;
+
         // --- Helper Functions ---
         function showMessage(message, isError = false) {
             statusElement.textContent = message;
@@ -278,129 +282,180 @@
             timerElement.textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
         }
 
+       // Add this function to fetch the profile picture when the page loads
+function fetchProfilePicture() {
+    fetch('/api/player/profile_pic')
+        .then(response => response.json())
+        .then(data => {
+            if (data.success && data.base64_data) {
+                // Store the profile picture data
+                const profilePicData = data.base64_data;
+                
+                // Update the player object if it exists
+                if (myPlayerData) {
+                    // Update the profile pic in our player data
+                    myPlayerData.profile_pic = profilePicData;
+                    
+                    // Find the player in the players array and update their profile pic
+                    const playerIndex = players.findIndex(p => p.id === myPlayerId);
+                    if (playerIndex !== -1) {
+                        players[playerIndex].profile_pic = profilePicData;
+                    }
+                    
+                    // Emit an update to the server to ensure all clients have the latest profile pic
+                    if (socket && socket.connected) {
+                        socket.emit('update_profile_pic', { 
+                            base64_data: profilePicData 
+                        });
+                    }
+                    
+                    // Redraw the game with the updated profile picture
+                    drawGame();
+                    updatePlayersList();
+                }
+            }
+        })
+        .catch(error => console.error('Error fetching profile picture:', error));
+}
+
         // --- Canvas Initialization and Drawing (MODIFIED) ---
         function initCanvas() {
-            // Get dimensions of the container DIV, not the window
-            const containerWidth = canvasContainer.offsetWidth;
-            const containerHeight = canvasContainer.offsetHeight;
+    // Get dimensions of the container DIV
+    const containerWidth = canvasContainer.offsetWidth;
+    const containerHeight = canvasContainer.offsetHeight;
 
-            // Subtract padding/border if you want canvas edge-to-edge with container border
-            const availableWidth = containerWidth - 30; // approx padding * 2
-            const availableHeight = containerHeight - 30; // approx padding * 2
+    // Subtract padding/border
+    const availableWidth = containerWidth - 30;
+    const availableHeight = containerHeight - 30;
 
-            // Calculate cell size based on fitting GRID_SIZE into the smaller dimension
-            const sizeBasedOnWidth = Math.floor(availableWidth / GRID_SIZE);
-            const sizeBasedOnHeight = Math.floor(availableHeight / GRID_SIZE);
-            cellSize = Math.max(1, Math.min(sizeBasedOnWidth, sizeBasedOnHeight)); // Ensure at least 1px
+    // Calculate cell size based on showing only VIEWPORT_TILES tiles
+    cellSize = Math.floor(Math.min(availableWidth, availableHeight) / VIEWPORT_TILES);
+    
+    // Set canvas to container size
+    canvas.width = availableWidth;
+    canvas.height = availableHeight;
 
-            // Calculate the actual canvas dimensions
-            const canvasWidth = GRID_SIZE * cellSize;
-            const canvasHeight = GRID_SIZE * cellSize;
+    console.log(`Canvas Init: Container(${containerWidth}x${containerHeight}), CellSize: ${cellSize}, Viewport Tiles: ${VIEWPORT_TILES}`);
 
-            // Set the canvas drawing buffer size
-            canvas.width = canvasWidth;
-            canvas.height = canvasHeight;
+    drawGame(); // Redraw with new size
+}
 
-            // // Keep CSS sizing for layout if needed, but drawing buffer is now correct
-            // canvas.style.width = `${canvasWidth}px`;
-            // canvas.style.height = `${canvasHeight}px`;
-             // Let CSS handle the display size via max-width/max-height in #canvas-container
-
-            console.log(`Canvas Init: Container(${containerWidth}x${containerHeight}), CellSize: ${cellSize}, Canvas(${canvasWidth}x${canvasHeight})`);
-
-            drawGame(); // Redraw with new size
-        }
-
+function updateCamera() {
+    if (myPlayerData && myPlayerData.x >= 0 && myPlayerData.y >= 0) {
+        // Center camera on player
+        cameraX = myPlayerData.x - Math.floor(canvas.width / cellSize / 2);
+        cameraY = myPlayerData.y - Math.floor(canvas.height / cellSize / 2);
+        
+        // Clamp camera to grid bounds
+        const maxCameraX = GRID_SIZE - Math.floor(canvas.width / cellSize);
+        const maxCameraY = GRID_SIZE - Math.floor(canvas.height / cellSize);
+        
+        cameraX = Math.max(0, Math.min(cameraX, maxCameraX));
+        cameraY = Math.max(0, Math.min(cameraY, maxCameraY));
+    }
+}
         // Modified drawGame function to make profile pictures the size of one grid square
-function drawGame() {
+        function drawGame() {
     if (cellSize <= 0) { return; }
+
+    // Update camera position first
+    updateCamera();
 
     ctx.fillStyle = DEFAULT_CELL_COLOR;
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    // Draw Grid Cells & Lines
+    // Calculate visible tile range
+    const startTileX = Math.floor(cameraX);
+    const startTileY = Math.floor(cameraY);
+    const endTileX = Math.min(GRID_SIZE, startTileX + Math.ceil(canvas.width / cellSize) + 1);
+    const endTileY = Math.min(GRID_SIZE, startTileY + Math.ceil(canvas.height / cellSize) + 1);
+
+    // Draw Grid Cells & Lines (only visible ones)
     if (grid && grid.length > 0) {
-        for (let y = 0; y < GRID_SIZE; y++) {
-            for (let x = 0; x < GRID_SIZE; x++) {
+        for (let y = startTileY; y < endTileY; y++) {
+            for (let x = startTileX; x < endTileX; x++) {
                 const teamId = grid[y]?.[x];
+                const screenX = (x - cameraX) * cellSize;
+                const screenY = (y - cameraY) * cellSize;
+                
                 if (teamId !== undefined && teamId !== null && teamId !== -1) {
                     ctx.fillStyle = TEAM_COLORS[teamId] || DEFAULT_CELL_COLOR;
-                    ctx.fillRect(x * cellSize, y * cellSize, cellSize, cellSize);
+                    ctx.fillRect(screenX, screenY, cellSize, cellSize);
                 }
-                // Draw Grid Lines (optional, can clutter)
-                if (cellSize > 4) { // Only draw if cells are big enough
-                   ctx.strokeStyle = GRID_LINE_COLOR;
-                   ctx.lineWidth = 0.5;
-                   ctx.strokeRect(x * cellSize, y * cellSize, cellSize, cellSize);
-                }
+                
+                // Draw Grid Lines
+                ctx.strokeStyle = GRID_LINE_COLOR;
+                ctx.lineWidth = 1;
+                ctx.strokeRect(screenX, screenY, cellSize, cellSize);
             }
         }
     }
 
     // Draw Players & Usernames
-    // IMPORTANT CHANGE: Use cellSize directly instead of scaling with PLAYER_SIZE_FACTOR
     const fontSize = Math.max(10, Math.min(22, Math.floor(cellSize / 3.0)));
 
     players.forEach(player => {
         if (player && player.id !== undefined && player.x >= 0 && player.y >= 0) {
-            const playerColor = TEAM_COLORS[player.team_id] ?? DEFAULT_SPECTATOR_COLOR;
-            // Calculate the position to draw the player (top-left corner of the cell)
-            const playerX = player.x * cellSize;
-            const playerY = player.y * cellSize;
-            
-            // Player background circle or profile pic
-            if (!player.profile_pic) {
-                // If no profile pic, fill the cell with team color
-                ctx.fillStyle = playerColor;
-                ctx.fillRect(playerX, playerY, cellSize, cellSize);
+            // Check if player is in visible area
+            if (player.x >= startTileX - 1 && player.x <= endTileX && 
+                player.y >= startTileY - 1 && player.y <= endTileY) {
                 
-                // Add a small outline
-                ctx.strokeStyle = (player.id === myPlayerId && !isSpectator) ? '#FFFFFF' : '#000000';
-                ctx.lineWidth = (player.id === myPlayerId && !isSpectator) ? 2 : 1;
-                ctx.strokeRect(playerX, playerY, cellSize, cellSize);
-            } else {
-                // Create a clipping region for the profile picture (square cell)
-                ctx.save();
-                ctx.beginPath();
-                // Use a square clip the size of the cell
-                ctx.rect(playerX, playerY, cellSize, cellSize);
-                ctx.clip();
+                const playerColor = TEAM_COLORS[player.team_id] ?? DEFAULT_SPECTATOR_COLOR;
+                const screenX = (player.x - cameraX) * cellSize;
+                const screenY = (player.y - cameraY) * cellSize;
                 
-                // Load and draw the profile picture to fill the cell perfectly
-                const img = new Image();
-                img.src = "data:image/png;base64," + player.profile_pic;
-                
-                ctx.drawImage(img, playerX, playerY, cellSize, cellSize);
-                ctx.restore();
-                
-                // Draw outline for the player
-                ctx.beginPath();
-                ctx.strokeStyle = (player.id === myPlayerId && !isSpectator) ? '#FFFFFF' : '#000000';
-                ctx.lineWidth = (player.id === myPlayerId && !isSpectator) ? 2 : 1;
-                ctx.strokeRect(playerX, playerY, cellSize, cellSize);
-            }
+                // Player background circle or profile pic
+                if (!player.profile_pic) {
+                    // If no profile pic, fill the cell with team color
+                    ctx.fillStyle = playerColor;
+                    ctx.fillRect(screenX, screenY, cellSize, cellSize);
+                    
+                    // Add a small outline
+                    ctx.strokeStyle = (player.id === myPlayerId && !isSpectator) ? '#FFFFFF' : '#000000';
+                    ctx.lineWidth = (player.id === myPlayerId && !isSpectator) ? 2 : 1;
+                    ctx.strokeRect(screenX, screenY, cellSize, cellSize);
+                } else {
+                    // Create a clipping region for the profile picture (square cell)
+                    ctx.save();
+                    ctx.beginPath();
+                    ctx.rect(screenX, screenY, cellSize, cellSize);
+                    ctx.clip();
+                    
+                    // Load and draw the profile picture
+                    const img = new Image();
+                    img.src = "data:image/png;base64," + player.profile_pic;
+                    
+                    ctx.drawImage(img, screenX, screenY, cellSize, cellSize);
+                    ctx.restore();
+                    
+                    // Draw outline for the player
+                    ctx.strokeStyle = (player.id === myPlayerId && !isSpectator) ? '#FFFFFF' : '#000000';
+                    ctx.lineWidth = (player.id === myPlayerId && !isSpectator) ? 2 : 1;
+                    ctx.strokeRect(screenX, screenY, cellSize, cellSize);
+                }
 
-            // Draw Username
-            if (cellSize > 8) {
-                ctx.font = `${fontSize}px 'Press Start 2P'`;
-                ctx.fillStyle = '#FFFFFF';
-                ctx.textAlign = 'center';
-                ctx.textBaseline = 'bottom';
-                ctx.shadowColor = '#000000';
-                ctx.shadowBlur = 2;
-                
-                // Truncate long names
-                const maxNameLength = 10;
-                const displayName = (player.username || `P${player.id}`).length > maxNameLength
-                    ? player.username.substring(0, maxNameLength - 1) + '…'
-                    : player.username || `P${player.id}`;
+                // Draw Username
+                if (cellSize > 20) { // Increased threshold for larger cells
+                    ctx.font = `${fontSize}px 'Press Start 2P'`;
+                    ctx.fillStyle = '#FFFFFF';
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'bottom';
+                    ctx.shadowColor = '#000000';
+                    ctx.shadowBlur = 2;
+                    
+                    // Truncate long names
+                    const maxNameLength = 10;
+                    const displayName = (player.username || `P${player.id}`).length > maxNameLength
+                        ? player.username.substring(0, maxNameLength - 1) + '…'
+                        : player.username || `P${player.id}`;
 
-                // Position username above player square
-                const playerCenterX = playerX + cellSize / 2;
-                const playerTop = playerY - 2; // 2px above cell
-                
-                ctx.fillText(displayName, playerCenterX, playerTop);
-                ctx.shadowBlur = 0;
+                    // Position username above player square
+                    const playerCenterX = screenX + cellSize / 2;
+                    const playerTop = screenY - 2;
+                    
+                    ctx.fillText(displayName, playerCenterX, playerTop);
+                    ctx.shadowBlur = 0;
+                }
             }
         }
     });
@@ -515,42 +570,94 @@ function drawGame() {
                 startButton.style.display = 'none'; resetButton.style.display = 'none';
                 gameActive = false;
             });
+
+            socket.on('profile_pic_updated', (data) => {
+    if (data && data.playerId && data.base64_data) {
+        // Update the player's profile pic in our local data
+        const playerIndex = players.findIndex(p => p.id === data.playerId);
+        if (playerIndex !== -1) {
+            players[playerIndex].profile_pic = data.base64_data;
+            // If this is our player, update myPlayerData too
+            if (data.playerId === myPlayerId) {
+                myPlayerData.profile_pic = data.base64_data;
+            }
+            // Redraw everything with the updated profile pic
+            drawGame();
+            updatePlayersList();
+        }
+    }
+});
             socket.on('assign_player', (data) => {
                 myPlayerId = data.playerId; isSpectator = data.isSpectator || false;
                 console.log(`Assigned PID: ${myPlayerId}, Spectator: ${isSpectator}`);
             });
 
             socket.on('game_update', (serverState) => {
-                grid = serverState.grid; players = serverState.players; teams = serverState.teams;
-                gameActive = serverState.game_active;
-                minPlayersToStart = serverState.min_players_to_start || 2;
-                const activePlayersCount = serverState.active_players_count || 0;
+    grid = serverState.grid;
+    players = serverState.players;
+    teams = serverState.teams;
+    gameActive = serverState.game_active;
+    minPlayersToStart = serverState.min_players_to_start || 2;
+    const activePlayersCount = serverState.active_players_count || 0;
 
-                myPlayerData = players.find(p => p.id === myPlayerId);
-                if (myPlayerData) {
-                    isSpectator = myPlayerData.is_spectator;
-                    usernameElement.textContent = myPlayerData.username || 'Player';
-                    if (isSpectator && gameActive) { showMessage("Spectating..."); }
-                    else if (!gameActive) { showMessage(`Waiting (${activePlayersCount}/${minPlayersToStart})...`); }
-                    else { showMessage(""); } // Playing
-                } else {
-                    usernameElement.textContent = 'Player'; isSpectator = false;
-                    if (!gameActive) showMessage(`Waiting (${activePlayersCount}/${minPlayersToStart})...`); else showMessage("");
-                }
+    // Save our old profile pic if we have one
+    const oldProfilePic = myPlayerData?.profile_pic;
+    
+    // Update our player data
+    myPlayerData = players.find(p => p.id === myPlayerId);
+    
+    if (myPlayerData) {
+        // If we had a profile pic loaded from our API but the server doesn't have it,
+        // update our local copy and send it to the server
+        if (oldProfilePic && !myPlayerData.profile_pic) {
+            myPlayerData.profile_pic = oldProfilePic;
+            
+            // Update our player in the players array
+            const playerIndex = players.findIndex(p => p.id === myPlayerId);
+            if (playerIndex !== -1) {
+                players[playerIndex].profile_pic = oldProfilePic;
+            }
+            
+            // Send update to server
+            if (socket && socket.connected) {
+                socket.emit('update_profile_pic', { 
+                    base64_data: oldProfilePic 
+                });
+            }
+        }
+        
+        isSpectator = myPlayerData.is_spectator;
+        usernameElement.textContent = myPlayerData.username || 'Player';
+        if (isSpectator && gameActive) { 
+            showMessage("Spectating..."); 
+        } else if (!gameActive) { 
+            showMessage(`Waiting (${activePlayersCount}/${minPlayersToStart})...`); 
+        } else { 
+            showMessage(""); 
+        }
+    } else {
+        usernameElement.textContent = 'Player';
+        isSpectator = false;
+        if (!gameActive) showMessage(`Waiting (${activePlayersCount}/${minPlayersToStart})...`);
+        else showMessage("");
+    }
 
-                updateTimerDisplay(serverState.remaining_time); updateTeamScores(); updatePlayersList(); drawGame();
+    updateTimerDisplay(serverState.remaining_time);
+    updateTeamScores();
+    updatePlayersList();
+    drawGame(); 
+                
+    const canStart = !gameActive && activePlayersCount >= minPlayersToStart;
+    startButton.style.display = (isConnected && !gameActive) ? 'inline-block' : 'none'; // Show if connected & inactive
+    startButton.disabled = !canStart; // Enable only if enough players
 
-                const canStart = !gameActive && activePlayersCount >= minPlayersToStart;
-                startButton.style.display = (isConnected && !gameActive) ? 'inline-block' : 'none'; // Show if connected & inactive
-                startButton.disabled = !canStart; // Enable only if enough players
+    resetButton.style.display = (isConnected && !gameActive) ? 'inline-block' : 'none'; // Show Reset only if inactive & connected
+    resetButton.disabled = gameActive;
 
-                resetButton.style.display = (isConnected && !gameActive) ? 'inline-block' : 'none'; // Show Reset only if inactive & connected
-                resetButton.disabled = gameActive;
-
-                if(instructionsElement) {
-                    instructionsElement.textContent = `Use WASD to move & claim. Press "Start Game" when ${minPlayersToStart} players join!`;
-                }
-            });
+    if(instructionsElement) {
+        instructionsElement.textContent = `Use WASD to move & claim. Press "Start Game" when ${minPlayersToStart} players join!`;
+    }
+});
 
             socket.on('game_event', (data) => {
                 console.log("Event:", data.message);
@@ -589,32 +696,49 @@ function drawGame() {
         }
 
         // --- Page Load and Event Listeners ---
-        document.addEventListener('DOMContentLoaded', () => {
-            // Initial setup before connection
-            initCanvas(); // Initial size calculation
-            connectToServer();
+       // --- Page Load and Event Listeners ---
+document.addEventListener('DOMContentLoaded', () => {
+    // Initial setup before connection
+    initCanvas(); // Initial size calculation
+    connectToServer();
 
-            window.addEventListener('resize', initCanvas); // Recalculate size on resize
-            window.addEventListener('keydown', handleKeyDown);
+    // Fetch profile picture after a short delay to ensure connection is established
+    setTimeout(fetchProfilePicture, 1000);
+    
+    // Set up periodic profile picture refresh (every 30 seconds)
+    // This ensures any profile picture updates are always shown
+    setInterval(fetchProfilePicture, 30000);
 
-            startButton.addEventListener('click', () => {
-                if (isConnected && !gameActive && !startButton.disabled) {
-                    console.log("Requesting game start..."); socket.emit('request_start');
-                    startButton.disabled = true; showMessage("Requesting start...");
-                }
-            });
-            resetButton.addEventListener('click', () => {
-                if (isConnected && !gameActive) {
-                    console.log("Requesting game reset..."); socket.emit('request_reset');
-                }
-            });
-            reconnectButton.addEventListener('click', connectToServer);
+    window.addEventListener('resize', initCanvas); // Recalculate size on resize
+    window.addEventListener('keydown', handleKeyDown);
 
-             const placeholder = document.querySelector('.instructions p:first-child');
-             if(placeholder) { // Initial update before connection info arrives
-                 placeholder.textContent = placeholder.textContent.replace('{MIN_PLAYERS_PLACEHOLDER}', minPlayersToStart);
-             }
-        });
+    startButton.addEventListener('click', () => {
+        if (isConnected && !gameActive && !startButton.disabled) {
+            console.log("Requesting game start...");
+            socket.emit('request_start');
+            startButton.disabled = true;
+            showMessage("Requesting start...");
+        }
+    });
+    
+    resetButton.addEventListener('click', () => {
+        if (isConnected && !gameActive) {
+            console.log("Requesting game reset...");
+            socket.emit('request_reset');
+        }
+    });
+    
+    reconnectButton.addEventListener('click', () => {
+        connectToServer();
+        // Refresh profile picture after reconnection
+        setTimeout(fetchProfilePicture, 1000);
+    });
+
+    const placeholder = document.querySelector('.instructions p:first-child');
+    if(placeholder) { // Initial update before connection info arrives
+        placeholder.textContent = placeholder.textContent.replace('{MIN_PLAYERS_PLACEHOLDER}', minPlayersToStart);
+    }
+});
         window.addEventListener('beforeunload', () => { if (socket) { socket.disconnect(); socket = null; } });
 
     </script>

@@ -21,7 +21,7 @@ import secrets
 import os
 import logging
 import random
-from util.profile_pic import get_profile_pic_by_username, handle_profile_page, serve_profile_pic
+from util.profile_pic import get_profile_pic, get_profile_pic_by_username, handle_profile_page, serve_profile_pic
 
 from util.register import handle_register
 from util.login import handle_login
@@ -563,6 +563,27 @@ def profile(user):
 def profile_pic(filename):
     return serve_profile_pic(filename)
 
+@app.route('/api/player/profile_pic')
+@auth_required
+def get_player_profile_pic_api(user):
+    """Get the current user's profile picture"""
+    try:
+        profile_pic_data = get_profile_pic(user.get('_id'))
+        if profile_pic_data:
+            return jsonify({
+                "success": True,
+                "base64_data": profile_pic_data.get("base64_data")
+            })
+        return jsonify({
+            "success": False,
+            "message": "No profile picture found"
+        })
+    except Exception as e:
+        logging.error(f"Error retrieving profile picture: {str(e)}")
+        return jsonify({
+            "success": False,
+            "message": str(e)
+        }), 500
 @app.route('/leaderboard')
 @auth_required
 def leaderboard(user):
@@ -755,7 +776,28 @@ def handle_disconnect():
             logging.info(f"Game may end: Only {num_active_after} active players left.")
             end_game() # end_game checks game_active itself and handles lock
 
-
+@socketio.on('update_profile_pic')
+def handle_profile_pic_update(data):
+    """Handle profile picture updates from clients"""
+    sid = request.sid
+    if not sid or sid not in game_state["players"]:
+        return
+    
+    player = game_state["players"].get(sid)
+    if not player:
+        return
+    
+    # Update the player's profile pic
+    if "base64_data" in data and data["base64_data"]:
+        player["profile_pic"] = data["base64_data"]
+        
+        # Broadcast to all clients
+        socketio.emit('profile_pic_updated', {
+            'playerId': player['id'],
+            'base64_data': data["base64_data"]
+        })
+        
+        logging.info(f"Profile picture updated for player {player.get('username', 'Unknown')}")
 @socketio.on('player_move')
 def handle_player_move(data):
     sid = request.sid
