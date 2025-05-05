@@ -1,0 +1,2973 @@
+2025-05-04 21:20:43,950: === Raw HTTP Request ===
+GET /? HTTP/1.1
+Content-Type: text/plain
+Host: 0.0.0.0:8080
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+Accept-Encoding: gzip, deflate
+Accept-Language: en-US,en;q=0.9
+Cookie: session=eyJ1c2VybmFtZSI6ICJlZWUifQ.aA75iw.SaCpqwwG-HA9_QCpBg0LiQjAvTc
+
+
+2025-05-04 21:20:43,956: === Raw HTTP Response ===
+Content-Type: text/html; charset=utf-8
+Content-Length: 30425
+
+[Body redacted]
+2025-05-04 21:20:51,881: === Raw HTTP Request ===
+GET /? HTTP/1.1
+Content-Type: text/plain
+Host: 0.0.0.0:8080
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+Accept-Encoding: gzip, deflate
+Accept-Language: en-US,en;q=0.9
+Cookie: session=eyJ1c2VybmFtZSI6ICJlZWUifQ.aA75iw.SaCpqwwG-HA9_QCpBg0LiQjAvTc
+
+
+2025-05-04 21:20:51,885: === Raw HTTP Response ===
+Content-Type: text/html; charset=utf-8
+Content-Length: 30425
+
+[Body redacted]
+2025-05-04 21:20:57,354: === Raw HTTP Request ===
+GET /profile? HTTP/1.1
+Content-Type: text/plain
+Host: 0.0.0.0:8080
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+Referer: http://0.0.0.0:8080/
+Accept-Encoding: gzip, deflate
+Accept-Language: en-US,en;q=0.9
+Cookie: session=eyJ1c2VybmFtZSI6ICJlZWUifQ.aA75iw.SaCpqwwG-HA9_QCpBg0LiQjAvTc
+
+
+2025-05-04 21:20:57,363: === Raw HTTP Response ===
+Content-Type: text/html; charset=utf-8
+Content-Length: 19356
+
+[Body redacted]
+2025-05-04 21:20:57,377: === Raw HTTP Request ===
+GET /profile_pic/48c037a2-0b94-433e-b38e-9da52eb91f24.png? HTTP/1.1
+Content-Type: text/plain
+Host: 0.0.0.0:8080
+Connection: keep-alive
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+Accept: image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8
+Referer: http://0.0.0.0:8080/profile
+Accept-Encoding: gzip, deflate
+Accept-Language: en-US,en;q=0.9
+Cookie: session=eyJ1c2VybmFtZSI6ICJlZWUifQ.aA75iw.SaCpqwwG-HA9_QCpBg0LiQjAvTc
+If-None-Match: "1746400005.7468426-16027-2145199943"
+If-Modified-Since: Sun, 04 May 2025 23:06:45 GMT
+
+
+2025-05-04 21:20:57,380: Failed to log raw HTTP response:
+Traceback (most recent call last):
+  File "/Users/eleanoraundrus/Downloads/cse312-project/server.py", line 152, in log_response_and_raw
+    body_data = response.get_data()
+  File "/Users/eleanoraundrus/Downloads/cse312-project/312/lib/python3.9/site-packages/werkzeug/wrappers/response.py", line 281, in get_data
+    self._ensure_sequence()
+  File "/Users/eleanoraundrus/Downloads/cse312-project/312/lib/python3.9/site-packages/werkzeug/wrappers/response.py", line 329, in _ensure_sequence
+    raise RuntimeError(
+RuntimeError: Attempted implicit sequence conversion but the response object is in direct passthrough mode.
+2025-05-04 21:21:13,645: === Raw HTTP Request ===
+GET /? HTTP/1.1
+Content-Type: text/plain
+Host: 0.0.0.0:8080
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+Referer: http://0.0.0.0:8080/profile
+Accept-Encoding: gzip, deflate
+Accept-Language: en-US,en;q=0.9
+Cookie: session=eyJ1c2VybmFtZSI6ICJlZWUifQ.aA75iw.SaCpqwwG-HA9_QCpBg0LiQjAvTc
+
+
+2025-05-04 21:21:13,647: === Raw HTTP Response ===
+Content-Type: text/html; charset=utf-8
+Content-Length: 30425
+
+[Body redacted]
+2025-05-04 21:26:33,160: === Raw HTTP Request ===
+GET /? HTTP/1.1
+Content-Type: text/plain
+Host: 0.0.0.0:8080
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+Accept-Encoding: gzip, deflate
+Accept-Language: en-US,en;q=0.9
+Cookie: session=eyJ1c2VybmFtZSI6ICJlZWUifQ.aA75iw.SaCpqwwG-HA9_QCpBg0LiQjAvTc
+
+
+2025-05-04 21:26:33,167: === Raw HTTP Response ===
+Content-Type: text/html; charset=utf-8
+Content-Length: 30660
+
+[Body redacted]
+2025-05-04 21:27:17,458: === Raw HTTP Request ===
+GET /? HTTP/1.1
+Content-Type: text/plain
+Host: 0.0.0.0:8080
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+Accept-Encoding: gzip, deflate
+Accept-Language: en-US,en;q=0.9
+Cookie: session=eyJ1c2VybmFtZSI6ICJlZWUifQ.aA75iw.SaCpqwwG-HA9_QCpBg0LiQjAvTc
+
+
+2025-05-04 21:27:17,465: === Raw HTTP Response ===
+Content-Type: text/html; charset=utf-8
+Content-Length: 30660
+
+[Body redacted]
+2025-05-04 21:27:53,759: === Raw HTTP Request ===
+GET /? HTTP/1.1
+Content-Type: text/plain
+Host: 0.0.0.0:8080
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+Accept-Encoding: gzip, deflate
+Accept-Language: en-US,en;q=0.9
+Cookie: session=eyJ1c2VybmFtZSI6ICJlZWUifQ.aA75iw.SaCpqwwG-HA9_QCpBg0LiQjAvTc
+
+
+2025-05-04 21:27:53,765: === Raw HTTP Response ===
+Content-Type: text/html; charset=utf-8
+Content-Length: 30660
+
+[Body redacted]
+2025-05-04 21:28:04,534: === Raw HTTP Request ===
+GET /? HTTP/1.1
+Content-Type: text/plain
+Host: 0.0.0.0:8080
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+Accept-Encoding: gzip, deflate
+Accept-Language: en-US,en;q=0.9
+Cookie: session=eyJ1c2VybmFtZSI6ICJlZWUifQ.aA75iw.SaCpqwwG-HA9_QCpBg0LiQjAvTc
+
+
+2025-05-04 21:28:04,540: === Raw HTTP Response ===
+Content-Type: text/html; charset=utf-8
+Content-Length: 30659
+
+[Body redacted]
+2025-05-04 21:28:19,050: === Raw HTTP Request ===
+GET /? HTTP/1.1
+Content-Type: text/plain
+Host: 0.0.0.0:8080
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+Accept-Encoding: gzip, deflate
+Accept-Language: en-US,en;q=0.9
+Cookie: session=eyJ1c2VybmFtZSI6ICJlZWUifQ.aA75iw.SaCpqwwG-HA9_QCpBg0LiQjAvTc
+
+
+2025-05-04 21:28:19,058: === Raw HTTP Response ===
+Content-Type: text/html; charset=utf-8
+Content-Length: 30660
+
+[Body redacted]
+2025-05-04 22:24:01,486: === Raw HTTP Request ===
+GET /register? HTTP/1.1
+Content-Type: text/plain
+Host: 127.0.0.1:8080
+Connection: keep-alive
+Sec-Ch-Ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"
+Sec-Ch-Ua-Mobile: ?0
+Sec-Ch-Ua-Platform: "macOS"
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+Sec-Purpose: prefetch;prerender
+Purpose: prefetch
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+Sec-Fetch-Site: none
+Sec-Fetch-Mode: navigate
+Sec-Fetch-User: ?1
+Sec-Fetch-Dest: document
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: en-US,en;q=0.9
+Cookie: [redacted]
+
+
+2025-05-04 22:24:01,498: === Raw HTTP Response ===
+Content-Type: text/html; charset=utf-8
+Content-Length: 21004
+
+[Body redacted]
+2025-05-05 00:41:47,841: === Raw HTTP Request ===
+GET /? HTTP/1.1
+Content-Type: text/plain
+Host: localhost:8080
+Connection: keep-alive
+Sec-Ch-Ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"
+Sec-Ch-Ua-Mobile: ?0
+Sec-Ch-Ua-Platform: "macOS"
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+Sec-Purpose: prefetch;prerender
+Purpose: prefetch
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+Sec-Fetch-Site: none
+Sec-Fetch-Mode: navigate
+Sec-Fetch-User: ?1
+Sec-Fetch-Dest: document
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: en-US,en;q=0.9
+Cookie: [redacted]
+
+
+2025-05-05 00:41:47,842: === Raw HTTP Response ===
+Content-Type: text/html; charset=utf-8
+Content-Length: 255
+Location: /login?next=http://localhost:8080/
+
+[Body redacted]
+2025-05-05 00:41:47,846: === Raw HTTP Request ===
+GET /login?next=http://localhost:8080/ HTTP/1.1
+Content-Type: text/plain
+Host: localhost:8080
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+Sec-Purpose: prefetch;prerender
+Purpose: prefetch
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+Sec-Fetch-Site: none
+Sec-Fetch-Mode: navigate
+Sec-Fetch-User: ?1
+Sec-Fetch-Dest: document
+Sec-Ch-Ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"
+Sec-Ch-Ua-Mobile: ?0
+Sec-Ch-Ua-Platform: "macOS"
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: en-US,en;q=0.9
+Cookie:  session=eyJfZmxhc2hlcyI6W3siIHQiOlsid2FybmluZyIsIlBsZWFzZSBsb2cgaW4gdG8gYWNjZXNzIHRoaXMgcGFnZS4iXX1dfQ.aBhBiw.cFgry0eDxbg5pJ2pdNw-fB7BBaU
+
+
+2025-05-05 00:41:47,851: === Raw HTTP Response ===
+Content-Type: text/html; charset=utf-8
+Content-Length: 12270
+
+[Body redacted]
+2025-05-05 00:41:55,640: === Raw HTTP Request ===
+POST /login? HTTP/1.1
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 55
+Host: localhost:8080
+Connection: keep-alive
+Sec-Ch-Ua-Platform: "macOS"
+X-Requested-With: XMLHttpRequest
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+Sec-Ch-Ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"
+Sec-Ch-Ua-Mobile: ?0
+Accept: */*
+Origin: http://localhost:8080
+Sec-Fetch-Site: same-origin
+Sec-Fetch-Mode: cors
+Sec-Fetch-Dest: empty
+Referer: http://localhost:8080/login?next=http://localhost:8080/
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: en-US,en;q=0.9
+Cookie: [redacted]
+
+[Body redacted]
+2025-05-05 00:41:55,773: === Raw HTTP Response ===
+Content-Type: application/json
+Content-Length: 62
+Set-Cookie:  Expires=Wed, 04 Jun 2025 04:41:55 GMT; Max-Age=2592000; HttpOnly; Path=/; SameSite=Lax
+
+[Body redacted]
+2025-05-05 00:41:55,784: === Raw HTTP Request ===
+GET /? HTTP/1.1
+Content-Type: text/plain
+Host: localhost:8080
+Connection: keep-alive
+Sec-Ch-Ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"
+Sec-Ch-Ua-Mobile: ?0
+Sec-Ch-Ua-Platform: "macOS"
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+Sec-Fetch-Site: same-origin
+Sec-Fetch-Mode: navigate
+Sec-Fetch-User: ?1
+Sec-Fetch-Dest: document
+Referer: http://localhost:8080/login?next=http://localhost:8080/
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: en-US,en;q=0.9
+Cookie: [redacted]
+
+
+2025-05-05 00:41:55,788: === Raw HTTP Response ===
+Content-Type: text/html; charset=utf-8
+Content-Length: 30810
+
+[Body redacted]
+2025-05-05 00:41:58,456: === Raw HTTP Request ===
+GET /profile? HTTP/1.1
+Content-Type: text/plain
+Host: localhost:8080
+Connection: keep-alive
+Sec-Ch-Ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"
+Sec-Ch-Ua-Mobile: ?0
+Sec-Ch-Ua-Platform: "macOS"
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+Sec-Fetch-Site: same-origin
+Sec-Fetch-Mode: navigate
+Sec-Fetch-User: ?1
+Sec-Fetch-Dest: document
+Referer: http://localhost:8080/
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: en-US,en;q=0.9
+Cookie:  session=eyJ1c2VybmFtZSI6ImVsbHllbCJ9.aBhBkw.JprwnZvZAf2k-jgc3cg_x9zbQ0M
+
+
+2025-05-05 00:41:58,466: === Raw HTTP Response ===
+Content-Type: text/html; charset=utf-8
+Content-Length: 19358
+
+[Body redacted]
+2025-05-05 00:41:58,473: === Raw HTTP Request ===
+GET /profile_pic/48c037a2-0b94-433e-b38e-9da52eb91f24.png? HTTP/1.1
+Content-Type: text/plain
+Host: localhost:8080
+Connection: keep-alive
+Sec-Ch-Ua-Platform: "macOS"
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+Sec-Ch-Ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"
+Sec-Ch-Ua-Mobile: ?0
+Accept: image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8
+Sec-Fetch-Site: same-origin
+Sec-Fetch-Mode: no-cors
+Sec-Fetch-Dest: image
+Referer: http://localhost:8080/profile
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: en-US,en;q=0.9
+Cookie:  session=eyJ1c2VybmFtZSI6ImVsbHllbCJ9.aBhBkw.JprwnZvZAf2k-jgc3cg_x9zbQ0M
+
+
+2025-05-05 00:41:58,477: Failed to log raw HTTP response:
+Traceback (most recent call last):
+  File "/Users/eleanoraundrus/Downloads/cse312-project/server.py", line 152, in log_response_and_raw
+    body_data = response.get_data()
+  File "/Users/eleanoraundrus/Downloads/cse312-project/312/lib/python3.9/site-packages/werkzeug/wrappers/response.py", line 281, in get_data
+    self._ensure_sequence()
+  File "/Users/eleanoraundrus/Downloads/cse312-project/312/lib/python3.9/site-packages/werkzeug/wrappers/response.py", line 329, in _ensure_sequence
+    raise RuntimeError(
+RuntimeError: Attempted implicit sequence conversion but the response object is in direct passthrough mode.
+2025-05-05 00:42:01,983: === Raw HTTP Request ===
+GET /? HTTP/1.1
+Content-Type: text/plain
+Host: localhost:8080
+Connection: keep-alive
+Sec-Ch-Ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"
+Sec-Ch-Ua-Mobile: ?0
+Sec-Ch-Ua-Platform: "macOS"
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+Sec-Fetch-Site: same-origin
+Sec-Fetch-Mode: navigate
+Sec-Fetch-User: ?1
+Sec-Fetch-Dest: document
+Referer: http://localhost:8080/profile
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: en-US,en;q=0.9
+Cookie:  session=eyJ1c2VybmFtZSI6ImVsbHllbCJ9.aBhBkw.JprwnZvZAf2k-jgc3cg_x9zbQ0M
+
+
+2025-05-05 00:42:01,987: === Raw HTTP Response ===
+Content-Type: text/html; charset=utf-8
+Content-Length: 30810
+
+[Body redacted]
+2025-05-05 00:42:18,529: === Raw HTTP Request ===
+GET /? HTTP/1.1
+Content-Type: text/plain
+Host: localhost:8080
+Connection: keep-alive
+Sec-Ch-Ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"
+Sec-Ch-Ua-Mobile: ?0
+Sec-Ch-Ua-Platform: "macOS"
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+Sec-Purpose: prefetch;prerender
+Purpose: prefetch
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+Sec-Fetch-Site: none
+Sec-Fetch-Mode: navigate
+Sec-Fetch-User: ?1
+Sec-Fetch-Dest: document
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: en-US,en;q=0.9
+
+
+2025-05-05 00:42:18,530: === Raw HTTP Response ===
+Content-Type: text/html; charset=utf-8
+Content-Length: 255
+Location: /login?next=http://localhost:8080/
+
+[Body redacted]
+2025-05-05 00:42:18,532: === Raw HTTP Request ===
+GET /login?next=http://localhost:8080/ HTTP/1.1
+Content-Type: text/plain
+Host: localhost:8080
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+Sec-Purpose: prefetch;prerender
+Purpose: prefetch
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+Sec-Fetch-Site: none
+Sec-Fetch-Mode: navigate
+Sec-Fetch-User: ?1
+Sec-Fetch-Dest: document
+Sec-Ch-Ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"
+Sec-Ch-Ua-Mobile: ?0
+Sec-Ch-Ua-Platform: "macOS"
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: en-US,en;q=0.9
+Cookie: session=eyJfZmxhc2hlcyI6W3siIHQiOlsid2FybmluZyIsIlBsZWFzZSBsb2cgaW4gdG8gYWNjZXNzIHRoaXMgcGFnZS4iXX1dfQ.aBhBqg.9kqZ6uAIhQ38QkTd8J-sKE3P-n8
+
+
+2025-05-05 00:42:18,533: === Raw HTTP Response ===
+Content-Type: text/html; charset=utf-8
+Content-Length: 12270
+
+[Body redacted]
+2025-05-05 00:42:24,116: === Raw HTTP Request ===
+POST /login? HTTP/1.1
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 58
+Host: localhost:8080
+Connection: keep-alive
+Sec-Ch-Ua-Platform: "macOS"
+X-Requested-With: XMLHttpRequest
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+Sec-Ch-Ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"
+Sec-Ch-Ua-Mobile: ?0
+Accept: */*
+Origin: http://localhost:8080
+Sec-Fetch-Site: same-origin
+Sec-Fetch-Mode: cors
+Sec-Fetch-Dest: empty
+Referer: http://localhost:8080/login?next=http://localhost:8080/
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: en-US,en;q=0.9
+
+[Body redacted]
+2025-05-05 00:42:24,119: === Raw HTTP Response ===
+Content-Type: application/json
+Content-Length: 59
+
+[Body redacted]
+2025-05-05 00:42:26,006: === Raw HTTP Request ===
+GET /register? HTTP/1.1
+Content-Type: text/plain
+Host: localhost:8080
+Connection: keep-alive
+Sec-Ch-Ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"
+Sec-Ch-Ua-Mobile: ?0
+Sec-Ch-Ua-Platform: "macOS"
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+Sec-Fetch-Site: same-origin
+Sec-Fetch-Mode: navigate
+Sec-Fetch-User: ?1
+Sec-Fetch-Dest: document
+Referer: http://localhost:8080/login?next=http://localhost:8080/
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: en-US,en;q=0.9
+
+
+2025-05-05 00:42:26,014: === Raw HTTP Response ===
+Content-Type: text/html; charset=utf-8
+Content-Length: 21004
+
+[Body redacted]
+2025-05-05 00:42:33,871: === Raw HTTP Request ===
+POST /register? HTTP/1.1
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundaryxkefhQynWxaW1kpq
+Content-Length: 479
+Host: localhost:8080
+Connection: keep-alive
+Sec-Ch-Ua-Platform: "macOS"
+X-Requested-With: XMLHttpRequest
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+Sec-Ch-Ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"
+Sec-Ch-Ua-Mobile: ?0
+Accept: */*
+Origin: http://localhost:8080
+Sec-Fetch-Site: same-origin
+Sec-Fetch-Mode: cors
+Sec-Fetch-Dest: empty
+Referer: http://localhost:8080/register
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: en-US,en;q=0.9
+
+[Body redacted]
+2025-05-05 00:42:34,003: === Raw HTTP Response ===
+Content-Type: application/json
+Content-Length: 69
+Set-Cookie:  Expires=Wed, 04 Jun 2025 04:42:34 GMT; Max-Age=2592000; HttpOnly; Path=/; SameSite=Lax
+
+[Body redacted]
+2025-05-05 00:42:36,022: === Raw HTTP Request ===
+GET /? HTTP/1.1
+Content-Type: text/plain
+Host: localhost:8080
+Connection: keep-alive
+Sec-Ch-Ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"
+Sec-Ch-Ua-Mobile: ?0
+Sec-Ch-Ua-Platform: "macOS"
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+Sec-Fetch-Site: same-origin
+Sec-Fetch-Mode: navigate
+Sec-Fetch-User: ?1
+Sec-Fetch-Dest: document
+Referer: http://localhost:8080/register
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: en-US,en;q=0.9
+Cookie: [redacted]
+
+
+2025-05-05 00:42:36,024: === Raw HTTP Response ===
+Content-Type: text/html; charset=utf-8
+Content-Length: 30810
+
+[Body redacted]
+2025-05-05 00:42:57,423: === Raw HTTP Request ===
+GET /? HTTP/1.1
+Content-Type: text/plain
+Host: localhost:8080
+Connection: keep-alive
+Sec-Ch-Ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"
+Sec-Ch-Ua-Mobile: ?0
+Sec-Ch-Ua-Platform: "macOS"
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+Sec-Purpose: prefetch;prerender
+Purpose: prefetch
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+Sec-Fetch-Site: none
+Sec-Fetch-Mode: navigate
+Sec-Fetch-User: ?1
+Sec-Fetch-Dest: document
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: en-US,en;q=0.9
+Cookie:  session=eyJ1c2VybmFtZSI6Im5vcm1hbCJ9.aBhBvA.DO55U50T2ECaXiBUZ056NGgkrUQ
+
+
+2025-05-05 00:42:57,428: === Raw HTTP Response ===
+Content-Type: text/html; charset=utf-8
+Content-Length: 30810
+
+[Body redacted]
+2025-05-05 00:43:07,078: === Raw HTTP Request ===
+GET /? HTTP/1.1
+Content-Type: text/plain
+Host: localhost:8080
+Connection: keep-alive
+Sec-Ch-Ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"
+Sec-Ch-Ua-Mobile: ?0
+Sec-Ch-Ua-Platform: "macOS"
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+Sec-Purpose: prefetch;prerender
+Purpose: prefetch
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+Sec-Fetch-Site: none
+Sec-Fetch-Mode: navigate
+Sec-Fetch-User: ?1
+Sec-Fetch-Dest: document
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: en-US,en;q=0.9
+Cookie:  session=eyJ1c2VybmFtZSI6Im5vcm1hbCJ9.aBhBvA.DO55U50T2ECaXiBUZ056NGgkrUQ
+
+
+2025-05-05 00:43:07,083: === Raw HTTP Response ===
+Content-Type: text/html; charset=utf-8
+Content-Length: 30810
+
+[Body redacted]
+2025-05-05 00:43:09,474: === Raw HTTP Request ===
+GET /logout? HTTP/1.1
+Content-Type: text/plain
+Host: localhost:8080
+Connection: keep-alive
+Sec-Ch-Ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"
+Sec-Ch-Ua-Mobile: ?0
+Sec-Ch-Ua-Platform: "macOS"
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+Sec-Fetch-Site: same-origin
+Sec-Fetch-Mode: navigate
+Sec-Fetch-User: ?1
+Sec-Fetch-Dest: document
+Referer: http://localhost:8080/
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: en-US,en;q=0.9
+Cookie:  session=eyJ1c2VybmFtZSI6Im5vcm1hbCJ9.aBhBvA.DO55U50T2ECaXiBUZ056NGgkrUQ
+
+
+2025-05-05 00:43:09,475: === Raw HTTP Response ===
+Content-Type: text/html; charset=utf-8
+Content-Length: 199
+Location: /login
+Set-Cookie:  Expires=Thu, 01 Jan 1970 00:00:00 GMT; Max-Age=0; Path=/
+Set-Cookie: session=; Expires=Thu, 01 Jan 1970 00:00:00 GMT; Path=/
+
+[Body redacted]
+2025-05-05 00:43:09,477: === Raw HTTP Request ===
+GET /login? HTTP/1.1
+Content-Type: text/plain
+Host: localhost:8080
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+Sec-Fetch-Site: same-origin
+Sec-Fetch-Mode: navigate
+Sec-Fetch-User: ?1
+Sec-Fetch-Dest: document
+Sec-Ch-Ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"
+Sec-Ch-Ua-Mobile: ?0
+Sec-Ch-Ua-Platform: "macOS"
+Referer: http://localhost:8080/
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: en-US,en;q=0.9
+Cookie: session=eyJfZmxhc2hlcyI6W3siIHQiOlsic3VjY2VzcyIsIllvdSBoYXZlIGJlZW4gbG9nZ2VkIG91dC4iXX1dfQ.aBhB3Q.1DjhbQ7E_2X7sHJS4rM1Ra8snvA
+
+
+2025-05-05 00:43:09,477: === Raw HTTP Response ===
+Content-Type: text/html; charset=utf-8
+Content-Length: 12261
+
+[Body redacted]
+2025-05-05 00:43:13,441: === Raw HTTP Request ===
+GET /register? HTTP/1.1
+Content-Type: text/plain
+Host: localhost:8080
+Connection: keep-alive
+Sec-Ch-Ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"
+Sec-Ch-Ua-Mobile: ?0
+Sec-Ch-Ua-Platform: "macOS"
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+Sec-Fetch-Site: same-origin
+Sec-Fetch-Mode: navigate
+Sec-Fetch-User: ?1
+Sec-Fetch-Dest: document
+Referer: http://localhost:8080/login
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: en-US,en;q=0.9
+
+
+2025-05-05 00:43:13,442: === Raw HTTP Response ===
+Content-Type: text/html; charset=utf-8
+Content-Length: 21004
+
+[Body redacted]
+2025-05-05 00:43:19,772: === Raw HTTP Request ===
+POST /register? HTTP/1.1
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundaryJbXAQjPh1t3xu1eO
+Content-Length: 486
+Host: localhost:8080
+Connection: keep-alive
+Sec-Ch-Ua-Platform: "macOS"
+X-Requested-With: XMLHttpRequest
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+Sec-Ch-Ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"
+Sec-Ch-Ua-Mobile: ?0
+Accept: */*
+Origin: http://localhost:8080
+Sec-Fetch-Site: same-origin
+Sec-Fetch-Mode: cors
+Sec-Fetch-Dest: empty
+Referer: http://localhost:8080/register
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: en-US,en;q=0.9
+
+[Body redacted]
+2025-05-05 00:43:19,905: === Raw HTTP Response ===
+Content-Type: application/json
+Content-Length: 69
+Set-Cookie:  Expires=Wed, 04 Jun 2025 04:43:19 GMT; Max-Age=2592000; HttpOnly; Path=/; SameSite=Lax
+
+[Body redacted]
+2025-05-05 00:43:21,927: === Raw HTTP Request ===
+GET /? HTTP/1.1
+Content-Type: text/plain
+Host: localhost:8080
+Connection: keep-alive
+Sec-Ch-Ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"
+Sec-Ch-Ua-Mobile: ?0
+Sec-Ch-Ua-Platform: "macOS"
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+Sec-Fetch-Site: same-origin
+Sec-Fetch-Mode: navigate
+Sec-Fetch-User: ?1
+Sec-Fetch-Dest: document
+Referer: http://localhost:8080/register
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: en-US,en;q=0.9
+Cookie: [redacted]
+
+
+2025-05-05 00:43:21,930: === Raw HTTP Response ===
+Content-Type: text/html; charset=utf-8
+Content-Length: 30810
+
+[Body redacted]
+2025-05-05 00:43:26,651: === Raw HTTP Request ===
+GET /logout? HTTP/1.1
+Content-Type: text/plain
+Host: localhost:8080
+Connection: keep-alive
+Sec-Ch-Ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"
+Sec-Ch-Ua-Mobile: ?0
+Sec-Ch-Ua-Platform: "macOS"
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+Sec-Fetch-Site: same-origin
+Sec-Fetch-Mode: navigate
+Sec-Fetch-User: ?1
+Sec-Fetch-Dest: document
+Referer: http://localhost:8080/
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: en-US,en;q=0.9
+Cookie:  session=eyJ1c2VybmFtZSI6InNvbWV0aGluZ2dnZyJ9.aBhB6Q.GoHhBf4Y3g6ynU-UXJAYFlOV7o4
+
+
+2025-05-05 00:43:26,651: === Raw HTTP Response ===
+Content-Type: text/html; charset=utf-8
+Content-Length: 199
+Location: /login
+Set-Cookie:  Expires=Thu, 01 Jan 1970 00:00:00 GMT; Max-Age=0; Path=/
+Set-Cookie: session=; Expires=Thu, 01 Jan 1970 00:00:00 GMT; Path=/
+
+[Body redacted]
+2025-05-05 00:43:26,654: === Raw HTTP Request ===
+GET /login? HTTP/1.1
+Content-Type: text/plain
+Host: localhost:8080
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+Sec-Fetch-Site: same-origin
+Sec-Fetch-Mode: navigate
+Sec-Fetch-User: ?1
+Sec-Fetch-Dest: document
+Sec-Ch-Ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"
+Sec-Ch-Ua-Mobile: ?0
+Sec-Ch-Ua-Platform: "macOS"
+Referer: http://localhost:8080/
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: en-US,en;q=0.9
+Cookie: session=eyJfZmxhc2hlcyI6W3siIHQiOlsic3VjY2VzcyIsIllvdSBoYXZlIGJlZW4gbG9nZ2VkIG91dC4iXX1dfQ.aBhB7g.e9RESymML1lZ4BV8mhL1biQiqu0
+
+
+2025-05-05 00:43:26,655: === Raw HTTP Response ===
+Content-Type: text/html; charset=utf-8
+Content-Length: 12261
+
+[Body redacted]
+2025-05-05 00:43:28,422: === Raw HTTP Request ===
+GET /register? HTTP/1.1
+Content-Type: text/plain
+Host: localhost:8080
+Connection: keep-alive
+Sec-Ch-Ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"
+Sec-Ch-Ua-Mobile: ?0
+Sec-Ch-Ua-Platform: "macOS"
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+Sec-Fetch-Site: same-origin
+Sec-Fetch-Mode: navigate
+Sec-Fetch-User: ?1
+Sec-Fetch-Dest: document
+Referer: http://localhost:8080/login
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: en-US,en;q=0.9
+
+
+2025-05-05 00:43:28,422: === Raw HTTP Response ===
+Content-Type: text/html; charset=utf-8
+Content-Length: 21004
+
+[Body redacted]
+2025-05-05 00:43:38,222: === Raw HTTP Request ===
+POST /register? HTTP/1.1
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundaryvZrrm2Rr4YsZRals
+Content-Length: 485
+Host: localhost:8080
+Connection: keep-alive
+Sec-Ch-Ua-Platform: "macOS"
+X-Requested-With: XMLHttpRequest
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+Sec-Ch-Ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"
+Sec-Ch-Ua-Mobile: ?0
+Accept: */*
+Origin: http://localhost:8080
+Sec-Fetch-Site: same-origin
+Sec-Fetch-Mode: cors
+Sec-Fetch-Dest: empty
+Referer: http://localhost:8080/register
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: en-US,en;q=0.9
+
+[Body redacted]
+2025-05-05 00:43:38,356: === Raw HTTP Response ===
+Content-Type: application/json
+Content-Length: 69
+Set-Cookie:  Expires=Wed, 04 Jun 2025 04:43:38 GMT; Max-Age=2592000; HttpOnly; Path=/; SameSite=Lax
+
+[Body redacted]
+2025-05-05 00:43:40,374: === Raw HTTP Request ===
+GET /? HTTP/1.1
+Content-Type: text/plain
+Host: localhost:8080
+Connection: keep-alive
+Sec-Ch-Ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"
+Sec-Ch-Ua-Mobile: ?0
+Sec-Ch-Ua-Platform: "macOS"
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+Sec-Fetch-Site: same-origin
+Sec-Fetch-Mode: navigate
+Sec-Fetch-User: ?1
+Sec-Fetch-Dest: document
+Referer: http://localhost:8080/register
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: en-US,en;q=0.9
+Cookie: [redacted]
+
+
+2025-05-05 00:43:40,376: === Raw HTTP Response ===
+Content-Type: text/html; charset=utf-8
+Content-Length: 30810
+
+[Body redacted]
+2025-05-05 00:43:59,228: === Raw HTTP Request ===
+GET /leaderboard? HTTP/1.1
+Content-Type: text/plain
+Host: localhost:8080
+Connection: keep-alive
+Sec-Ch-Ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"
+Sec-Ch-Ua-Mobile: ?0
+Sec-Ch-Ua-Platform: "macOS"
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+Sec-Fetch-Site: same-origin
+Sec-Fetch-Mode: navigate
+Sec-Fetch-User: ?1
+Sec-Fetch-Dest: document
+Referer: http://localhost:8080/
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: en-US,en;q=0.9
+Cookie:  session=eyJ1c2VybmFtZSI6InNvbWV0aGluZ2dnZ2cifQ.aBhB_A.6bRXb564NeSxb3ICo5-LPM-MpOU
+
+
+2025-05-05 00:43:59,234: === Raw HTTP Response ===
+Content-Type: text/html; charset=utf-8
+Content-Length: 12909
+
+[Body redacted]
+2025-05-05 00:43:59,241: === Raw HTTP Request ===
+GET /api/leaderboard/wins? HTTP/1.1
+Content-Type: text/plain
+Host: localhost:8080
+Connection: keep-alive
+Sec-Ch-Ua-Platform: "macOS"
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+Sec-Ch-Ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"
+Sec-Ch-Ua-Mobile: ?0
+Accept: */*
+Sec-Fetch-Site: same-origin
+Sec-Fetch-Mode: cors
+Sec-Fetch-Dest: empty
+Referer: http://localhost:8080/leaderboard
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: en-US,en;q=0.9
+Cookie:  session=eyJ1c2VybmFtZSI6InNvbWV0aGluZ2dnZ2cifQ.aBhB_A.6bRXb564NeSxb3ICo5-LPM-MpOU
+
+
+2025-05-05 00:43:59,242: === Raw HTTP Request ===
+GET /api/leaderboard/territory? HTTP/1.1
+Content-Type: text/plain
+Host: localhost:8080
+Connection: keep-alive
+Sec-Ch-Ua-Platform: "macOS"
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+Sec-Ch-Ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"
+Sec-Ch-Ua-Mobile: ?0
+Accept: */*
+Sec-Fetch-Site: same-origin
+Sec-Fetch-Mode: cors
+Sec-Fetch-Dest: empty
+Referer: http://localhost:8080/leaderboard
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: en-US,en;q=0.9
+Cookie:  session=eyJ1c2VybmFtZSI6InNvbWV0aGluZ2dnZ2cifQ.aBhB_A.6bRXb564NeSxb3ICo5-LPM-MpOU
+
+
+2025-05-05 00:43:59,259: === Raw HTTP Response ===
+Content-Type: application/json
+Content-Length: 3
+
+[]
+
+2025-05-05 00:43:59,260: === Raw HTTP Response ===
+Content-Type: application/json
+Content-Length: 3
+
+[]
+
+2025-05-05 00:44:01,688: === Raw HTTP Request ===
+GET /? HTTP/1.1
+Content-Type: text/plain
+Host: localhost:8080
+Connection: keep-alive
+Sec-Ch-Ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"
+Sec-Ch-Ua-Mobile: ?0
+Sec-Ch-Ua-Platform: "macOS"
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+Sec-Fetch-Site: same-origin
+Sec-Fetch-Mode: navigate
+Sec-Fetch-User: ?1
+Sec-Fetch-Dest: document
+Referer: http://localhost:8080/leaderboard
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: en-US,en;q=0.9
+Cookie:  session=eyJ1c2VybmFtZSI6InNvbWV0aGluZ2dnZ2cifQ.aBhB_A.6bRXb564NeSxb3ICo5-LPM-MpOU
+
+
+2025-05-05 00:44:01,691: === Raw HTTP Response ===
+Content-Type: text/html; charset=utf-8
+Content-Length: 30810
+
+[Body redacted]
+2025-05-05 00:47:01,229: === Raw HTTP Request ===
+GET /? HTTP/1.1
+Content-Type: text/plain
+Host: localhost:8080
+Connection: keep-alive
+Sec-Ch-Ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"
+Sec-Ch-Ua-Mobile: ?0
+Sec-Ch-Ua-Platform: "macOS"
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+Sec-Purpose: prefetch;prerender
+Purpose: prefetch
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+Sec-Fetch-Site: none
+Sec-Fetch-Mode: navigate
+Sec-Fetch-User: ?1
+Sec-Fetch-Dest: document
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: en-US,en;q=0.9
+
+
+2025-05-05 00:47:01,230: === Raw HTTP Response ===
+Content-Type: text/html; charset=utf-8
+Content-Length: 255
+Location: /login?next=http://localhost:8080/
+
+[Body redacted]
+2025-05-05 00:47:01,232: === Raw HTTP Request ===
+GET /login?next=http://localhost:8080/ HTTP/1.1
+Content-Type: text/plain
+Host: localhost:8080
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+Sec-Purpose: prefetch;prerender
+Purpose: prefetch
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+Sec-Fetch-Site: none
+Sec-Fetch-Mode: navigate
+Sec-Fetch-User: ?1
+Sec-Fetch-Dest: document
+Sec-Ch-Ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"
+Sec-Ch-Ua-Mobile: ?0
+Sec-Ch-Ua-Platform: "macOS"
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: en-US,en;q=0.9
+Cookie: session=eyJfZmxhc2hlcyI6W3siIHQiOlsid2FybmluZyIsIlBsZWFzZSBsb2cgaW4gdG8gYWNjZXNzIHRoaXMgcGFnZS4iXX1dfQ.aBhCxQ.8UUXd_Z5n-6RXTs3RcwwaSfTQKk
+
+
+2025-05-05 00:47:01,232: === Raw HTTP Response ===
+Content-Type: text/html; charset=utf-8
+Content-Length: 12270
+
+[Body redacted]
+2025-05-05 00:47:10,827: === Raw HTTP Request ===
+POST /login? HTTP/1.1
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 61
+Host: localhost:8080
+Connection: keep-alive
+Sec-Ch-Ua-Platform: "macOS"
+X-Requested-With: XMLHttpRequest
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+Sec-Ch-Ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"
+Sec-Ch-Ua-Mobile: ?0
+Accept: */*
+Origin: http://localhost:8080
+Sec-Fetch-Site: same-origin
+Sec-Fetch-Mode: cors
+Sec-Fetch-Dest: empty
+Referer: http://localhost:8080/login?next=http://localhost:8080/
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: en-US,en;q=0.9
+
+[Body redacted]
+2025-05-05 00:47:10,959: === Raw HTTP Response ===
+Content-Type: application/json
+Content-Length: 62
+Set-Cookie:  Expires=Wed, 04 Jun 2025 04:47:10 GMT; Max-Age=2592000; HttpOnly; Path=/; SameSite=Lax
+
+[Body redacted]
+2025-05-05 00:47:10,971: === Raw HTTP Request ===
+GET /? HTTP/1.1
+Content-Type: text/plain
+Host: localhost:8080
+Connection: keep-alive
+Sec-Ch-Ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"
+Sec-Ch-Ua-Mobile: ?0
+Sec-Ch-Ua-Platform: "macOS"
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+Sec-Fetch-Site: same-origin
+Sec-Fetch-Mode: navigate
+Sec-Fetch-User: ?1
+Sec-Fetch-Dest: document
+Referer: http://localhost:8080/login?next=http://localhost:8080/
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: en-US,en;q=0.9
+Cookie: [redacted]
+
+
+2025-05-05 00:47:10,973: === Raw HTTP Response ===
+Content-Type: text/html; charset=utf-8
+Content-Length: 30810
+
+[Body redacted]
+2025-05-05 00:48:07,064: === Raw HTTP Request ===
+GET /profile? HTTP/1.1
+Content-Type: text/plain
+Host: localhost:8080
+Connection: keep-alive
+Sec-Ch-Ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"
+Sec-Ch-Ua-Mobile: ?0
+Sec-Ch-Ua-Platform: "macOS"
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+Sec-Fetch-Site: same-origin
+Sec-Fetch-Mode: navigate
+Sec-Fetch-User: ?1
+Sec-Fetch-Dest: document
+Referer: http://localhost:8080/
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: en-US,en;q=0.9
+Cookie:  session=eyJ1c2VybmFtZSI6ImVsbHllbCJ9.aBhBkw.JprwnZvZAf2k-jgc3cg_x9zbQ0M
+
+
+2025-05-05 00:48:07,069: === Raw HTTP Response ===
+Content-Type: text/html; charset=utf-8
+Content-Length: 19358
+
+[Body redacted]
+2025-05-05 00:48:07,080: === Raw HTTP Request ===
+GET /profile_pic/48c037a2-0b94-433e-b38e-9da52eb91f24.png? HTTP/1.1
+Content-Type: text/plain
+Host: localhost:8080
+Connection: keep-alive
+Sec-Ch-Ua-Platform: "macOS"
+If-None-Match: "1746400005.7468426-16027-2145199943"
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+Sec-Ch-Ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"
+If-Modified-Since: Sun, 04 May 2025 23:06:45 GMT
+Sec-Ch-Ua-Mobile: ?0
+Accept: image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8
+Sec-Fetch-Site: same-origin
+Sec-Fetch-Mode: no-cors
+Sec-Fetch-Dest: image
+Referer: http://localhost:8080/profile
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: en-US,en;q=0.9
+Cookie:  session=eyJ1c2VybmFtZSI6ImVsbHllbCJ9.aBhBkw.JprwnZvZAf2k-jgc3cg_x9zbQ0M
+
+
+2025-05-05 00:48:07,081: Failed to log raw HTTP response:
+Traceback (most recent call last):
+  File "/Users/eleanoraundrus/Downloads/cse312-project/server.py", line 152, in log_response_and_raw
+    body_data = response.get_data()
+  File "/Users/eleanoraundrus/Downloads/cse312-project/312/lib/python3.9/site-packages/werkzeug/wrappers/response.py", line 281, in get_data
+    self._ensure_sequence()
+  File "/Users/eleanoraundrus/Downloads/cse312-project/312/lib/python3.9/site-packages/werkzeug/wrappers/response.py", line 329, in _ensure_sequence
+    raise RuntimeError(
+RuntimeError: Attempted implicit sequence conversion but the response object is in direct passthrough mode.
+2025-05-05 00:48:16,295: === Raw HTTP Request ===
+POST /profile? HTTP/1.1
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary6upm1Z8yJetcKjow
+Content-Length: 53693
+Host: localhost:8080
+Connection: keep-alive
+Cache-Control: max-age=0
+Sec-Ch-Ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"
+Sec-Ch-Ua-Mobile: ?0
+Sec-Ch-Ua-Platform: "macOS"
+Origin: http://localhost:8080
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+Sec-Fetch-Site: same-origin
+Sec-Fetch-Mode: navigate
+Sec-Fetch-User: ?1
+Sec-Fetch-Dest: document
+Referer: http://localhost:8080/profile
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: en-US,en;q=0.9
+Cookie:  session=eyJ1c2VybmFtZSI6ImVsbHllbCJ9.aBhBkw.JprwnZvZAf2k-jgc3cg_x9zbQ0M
+
+------WebKitFormBoundary6upm1Z8yJetcKjow
+Content-Disposition: form-data; name="profile_pic"; filename="Screenshot 2025-04-15 at 5.00.19 PM.png"
+Content-Type: image/png
+
+�PNG
+
+   IHDR  h  D   ;c�  >iCCPICC Profile  H��WXS��[��@B	]J�M�@J-� *!	J���b/�
+�]T����(v�E�,��/T�u�`Wޤ����������9�3���{ ��\�8�  _T(�	`�IIe�z h@V.�@̊�� ��/�D�^q�i����M��� q����A �*�XR Q�[L.�0�@[�x�g)p�g(�^�MB�6 TԸ\I �K�g��bg_(@��o~�D>���B1�2}f�:Y����r���b.�(,�q������%?O:��V�lIh�l�0o7s'�˰Ľ���h�� � ���!F)���D�=j�+`Ü]�����p�� �EE(��La0b�B�)�BN��/�+m6I&�)}���6Kɟ�J�~e��KsYJ����R�g'$CL�زH�1b����p����lvԠ�D'���8�($@��eJ��������6e9QJ��0;!T���Ǖ��]�X��:��1�s��sǞ	D��J��8�X�"΋Q��悼o�kAQ�r,�T�B��$(�ċs�a1�x�e �A ` )�`"�ކ^x��	\ Y@ ����dy�^�A1�"( ��"�bWG�)�-���O �� �K�DCޒ�c���+ƛ������w��%#��P�$���`�n����x����3q��y|�'<!t���&�J~�2tA�`e.2~�n5�� ��Ce\7��+�����g7Ȳ�q˲��I�o3��i(���d��G�'��<�fOsR�����(b��7{��g���χm�ϖ�B� v;��Î`���`�X;vT��V�c���'�'���o���2Y�\����E�W(�"{G�D�T�0+����_�#�9g�8�� ��(^_ob��D��;7� |Z��Z ����wΖ	?� �m�I%E
+�]�-�w�0����o��@�	 ���g�u.��t0��2��`#�v��`?h G�	p\ ��5p��n��w�3� $�����B���"AH�� �H"B��tdR��@*��H�iBN �N�� �A^#�PUC�Qc��2Q�&���,tZ��G��k�jtZ��@/���.�ڏL���0G����h,��$�L�+Ǫ�:�>�+X֋}ĉ8g��p��8�������oï��>��J0"8��Ba2��PN�F8D8�R7��H�%�=�^L!�����;����$ɀ�@�!E���BR	ii��t��M����b�����"R��R��S��e��*��d+�9��'O%/%o%7�/��ɟ)��%��C�CYK����ܥ�QUU5W�T�U��V]��W���ՏjZj�jl�45����j��n���R��Tj*����ZC=I�O�@�Ӝh�6�VI��]��T'�[���ǫ���P��ޫAְ�`kp5fjTj4i���פk�Ԍ���\��S��3-���V�_k����Z��݂Φ����[����Dmm�v�v��n��>-W�$�):�:Gu�t1]k]�n��R����u?���z����.����/�/�ߣM��� � �`�A��=C���0�p���S��ô�y�+��m#���(�h���v�~c�c��:�ƽ&�&�&9&�L�����M}M���L[L�3t,Fc-���gfdj&5�l�a����<�|���{�E��*�V�>KS�H�閵����VL�l�5Vg��[�X'[/�n�~f�oñ)����kK����d[m{ՎhǴ˵[ow�
+2025-05-05 00:48:16,512: === Raw HTTP Response ===
+Content-Type: text/html; charset=utf-8
+Content-Length: 203
+Location: /profile
+
+[Body redacted]
+2025-05-05 00:48:16,515: === Raw HTTP Request ===
+GET /profile? HTTP/1.1
+Content-Type: text/plain
+Host: localhost:8080
+Connection: keep-alive
+Cache-Control: max-age=0
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+Sec-Fetch-Site: same-origin
+Sec-Fetch-Mode: navigate
+Sec-Fetch-User: ?1
+Sec-Fetch-Dest: document
+Sec-Ch-Ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"
+Sec-Ch-Ua-Mobile: ?0
+Sec-Ch-Ua-Platform: "macOS"
+Referer: http://localhost:8080/profile
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: en-US,en;q=0.9
+Cookie:  session=.eJwtyjEKgDAQRNGrxKlzAk9hLyIhTlBYNWSzhYTcXQurD4_fsCYJulMxzg2ufoFajFSFx1TudAhdPmK1Qmd5C5Wb-49kIs-ApS8epixXOIkR_JSC_gL8USES.aBhDEA.zeXasnmoT_pS6xJ2prkALD6kcMU
+
+
+2025-05-05 00:48:16,517: === Raw HTTP Response ===
+Content-Type: text/html; charset=utf-8
+Content-Length: 19466
+
+[Body redacted]
+2025-05-05 00:48:16,531: === Raw HTTP Request ===
+GET /profile_pic/e8bc728d-7e8f-4e89-9e4b-2c32a4ad2c57.png? HTTP/1.1
+Content-Type: text/plain
+Host: localhost:8080
+Connection: keep-alive
+Sec-Ch-Ua-Platform: "macOS"
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+Sec-Ch-Ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"
+Sec-Ch-Ua-Mobile: ?0
+Accept: image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8
+Sec-Fetch-Site: same-origin
+Sec-Fetch-Mode: no-cors
+Sec-Fetch-Dest: image
+Referer: http://localhost:8080/profile
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: en-US,en;q=0.9
+Cookie:  session=eyJ1c2VybmFtZSI6ImVsbHllbCJ9.aBhDEA.28TQ-rwd90qsGnFMJd3PfBZ_9RY
+
+
+2025-05-05 00:48:16,531: Failed to log raw HTTP response:
+Traceback (most recent call last):
+  File "/Users/eleanoraundrus/Downloads/cse312-project/server.py", line 152, in log_response_and_raw
+    body_data = response.get_data()
+  File "/Users/eleanoraundrus/Downloads/cse312-project/312/lib/python3.9/site-packages/werkzeug/wrappers/response.py", line 281, in get_data
+    self._ensure_sequence()
+  File "/Users/eleanoraundrus/Downloads/cse312-project/312/lib/python3.9/site-packages/werkzeug/wrappers/response.py", line 329, in _ensure_sequence
+    raise RuntimeError(
+RuntimeError: Attempted implicit sequence conversion but the response object is in direct passthrough mode.
+2025-05-05 00:48:21,921: === Raw HTTP Request ===
+GET /? HTTP/1.1
+Content-Type: text/plain
+Host: localhost:8080
+Connection: keep-alive
+Sec-Ch-Ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"
+Sec-Ch-Ua-Mobile: ?0
+Sec-Ch-Ua-Platform: "macOS"
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+Sec-Fetch-Site: same-origin
+Sec-Fetch-Mode: navigate
+Sec-Fetch-User: ?1
+Sec-Fetch-Dest: document
+Referer: http://localhost:8080/profile
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: en-US,en;q=0.9
+Cookie:  session=eyJ1c2VybmFtZSI6ImVsbHllbCJ9.aBhDEA.28TQ-rwd90qsGnFMJd3PfBZ_9RY
+
+
+2025-05-05 00:48:21,924: === Raw HTTP Response ===
+Content-Type: text/html; charset=utf-8
+Content-Length: 30810
+
+[Body redacted]
+2025-05-05 00:48:25,642: === Raw HTTP Request ===
+GET /? HTTP/1.1
+Content-Type: text/plain
+Host: localhost:8080
+Connection: keep-alive
+Sec-Ch-Ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"
+Sec-Ch-Ua-Mobile: ?0
+Sec-Ch-Ua-Platform: "macOS"
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+Sec-Fetch-Site: none
+Sec-Fetch-Mode: navigate
+Sec-Fetch-User: ?1
+Sec-Fetch-Dest: document
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: en-US,en;q=0.9
+Cookie:  session=eyJ1c2VybmFtZSI6ImVsbHllbCJ9.aBhDEA.28TQ-rwd90qsGnFMJd3PfBZ_9RY
+
+
+2025-05-05 00:48:25,646: === Raw HTTP Response ===
+Content-Type: text/html; charset=utf-8
+Content-Length: 30810
+
+[Body redacted]
+2025-05-05 00:48:50,414: === Raw HTTP Request ===
+GET /? HTTP/1.1
+Content-Type: text/plain
+Host: localhost:8080
+Connection: keep-alive
+Sec-Ch-Ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"
+Sec-Ch-Ua-Mobile: ?0
+Sec-Ch-Ua-Platform: "macOS"
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+Sec-Fetch-Site: none
+Sec-Fetch-Mode: navigate
+Sec-Fetch-User: ?1
+Sec-Fetch-Dest: document
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: en-US,en;q=0.9
+Cookie:  session=eyJ1c2VybmFtZSI6ImVsbHllbCJ9.aBhDEA.28TQ-rwd90qsGnFMJd3PfBZ_9RY
+
+
+2025-05-05 00:48:50,418: === Raw HTTP Response ===
+Content-Type: text/html; charset=utf-8
+Content-Length: 30810
+
+[Body redacted]
+2025-05-05 00:49:12,523: === Raw HTTP Request ===
+GET /player_stats? HTTP/1.1
+Content-Type: text/plain
+Host: localhost:8080
+Connection: keep-alive
+Sec-Ch-Ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"
+Sec-Ch-Ua-Mobile: ?0
+Sec-Ch-Ua-Platform: "macOS"
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+Sec-Fetch-Site: same-origin
+Sec-Fetch-Mode: navigate
+Sec-Fetch-User: ?1
+Sec-Fetch-Dest: document
+Referer: http://localhost:8080/
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: en-US,en;q=0.9
+Cookie:  session=eyJ1c2VybmFtZSI6InNvbWV0aGluZ2dnZyJ9.aBhCzg.5_pXJEM7yvxDp98TN_H6TvSNy5s
+
+
+2025-05-05 00:49:12,528: === Raw HTTP Response ===
+Content-Type: text/html; charset=utf-8
+Content-Length: 5770
+
+[Body redacted]
+2025-05-05 00:49:12,537: === Raw HTTP Request ===
+GET /api/player/stats? HTTP/1.1
+Content-Type: text/plain
+Host: localhost:8080
+Connection: keep-alive
+Sec-Ch-Ua-Platform: "macOS"
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+Sec-Ch-Ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"
+Sec-Ch-Ua-Mobile: ?0
+Accept: */*
+Sec-Fetch-Site: same-origin
+Sec-Fetch-Mode: cors
+Sec-Fetch-Dest: empty
+Referer: http://localhost:8080/player_stats
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: en-US,en;q=0.9
+Cookie:  session=eyJ1c2VybmFtZSI6InNvbWV0aGluZ2dnZyJ9.aBhCzg.5_pXJEM7yvxDp98TN_H6TvSNy5s
+
+
+2025-05-05 00:49:12,541: === Raw HTTP Response ===
+Content-Type: application/json
+Content-Length: 53
+
+{"gamesPlayed":3,"username":"somethingggg","wins":1}
+
+2025-05-05 00:49:14,176: === Raw HTTP Request ===
+GET /leaderboard? HTTP/1.1
+Content-Type: text/plain
+Host: localhost:8080
+Connection: keep-alive
+Sec-Ch-Ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"
+Sec-Ch-Ua-Mobile: ?0
+Sec-Ch-Ua-Platform: "macOS"
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+Sec-Fetch-Site: same-origin
+Sec-Fetch-Mode: navigate
+Sec-Fetch-User: ?1
+Sec-Fetch-Dest: document
+Referer: http://localhost:8080/player_stats
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: en-US,en;q=0.9
+Cookie:  session=eyJ1c2VybmFtZSI6InNvbWV0aGluZ2dnZyJ9.aBhCzg.5_pXJEM7yvxDp98TN_H6TvSNy5s
+
+
+2025-05-05 00:49:14,180: === Raw HTTP Response ===
+Content-Type: text/html; charset=utf-8
+Content-Length: 12909
+
+[Body redacted]
+2025-05-05 00:49:14,188: === Raw HTTP Request ===
+GET /api/leaderboard/wins? HTTP/1.1
+Content-Type: text/plain
+Host: localhost:8080
+Connection: keep-alive
+Sec-Ch-Ua-Platform: "macOS"
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+Sec-Ch-Ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"
+Sec-Ch-Ua-Mobile: ?0
+Accept: */*
+Sec-Fetch-Site: same-origin
+Sec-Fetch-Mode: cors
+Sec-Fetch-Dest: empty
+Referer: http://localhost:8080/leaderboard
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: en-US,en;q=0.9
+Cookie:  session=eyJ1c2VybmFtZSI6InNvbWV0aGluZ2dnZyJ9.aBhCzg.5_pXJEM7yvxDp98TN_H6TvSNy5s
+
+
+2025-05-05 00:49:14,192: === Raw HTTP Request ===
+GET /api/leaderboard/territory? HTTP/1.1
+Content-Type: text/plain
+Host: localhost:8080
+Connection: keep-alive
+Sec-Ch-Ua-Platform: "macOS"
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+Sec-Ch-Ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"
+Sec-Ch-Ua-Mobile: ?0
+Accept: */*
+Sec-Fetch-Site: same-origin
+Sec-Fetch-Mode: cors
+Sec-Fetch-Dest: empty
+Referer: http://localhost:8080/leaderboard
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: en-US,en;q=0.9
+Cookie:  session=eyJ1c2VybmFtZSI6InNvbWV0aGluZ2dnZyJ9.aBhCzg.5_pXJEM7yvxDp98TN_H6TvSNy5s
+
+
+2025-05-05 00:49:14,198: === Raw HTTP Response ===
+Content-Type: application/json
+Content-Length: 3
+
+[]
+
+2025-05-05 00:49:14,199: === Raw HTTP Response ===
+Content-Type: application/json
+Content-Length: 158
+
+[{"gamesPlayed":3,"username":"ellyel","winRate":66.66666666666666,"wins":2},{"gamesPlayed":3,"username":"somethingggg","winRate":33.33333333333333,"wins":1}]
+
+2025-05-05 00:49:17,275: === Raw HTTP Request ===
+GET /player_stats? HTTP/1.1
+Content-Type: text/plain
+Host: localhost:8080
+Connection: keep-alive
+Sec-Ch-Ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"
+Sec-Ch-Ua-Mobile: ?0
+Sec-Ch-Ua-Platform: "macOS"
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+Sec-Fetch-Site: same-origin
+Sec-Fetch-Mode: navigate
+Sec-Fetch-User: ?1
+Sec-Fetch-Dest: document
+Referer: http://localhost:8080/leaderboard
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: en-US,en;q=0.9
+Cookie:  session=eyJ1c2VybmFtZSI6InNvbWV0aGluZ2dnZyJ9.aBhCzg.5_pXJEM7yvxDp98TN_H6TvSNy5s
+
+
+2025-05-05 00:49:17,279: === Raw HTTP Response ===
+Content-Type: text/html; charset=utf-8
+Content-Length: 5770
+
+[Body redacted]
+2025-05-05 00:49:17,285: === Raw HTTP Request ===
+GET /api/player/stats? HTTP/1.1
+Content-Type: text/plain
+Host: localhost:8080
+Connection: keep-alive
+Sec-Ch-Ua-Platform: "macOS"
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+Sec-Ch-Ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"
+Sec-Ch-Ua-Mobile: ?0
+Accept: */*
+Sec-Fetch-Site: same-origin
+Sec-Fetch-Mode: cors
+Sec-Fetch-Dest: empty
+Referer: http://localhost:8080/player_stats
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: en-US,en;q=0.9
+Cookie:  session=eyJ1c2VybmFtZSI6InNvbWV0aGluZ2dnZyJ9.aBhCzg.5_pXJEM7yvxDp98TN_H6TvSNy5s
+
+
+2025-05-05 00:49:17,290: === Raw HTTP Response ===
+Content-Type: application/json
+Content-Length: 53
+
+{"gamesPlayed":3,"username":"somethingggg","wins":1}
+
+2025-05-05 00:52:08,590: === Raw HTTP Request ===
+GET /? HTTP/1.1
+Content-Type: text/plain
+Host: 0.0.0.0:8080
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+Accept-Encoding: gzip, deflate
+Accept-Language: en-US,en;q=0.9
+Cookie: session=eyJ1c2VybmFtZSI6ICJlZWUifQ.aA75iw.SaCpqwwG-HA9_QCpBg0LiQjAvTc
+
+
+2025-05-05 00:52:08,597: === Raw HTTP Response ===
+Content-Type: text/html; charset=utf-8
+Content-Length: 32001
+
+[Body redacted]
+2025-05-05 00:52:08,648: === Raw HTTP Request ===
+GET /api/player/profile_pic? HTTP/1.1
+Content-Type: text/plain
+Host: 0.0.0.0:8080
+Connection: keep-alive
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+Accept: */*
+Referer: http://0.0.0.0:8080/
+Accept-Encoding: gzip, deflate
+Accept-Language: en-US,en;q=0.9
+Cookie: session=eyJ1c2VybmFtZSI6ICJlZWUifQ.aA75iw.SaCpqwwG-HA9_QCpBg0LiQjAvTc
+
+
+2025-05-05 00:52:08,651: === Raw HTTP Response ===
+Content-Type: application/json
+Content-Length: 68
+
+{"message":"name 'get_profile_pic' is not defined","success":false}
+
+2025-05-05 00:52:17,598: === Raw HTTP Request ===
+GET /? HTTP/1.1
+Content-Type: text/plain
+Host: 0.0.0.0:8080
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+Accept-Encoding: gzip, deflate
+Accept-Language: en-US,en;q=0.9
+Cookie: session=eyJ1c2VybmFtZSI6ICJlZWUifQ.aA75iw.SaCpqwwG-HA9_QCpBg0LiQjAvTc
+
+
+2025-05-05 00:52:17,601: === Raw HTTP Response ===
+Content-Type: text/html; charset=utf-8
+Content-Length: 32001
+
+[Body redacted]
+2025-05-05 00:52:17,613: === Raw HTTP Request ===
+GET /api/player/profile_pic? HTTP/1.1
+Content-Type: text/plain
+Host: 0.0.0.0:8080
+Connection: keep-alive
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+Accept: */*
+Referer: http://0.0.0.0:8080/
+Accept-Encoding: gzip, deflate
+Accept-Language: en-US,en;q=0.9
+Cookie: session=eyJ1c2VybmFtZSI6ICJlZWUifQ.aA75iw.SaCpqwwG-HA9_QCpBg0LiQjAvTc
+
+
+2025-05-05 00:52:17,617: === Raw HTTP Response ===
+Content-Type: application/json
+Content-Length: 68
+
+{"message":"name 'get_profile_pic' is not defined","success":false}
+
+2025-05-05 00:52:22,738: === Raw HTTP Request ===
+GET /? HTTP/1.1
+Content-Type: text/plain
+Host: localhost:8080
+Connection: keep-alive
+Sec-Ch-Ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"
+Sec-Ch-Ua-Mobile: ?0
+Sec-Ch-Ua-Platform: "macOS"
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+Sec-Purpose: prefetch;prerender
+Purpose: prefetch
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+Sec-Fetch-Site: none
+Sec-Fetch-Mode: navigate
+Sec-Fetch-User: ?1
+Sec-Fetch-Dest: document
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: en-US,en;q=0.9
+Cookie:  session=eyJ1c2VybmFtZSI6ImVsbHllbCJ9.aBhDEA.28TQ-rwd90qsGnFMJd3PfBZ_9RY
+
+
+2025-05-05 00:52:22,740: === Raw HTTP Response ===
+Content-Type: text/html; charset=utf-8
+Content-Length: 32001
+
+[Body redacted]
+2025-05-05 00:52:22,761: === Raw HTTP Request ===
+GET /api/player/profile_pic? HTTP/1.1
+Content-Type: text/plain
+Host: localhost:8080
+Connection: keep-alive
+Sec-Ch-Ua-Platform: "macOS"
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+Sec-Ch-Ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"
+Sec-Purpose: prefetch;prerender
+Sec-Ch-Ua-Mobile: ?0
+Accept: */*
+Purpose: prefetch
+Sec-Fetch-Site: same-origin
+Sec-Fetch-Mode: cors
+Sec-Fetch-Dest: empty
+Referer: http://localhost:8080/
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: en-US,en;q=0.9
+Cookie: session=f463317f-a16d-400d-8174-a9982fb8fa96;  session=eyJ1c2VybmFtZSI6ImVsbHllbCJ9.aBhEBg.XF8dav53JHMS8gHqlQr2xjOWizs
+
+
+2025-05-05 00:52:22,769: === Raw HTTP Response ===
+Content-Type: application/json
+Content-Length: 68
+
+{"message":"name 'get_profile_pic' is not defined","success":false}
+
+2025-05-05 00:52:27,789: === Raw HTTP Request ===
+GET /profile? HTTP/1.1
+Content-Type: text/plain
+Host: localhost:8080
+Connection: keep-alive
+Sec-Ch-Ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"
+Sec-Ch-Ua-Mobile: ?0
+Sec-Ch-Ua-Platform: "macOS"
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+Sec-Fetch-Site: same-origin
+Sec-Fetch-Mode: navigate
+Sec-Fetch-User: ?1
+Sec-Fetch-Dest: document
+Referer: http://localhost:8080/
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: en-US,en;q=0.9
+Cookie:  session=eyJ1c2VybmFtZSI6ImVsbHllbCJ9.aBhEBg.XF8dav53JHMS8gHqlQr2xjOWizs
+
+
+2025-05-05 00:52:27,799: === Raw HTTP Response ===
+Content-Type: text/html; charset=utf-8
+Content-Length: 19358
+
+[Body redacted]
+2025-05-05 00:52:27,808: === Raw HTTP Request ===
+GET /profile_pic/e8bc728d-7e8f-4e89-9e4b-2c32a4ad2c57.png? HTTP/1.1
+Content-Type: text/plain
+Host: localhost:8080
+Connection: keep-alive
+Sec-Ch-Ua-Platform: "macOS"
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+Sec-Ch-Ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"
+Sec-Ch-Ua-Mobile: ?0
+Accept: image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8
+Sec-Fetch-Site: same-origin
+Sec-Fetch-Mode: no-cors
+Sec-Fetch-Dest: image
+Referer: http://localhost:8080/profile
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: en-US,en;q=0.9
+Cookie:  session=eyJ1c2VybmFtZSI6ImVsbHllbCJ9.aBhEBg.XF8dav53JHMS8gHqlQr2xjOWizs
+If-None-Match: "1746420496.5109818-9426-2518165485"
+
+
+2025-05-05 00:52:27,811: Failed to log raw HTTP response:
+Traceback (most recent call last):
+  File "/Users/eleanoraundrus/Downloads/cse312-project/server.py", line 152, in log_response_and_raw
+    body_data = response.get_data()
+  File "/Users/eleanoraundrus/Downloads/cse312-project/312/lib/python3.9/site-packages/werkzeug/wrappers/response.py", line 281, in get_data
+    self._ensure_sequence()
+  File "/Users/eleanoraundrus/Downloads/cse312-project/312/lib/python3.9/site-packages/werkzeug/wrappers/response.py", line 329, in _ensure_sequence
+    raise RuntimeError(
+RuntimeError: Attempted implicit sequence conversion but the response object is in direct passthrough mode.
+2025-05-05 00:52:38,970: === Raw HTTP Request ===
+POST /profile? HTTP/1.1
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundarynPL7TcOwg4qFN4vr
+Content-Length: 463978
+Host: localhost:8080
+Connection: keep-alive
+Cache-Control: max-age=0
+Sec-Ch-Ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"
+Sec-Ch-Ua-Mobile: ?0
+Sec-Ch-Ua-Platform: "macOS"
+Origin: http://localhost:8080
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+Sec-Fetch-Site: same-origin
+Sec-Fetch-Mode: navigate
+Sec-Fetch-User: ?1
+Sec-Fetch-Dest: document
+Referer: http://localhost:8080/profile
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: en-US,en;q=0.9
+Cookie:  session=eyJ1c2VybmFtZSI6ImVsbHllbCJ9.aBhEBg.XF8dav53JHMS8gHqlQr2xjOWizs
+
+------WebKitFormBoundarynPL7TcOwg4qFN4vr
+Content-Disposition: form-data; name="profile_pic"; filename="Screenshot 2025-05-01 at 5.05.28 PM.png"
+Content-Type: image/png
+
+�PNG
+
+   IHDR  �  �   ����  >iCCPICC Profile  H��WXS��[��@B	]J�M�@J-� *!	J���b/�
+�]T����(v�E�,��/T�u�`Wޤ����������9�3���{ ��\�8�  _T(�	`�IIe�z h@V.�@̊�� ��/�D�^q�i����M��� q����A �*�XR Q�[L.�0�@[�x�g)p�g(�^�MB�6 TԸ\I �K�g��bg_(@��o~�D>���B1�2}f�:Y����r���b.�(,�q������%?O:��V�lIh�l�0o7s'�˰Ľ���h�� � ���!F)���D�=j�+`Ü]�����p�� �EE(��La0b�B�)�BN��/�+m6I&�)}���6Kɟ�J�~e��KsYJ����R�g'$CL�زH�1b����p����lvԠ�D'���8�($@��eJ��������6e9QJ��0;!T���Ǖ��]�X��:��1�s��sǞ	D��J��8�X�"΋Q��悼o�kAQ�r,�T�B��$(�ċs�a1�x�e �A ` )�`"�ކ^x��	\ Y@ ����dy�^�A1�"( ��"�bWG�)�-���O �� �K�DCޒ�c���+ƛ������w��%#��P�$���`�n����x����3q��y|�'<!t���&�J~�2tA�`e.2~�n5�� ��Ce\7��+�����g7Ȳ�q˲��I�o3��i(���d��G�'��<�fOsR�����(b��7{��g���χm�ϖ�B� v;��Î`���`�X;vT��V�c���'�'���o���2Y�\����E�W(�"{G�D�T�0+����_�#�9g�8�� ��(^_ob��D��;7� |Z��Z ����wΖ	?� �m�I%E
+�]�-�w�0����o��@�	 ���g�u.��t0��2��`#�v��`?h G�	p\ ��5p��n��w�3� $�����B���"AH�� �H"B��tdR��@*��H�iBN �N�� �A^#�PUC�Qc��2Q�&���,tZ��G��k�jtZ��@/���.�ڏL���0G����h,��$�L�+Ǫ�:�>�+X֋}ĉ8g��p��8�������oï��>��J0"8��Ba2��PN�F8D8�R7��H�%�=�^L!�����;����$ɀ�@�!E���BR	ii��t��M����b�����"R��R��S��e��*��d+�9��'O%/%o%7�/��ɟ)��%��C�CYK����ܥ�QUU5W�T�U��V]��W���ՏjZj�jl�45����j��n���R��Tj*����ZC=I�O�@�Ӝh�6�VI��]��T'�[���ǫ���P��ޫAְ�`kp5fjTj4i���פk�Ԍ���\��S��3-���V�_k����Z��݂Φ����[����Dmm�v�v��n��>-W�$�):�:Gu�t1]k]�n��R����u?���z����.����/�/�ߣM��� � �`�A��=C���0�p���S��ô�y�+��m#���(�h���v�~c�c��:�ƽ&�&�&9&�L�����M}M���L[L�3t,Fc-���gfdj&5�l�a����<�|���{�E��*�V�>KS�H�閵����VL�l�5Vg��[�X'[/�n�~f�oñ)����kK����d[m{ՎhǴ˵[ow�
+2025-05-05 00:52:38,993: === Raw HTTP Response ===
+Content-Type: text/html; charset=utf-8
+Content-Length: 203
+Location: /profile
+
+[Body redacted]
+2025-05-05 00:52:38,995: === Raw HTTP Request ===
+GET /profile? HTTP/1.1
+Content-Type: text/plain
+Host: localhost:8080
+Connection: keep-alive
+Cache-Control: max-age=0
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+Sec-Fetch-Site: same-origin
+Sec-Fetch-Mode: navigate
+Sec-Fetch-User: ?1
+Sec-Fetch-Dest: document
+Sec-Ch-Ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"
+Sec-Ch-Ua-Mobile: ?0
+Sec-Ch-Ua-Platform: "macOS"
+Referer: http://localhost:8080/profile
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: en-US,en;q=0.9
+Cookie:  session=.eJwtyjEKgDAQRNGrxKlzAk9hLyIhTlBYNWSzhYTcXQurD4_fsCYJulMxzg2ufoFajFSFx1TudAhdPmK1Qmd5C5Wb-49kIs-ApS8epixXOIkR_JSC_gL8USES.aBhEFg.YJwUfawNuZ_ZrrTL8cc8M2vc1Yk
+
+
+2025-05-05 00:52:38,997: === Raw HTTP Response ===
+Content-Type: text/html; charset=utf-8
+Content-Length: 19466
+
+[Body redacted]
+2025-05-05 00:52:39,006: === Raw HTTP Request ===
+GET /profile_pic/e5f1bb83-2ee1-40e5-970f-43679ef58545.png? HTTP/1.1
+Content-Type: text/plain
+Host: localhost:8080
+Connection: keep-alive
+Sec-Ch-Ua-Platform: "macOS"
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+Sec-Ch-Ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"
+Sec-Ch-Ua-Mobile: ?0
+Accept: image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8
+Sec-Fetch-Site: same-origin
+Sec-Fetch-Mode: no-cors
+Sec-Fetch-Dest: image
+Referer: http://localhost:8080/profile
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: en-US,en;q=0.9
+Cookie:  session=eyJ1c2VybmFtZSI6ImVsbHllbCJ9.aBhEFg.xWme9jsEKVDVMjzIP0KFaT9f4Vs
+
+
+2025-05-05 00:52:39,006: Failed to log raw HTTP response:
+Traceback (most recent call last):
+  File "/Users/eleanoraundrus/Downloads/cse312-project/server.py", line 152, in log_response_and_raw
+    body_data = response.get_data()
+  File "/Users/eleanoraundrus/Downloads/cse312-project/312/lib/python3.9/site-packages/werkzeug/wrappers/response.py", line 281, in get_data
+    self._ensure_sequence()
+  File "/Users/eleanoraundrus/Downloads/cse312-project/312/lib/python3.9/site-packages/werkzeug/wrappers/response.py", line 329, in _ensure_sequence
+    raise RuntimeError(
+RuntimeError: Attempted implicit sequence conversion but the response object is in direct passthrough mode.
+2025-05-05 00:52:42,664: === Raw HTTP Request ===
+GET /? HTTP/1.1
+Content-Type: text/plain
+Host: localhost:8080
+Connection: keep-alive
+Sec-Ch-Ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"
+Sec-Ch-Ua-Mobile: ?0
+Sec-Ch-Ua-Platform: "macOS"
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+Sec-Fetch-Site: same-origin
+Sec-Fetch-Mode: navigate
+Sec-Fetch-User: ?1
+Sec-Fetch-Dest: document
+Referer: http://localhost:8080/profile
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: en-US,en;q=0.9
+Cookie:  session=eyJ1c2VybmFtZSI6ImVsbHllbCJ9.aBhEFg.xWme9jsEKVDVMjzIP0KFaT9f4Vs
+
+
+2025-05-05 00:52:42,667: === Raw HTTP Response ===
+Content-Type: text/html; charset=utf-8
+Content-Length: 32001
+
+[Body redacted]
+2025-05-05 00:52:42,683: === Raw HTTP Request ===
+GET /api/player/profile_pic? HTTP/1.1
+Content-Type: text/plain
+Host: localhost:8080
+Connection: keep-alive
+Sec-Ch-Ua-Platform: "macOS"
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+Sec-Ch-Ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"
+Sec-Ch-Ua-Mobile: ?0
+Accept: */*
+Sec-Fetch-Site: same-origin
+Sec-Fetch-Mode: cors
+Sec-Fetch-Dest: empty
+Referer: http://localhost:8080/
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: en-US,en;q=0.9
+Cookie: session=f463317f-a16d-400d-8174-a9982fb8fa96;  session=eyJ1c2VybmFtZSI6ImVsbHllbCJ9.aBhEFg.xWme9jsEKVDVMjzIP0KFaT9f4Vs
+
+
+2025-05-05 00:52:42,688: === Raw HTTP Response ===
+Content-Type: application/json
+Content-Length: 68
+
+{"message":"name 'get_profile_pic' is not defined","success":false}
+
+2025-05-05 00:52:44,727: === Raw HTTP Request ===
+GET /? HTTP/1.1
+Content-Type: text/plain
+Host: localhost:8080
+Connection: keep-alive
+Sec-Ch-Ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"
+Sec-Ch-Ua-Mobile: ?0
+Sec-Ch-Ua-Platform: "macOS"
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+Sec-Fetch-Site: none
+Sec-Fetch-Mode: navigate
+Sec-Fetch-User: ?1
+Sec-Fetch-Dest: document
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: en-US,en;q=0.9
+Cookie:  session=eyJ1c2VybmFtZSI6ImVsbHllbCJ9.aBhEGg.h_TsGT7tEOuJYRJkkx4Ikb4Vacc
+
+
+2025-05-05 00:52:44,732: === Raw HTTP Response ===
+Content-Type: text/html; charset=utf-8
+Content-Length: 32001
+
+[Body redacted]
+2025-05-05 00:52:44,747: === Raw HTTP Request ===
+GET /api/player/profile_pic? HTTP/1.1
+Content-Type: text/plain
+Host: localhost:8080
+Connection: keep-alive
+Sec-Ch-Ua-Platform: "macOS"
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+Sec-Ch-Ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"
+Sec-Ch-Ua-Mobile: ?0
+Accept: */*
+Sec-Fetch-Site: same-origin
+Sec-Fetch-Mode: cors
+Sec-Fetch-Dest: empty
+Referer: http://localhost:8080/
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: en-US,en;q=0.9
+Cookie: session=f463317f-a16d-400d-8174-a9982fb8fa96;  session=eyJ1c2VybmFtZSI6ImVsbHllbCJ9.aBhEGg.h_TsGT7tEOuJYRJkkx4Ikb4Vacc
+
+
+2025-05-05 00:52:44,750: === Raw HTTP Response ===
+Content-Type: application/json
+Content-Length: 68
+
+{"message":"name 'get_profile_pic' is not defined","success":false}
+
+2025-05-05 00:52:52,954: === Raw HTTP Request ===
+GET /profile? HTTP/1.1
+Content-Type: text/plain
+Host: localhost:8080
+Connection: keep-alive
+Sec-Ch-Ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"
+Sec-Ch-Ua-Mobile: ?0
+Sec-Ch-Ua-Platform: "macOS"
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+Sec-Fetch-Site: same-origin
+Sec-Fetch-Mode: navigate
+Sec-Fetch-User: ?1
+Sec-Fetch-Dest: document
+Referer: http://localhost:8080/
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: en-US,en;q=0.9
+Cookie:  session=eyJ1c2VybmFtZSI6ImVsbHllbCJ9.aBhEHA.1RGJWM3CD7Q4mI2RpMSjdY2hy_c
+
+
+2025-05-05 00:52:52,959: === Raw HTTP Response ===
+Content-Type: text/html; charset=utf-8
+Content-Length: 19358
+
+[Body redacted]
+2025-05-05 00:52:52,969: === Raw HTTP Request ===
+GET /profile_pic/e5f1bb83-2ee1-40e5-970f-43679ef58545.png? HTTP/1.1
+Content-Type: text/plain
+Host: localhost:8080
+Connection: keep-alive
+Sec-Ch-Ua-Platform: "macOS"
+If-None-Match: "1746420758.9925992-16027-2322605869"
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+Sec-Ch-Ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"
+If-Modified-Since: Mon, 05 May 2025 04:52:38 GMT
+Sec-Ch-Ua-Mobile: ?0
+Accept: image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8
+Sec-Fetch-Site: same-origin
+Sec-Fetch-Mode: no-cors
+Sec-Fetch-Dest: image
+Referer: http://localhost:8080/profile
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: en-US,en;q=0.9
+Cookie:  session=eyJ1c2VybmFtZSI6ImVsbHllbCJ9.aBhEHA.1RGJWM3CD7Q4mI2RpMSjdY2hy_c
+
+
+2025-05-05 00:52:52,969: Failed to log raw HTTP response:
+Traceback (most recent call last):
+  File "/Users/eleanoraundrus/Downloads/cse312-project/server.py", line 152, in log_response_and_raw
+    body_data = response.get_data()
+  File "/Users/eleanoraundrus/Downloads/cse312-project/312/lib/python3.9/site-packages/werkzeug/wrappers/response.py", line 281, in get_data
+    self._ensure_sequence()
+  File "/Users/eleanoraundrus/Downloads/cse312-project/312/lib/python3.9/site-packages/werkzeug/wrappers/response.py", line 329, in _ensure_sequence
+    raise RuntimeError(
+RuntimeError: Attempted implicit sequence conversion but the response object is in direct passthrough mode.
+2025-05-05 00:52:53,998: === Raw HTTP Request ===
+GET /? HTTP/1.1
+Content-Type: text/plain
+Host: localhost:8080
+Connection: keep-alive
+Sec-Ch-Ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"
+Sec-Ch-Ua-Mobile: ?0
+Sec-Ch-Ua-Platform: "macOS"
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+Sec-Fetch-Site: same-origin
+Sec-Fetch-Mode: navigate
+Sec-Fetch-User: ?1
+Sec-Fetch-Dest: document
+Referer: http://localhost:8080/profile
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: en-US,en;q=0.9
+Cookie:  session=eyJ1c2VybmFtZSI6ImVsbHllbCJ9.aBhEHA.1RGJWM3CD7Q4mI2RpMSjdY2hy_c
+
+
+2025-05-05 00:52:54,001: === Raw HTTP Response ===
+Content-Type: text/html; charset=utf-8
+Content-Length: 32001
+
+[Body redacted]
+2025-05-05 00:52:54,017: === Raw HTTP Request ===
+GET /api/player/profile_pic? HTTP/1.1
+Content-Type: text/plain
+Host: localhost:8080
+Connection: keep-alive
+Sec-Ch-Ua-Platform: "macOS"
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+Sec-Ch-Ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"
+Sec-Ch-Ua-Mobile: ?0
+Accept: */*
+Sec-Fetch-Site: same-origin
+Sec-Fetch-Mode: cors
+Sec-Fetch-Dest: empty
+Referer: http://localhost:8080/
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: en-US,en;q=0.9
+Cookie: session=f463317f-a16d-400d-8174-a9982fb8fa96;  session=eyJ1c2VybmFtZSI6ImVsbHllbCJ9.aBhEHA.1RGJWM3CD7Q4mI2RpMSjdY2hy_c
+
+
+2025-05-05 00:52:54,019: === Raw HTTP Response ===
+Content-Type: application/json
+Content-Length: 68
+
+{"message":"name 'get_profile_pic' is not defined","success":false}
+
+2025-05-05 00:52:55,629: === Raw HTTP Request ===
+GET /profile? HTTP/1.1
+Content-Type: text/plain
+Host: localhost:8080
+Connection: keep-alive
+Sec-Ch-Ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"
+Sec-Ch-Ua-Mobile: ?0
+Sec-Ch-Ua-Platform: "macOS"
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+Sec-Fetch-Site: same-origin
+Sec-Fetch-Mode: navigate
+Sec-Fetch-User: ?1
+Sec-Fetch-Dest: document
+Referer: http://localhost:8080/
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: en-US,en;q=0.9
+Cookie:  session=eyJ1c2VybmFtZSI6ImVsbHllbCJ9.aBhEJg.9DwBdag8zPUHsUi_HCEjKnKmMfg
+
+
+2025-05-05 00:52:55,634: === Raw HTTP Response ===
+Content-Type: text/html; charset=utf-8
+Content-Length: 19358
+
+[Body redacted]
+2025-05-05 00:52:55,644: === Raw HTTP Request ===
+GET /profile_pic/e5f1bb83-2ee1-40e5-970f-43679ef58545.png? HTTP/1.1
+Content-Type: text/plain
+Host: localhost:8080
+Connection: keep-alive
+Sec-Ch-Ua-Platform: "macOS"
+If-None-Match: "1746420758.9925992-16027-2322605869"
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+Sec-Ch-Ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"
+If-Modified-Since: Mon, 05 May 2025 04:52:38 GMT
+Sec-Ch-Ua-Mobile: ?0
+Accept: image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8
+Sec-Fetch-Site: same-origin
+Sec-Fetch-Mode: no-cors
+Sec-Fetch-Dest: image
+Referer: http://localhost:8080/profile
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: en-US,en;q=0.9
+Cookie:  session=eyJ1c2VybmFtZSI6ImVsbHllbCJ9.aBhEJg.9DwBdag8zPUHsUi_HCEjKnKmMfg
+
+
+2025-05-05 00:52:55,645: Failed to log raw HTTP response:
+Traceback (most recent call last):
+  File "/Users/eleanoraundrus/Downloads/cse312-project/server.py", line 152, in log_response_and_raw
+    body_data = response.get_data()
+  File "/Users/eleanoraundrus/Downloads/cse312-project/312/lib/python3.9/site-packages/werkzeug/wrappers/response.py", line 281, in get_data
+    self._ensure_sequence()
+  File "/Users/eleanoraundrus/Downloads/cse312-project/312/lib/python3.9/site-packages/werkzeug/wrappers/response.py", line 329, in _ensure_sequence
+    raise RuntimeError(
+RuntimeError: Attempted implicit sequence conversion but the response object is in direct passthrough mode.
+2025-05-05 00:53:16,412: === Raw HTTP Request ===
+POST /profile? HTTP/1.1
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary1pY3KTkldA5CanUH
+Content-Length: 181439
+Host: localhost:8080
+Connection: keep-alive
+Cache-Control: max-age=0
+Sec-Ch-Ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"
+Sec-Ch-Ua-Mobile: ?0
+Sec-Ch-Ua-Platform: "macOS"
+Origin: http://localhost:8080
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+Sec-Fetch-Site: same-origin
+Sec-Fetch-Mode: navigate
+Sec-Fetch-User: ?1
+Sec-Fetch-Dest: document
+Referer: http://localhost:8080/profile
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: en-US,en;q=0.9
+Cookie:  session=eyJ1c2VybmFtZSI6ImVsbHllbCJ9.aBhEJg.9DwBdag8zPUHsUi_HCEjKnKmMfg
+
+------WebKitFormBoundary1pY3KTkldA5CanUH
+Content-Disposition: form-data; name="profile_pic"; filename="Screenshot 2025-03-12 at 2.45.04 AM.png"
+Content-Type: image/png
+
+�PNG
+
+   IHDR  x  �   DB:  ?iCCPICC Profile  H��WXS��[��@B	]J�M�@J-��"�I�Pb;���ZP��]Q���¢��bAAYv�M
+躯|�|�������̹s� �~�+� ��%�!���)R7� h�	���Ĭ�� m��w{w�B��(��g�5M� � q?���A �*�X� Q�[L��0l@[�x�g(p��)�^�O|,� TԸ\I �ːg�2��bg_(@��on�d>ĩ�B1�2}f�:�L��r3��b.rS	�s����r�o�͑ư�M-S+�3�ۭ���2�q�(-2
+b-�?�r�QJ�44A���ذf@bg>70b#��E9�J>-]́�t�0��>�yAqJ�M�ɱ�Xh}���R��y\Y����R�u�����h���IS �,&FBL��)/;.\�3�0�9�#����8V 
+	P�c��X�in��|�M�BN���όU�k�q��ù`�"V � ol��\��� �ܱn�(!N��A���S�9�J�\�"��!v�+�S����T������xE�xa7,Z��D 6 �-LY@�����=��$ ����$��c(B$ yC��P ��C��������)Ĺ ��k�|�h(Z"x�?�sa��|s`���{~��ΰ �d��ꃞ� b 1�L��q_���G�\p&�98�������#�uB'��$a��,ǀN���Eڏ�������@u�����w�qX���Y�2oYU?i�m?��ٙ�����d۟G��inC*�Z�XE�iC�f����C�����'�;��b����Q�0�X#ֆ����D������Ɇ:�����J�9�:�8Q�����р=Y<]"���g��A���xN�.�.� Ⱦ/��כ�w�m���� �G�sa' �����9[&�t�p�0O*)Pp��@�o	u�� `l�|\�;�� ��(��D�}&\�0��@	(��*�l[����(8΂��2�����^�>�|F��P:b��"V��0_$�@b�d$�@D����Gʐrd��A�!��S�y���<Dz���'C�Pm��FG�L������4�����tZ��B��S�E�:ډ�@�1��b���116��`����bX5V�5��|��z��8�����P<��S���b|���[��C��F��/�0��A�J(!T���g����H$�m��YL&fg��O;����$ɀ�@�!E���|R	i-i��
+���AEU�T�E%X%EE�R�R��S���g*��d+�9��'O'/%o%7�/��ȟ)��%��E�GYC����ܣ�QUU5W�T�Q��U]��W���CՏjZj�jl��jR�%j��N��V{C�R����j>u	��z�����F�9�84>m��VO�B{�NV�Rg�OT/T�P?�~I�W��a����j�֨�8�qS�_��9R3J3Ws��N���Z$-k� -�V����Z��݂Φ����[�g�]�Dmm�v�v��n�v�>-W�D�i:�:�t:u1]k]�n��R���7t?���z���������/�/�ߣ]��� � �`�A��}C���0�p���3��ô�y�+��#���(�h���6�~c�c��Z��ƽ&�&�&Y&+M�����M}M��+MO�>g�0X��F����,�Lj�٬�쳹�y�y�����E��J�f�>KS�1�3-k-�X���V�V��Z��[�X'Y/�n��ѷ�����ܳ����N����fG�c�eۭ�
+2025-05-05 00:53:16,436: === Raw HTTP Response ===
+Content-Type: text/html; charset=utf-8
+Content-Length: 203
+Location: /profile
+
+[Body redacted]
+2025-05-05 00:53:16,438: === Raw HTTP Request ===
+GET /profile? HTTP/1.1
+Content-Type: text/plain
+Host: localhost:8080
+Connection: keep-alive
+Cache-Control: max-age=0
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+Sec-Fetch-Site: same-origin
+Sec-Fetch-Mode: navigate
+Sec-Fetch-User: ?1
+Sec-Fetch-Dest: document
+Sec-Ch-Ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"
+Sec-Ch-Ua-Mobile: ?0
+Sec-Ch-Ua-Platform: "macOS"
+Referer: http://localhost:8080/profile
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: en-US,en;q=0.9
+Cookie:  session=.eJwtyjEKgDAQRNGrxKlzAk9hLyIhTlBYNWSzhYTcXQurD4_fsCYJulMxzg2ufoFajFSFx1TudAhdPmK1Qmd5C5Wb-49kIs-ApS8epixXOIkR_JSC_gL8USES.aBhEPA.2jznN0m6rgrgq2nUEW9TG1XSCG8
+
+
+2025-05-05 00:53:16,441: === Raw HTTP Response ===
+Content-Type: text/html; charset=utf-8
+Content-Length: 19466
+
+[Body redacted]
+2025-05-05 00:53:16,450: === Raw HTTP Request ===
+GET /profile_pic/97a3e1cb-6eb6-43c2-a067-8c01d6dbb9a2.png? HTTP/1.1
+Content-Type: text/plain
+Host: localhost:8080
+Connection: keep-alive
+Sec-Ch-Ua-Platform: "macOS"
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+Sec-Ch-Ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"
+Sec-Ch-Ua-Mobile: ?0
+Accept: image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8
+Sec-Fetch-Site: same-origin
+Sec-Fetch-Mode: no-cors
+Sec-Fetch-Dest: image
+Referer: http://localhost:8080/profile
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: en-US,en;q=0.9
+Cookie:  session=eyJ1c2VybmFtZSI6ImVsbHllbCJ9.aBhEPA.wkToGtC-QgZNIX-e9jYtp6rSbCA
+
+
+2025-05-05 00:53:16,450: Failed to log raw HTTP response:
+Traceback (most recent call last):
+  File "/Users/eleanoraundrus/Downloads/cse312-project/server.py", line 152, in log_response_and_raw
+    body_data = response.get_data()
+  File "/Users/eleanoraundrus/Downloads/cse312-project/312/lib/python3.9/site-packages/werkzeug/wrappers/response.py", line 281, in get_data
+    self._ensure_sequence()
+  File "/Users/eleanoraundrus/Downloads/cse312-project/312/lib/python3.9/site-packages/werkzeug/wrappers/response.py", line 329, in _ensure_sequence
+    raise RuntimeError(
+RuntimeError: Attempted implicit sequence conversion but the response object is in direct passthrough mode.
+2025-05-05 00:53:19,742: === Raw HTTP Request ===
+GET /? HTTP/1.1
+Content-Type: text/plain
+Host: localhost:8080
+Connection: keep-alive
+Sec-Ch-Ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"
+Sec-Ch-Ua-Mobile: ?0
+Sec-Ch-Ua-Platform: "macOS"
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+Sec-Fetch-Site: same-origin
+Sec-Fetch-Mode: navigate
+Sec-Fetch-User: ?1
+Sec-Fetch-Dest: document
+Referer: http://localhost:8080/profile
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: en-US,en;q=0.9
+Cookie:  session=eyJ1c2VybmFtZSI6ImVsbHllbCJ9.aBhEPA.wkToGtC-QgZNIX-e9jYtp6rSbCA
+
+
+2025-05-05 00:53:19,745: === Raw HTTP Response ===
+Content-Type: text/html; charset=utf-8
+Content-Length: 32001
+
+[Body redacted]
+2025-05-05 00:53:19,763: === Raw HTTP Request ===
+GET /api/player/profile_pic? HTTP/1.1
+Content-Type: text/plain
+Host: localhost:8080
+Connection: keep-alive
+Sec-Ch-Ua-Platform: "macOS"
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+Sec-Ch-Ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"
+Sec-Ch-Ua-Mobile: ?0
+Accept: */*
+Sec-Fetch-Site: same-origin
+Sec-Fetch-Mode: cors
+Sec-Fetch-Dest: empty
+Referer: http://localhost:8080/
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: en-US,en;q=0.9
+Cookie: session=f463317f-a16d-400d-8174-a9982fb8fa96;  session=eyJ1c2VybmFtZSI6ImVsbHllbCJ9.aBhEPA.wkToGtC-QgZNIX-e9jYtp6rSbCA
+
+
+2025-05-05 00:53:19,765: === Raw HTTP Response ===
+Content-Type: application/json
+Content-Length: 68
+
+{"message":"name 'get_profile_pic' is not defined","success":false}
+
+2025-05-05 00:53:40,641: === Raw HTTP Request ===
+GET /profile? HTTP/1.1
+Content-Type: text/plain
+Host: localhost:8080
+Connection: keep-alive
+Sec-Ch-Ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"
+Sec-Ch-Ua-Mobile: ?0
+Sec-Ch-Ua-Platform: "macOS"
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+Sec-Fetch-Site: same-origin
+Sec-Fetch-Mode: navigate
+Sec-Fetch-User: ?1
+Sec-Fetch-Dest: document
+Referer: http://localhost:8080/
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: en-US,en;q=0.9
+Cookie:  session=eyJ1c2VybmFtZSI6ImVsbHllbCJ9.aBhEPw.0VAgXL5v3mzXBPLI7yEihxy78XY
+
+
+2025-05-05 00:53:40,649: === Raw HTTP Response ===
+Content-Type: text/html; charset=utf-8
+Content-Length: 19358
+
+[Body redacted]
+2025-05-05 00:53:40,659: === Raw HTTP Request ===
+GET /profile_pic/97a3e1cb-6eb6-43c2-a067-8c01d6dbb9a2.png? HTTP/1.1
+Content-Type: text/plain
+Host: localhost:8080
+Connection: keep-alive
+Sec-Ch-Ua-Platform: "macOS"
+If-None-Match: "1746420796.434918-9245-2410162127"
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+Sec-Ch-Ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"
+If-Modified-Since: Mon, 05 May 2025 04:53:16 GMT
+Sec-Ch-Ua-Mobile: ?0
+Accept: image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8
+Sec-Fetch-Site: same-origin
+Sec-Fetch-Mode: no-cors
+Sec-Fetch-Dest: image
+Referer: http://localhost:8080/profile
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: en-US,en;q=0.9
+Cookie:  session=eyJ1c2VybmFtZSI6ImVsbHllbCJ9.aBhEVA.JSnILX11xcsXYxGAPN6IWSavP04
+
+
+2025-05-05 00:53:40,661: Failed to log raw HTTP response:
+Traceback (most recent call last):
+  File "/Users/eleanoraundrus/Downloads/cse312-project/server.py", line 152, in log_response_and_raw
+    body_data = response.get_data()
+  File "/Users/eleanoraundrus/Downloads/cse312-project/312/lib/python3.9/site-packages/werkzeug/wrappers/response.py", line 281, in get_data
+    self._ensure_sequence()
+  File "/Users/eleanoraundrus/Downloads/cse312-project/312/lib/python3.9/site-packages/werkzeug/wrappers/response.py", line 329, in _ensure_sequence
+    raise RuntimeError(
+RuntimeError: Attempted implicit sequence conversion but the response object is in direct passthrough mode.
+2025-05-05 00:53:46,913: === Raw HTTP Request ===
+POST /profile? HTTP/1.1
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundarylo85WhAtjvhyAZtG
+Content-Length: 463978
+Host: localhost:8080
+Connection: keep-alive
+Cache-Control: max-age=0
+Sec-Ch-Ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"
+Sec-Ch-Ua-Mobile: ?0
+Sec-Ch-Ua-Platform: "macOS"
+Origin: http://localhost:8080
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+Sec-Fetch-Site: same-origin
+Sec-Fetch-Mode: navigate
+Sec-Fetch-User: ?1
+Sec-Fetch-Dest: document
+Referer: http://localhost:8080/profile
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: en-US,en;q=0.9
+Cookie:  session=eyJ1c2VybmFtZSI6ImVsbHllbCJ9.aBhEVA.JSnILX11xcsXYxGAPN6IWSavP04
+
+------WebKitFormBoundarylo85WhAtjvhyAZtG
+Content-Disposition: form-data; name="profile_pic"; filename="Screenshot 2025-05-01 at 5.05.28 PM.png"
+Content-Type: image/png
+
+�PNG
+
+   IHDR  �  �   ����  >iCCPICC Profile  H��WXS��[��@B	]J�M�@J-� *!	J���b/�
+�]T����(v�E�,��/T�u�`Wޤ����������9�3���{ ��\�8�  _T(�	`�IIe�z h@V.�@̊�� ��/�D�^q�i����M��� q����A �*�XR Q�[L.�0�@[�x�g)p�g(�^�MB�6 TԸ\I �K�g��bg_(@��o~�D>���B1�2}f�:Y����r���b.�(,�q������%?O:��V�lIh�l�0o7s'�˰Ľ���h�� � ���!F)���D�=j�+`Ü]�����p�� �EE(��La0b�B�)�BN��/�+m6I&�)}���6Kɟ�J�~e��KsYJ����R�g'$CL�زH�1b����p����lvԠ�D'���8�($@��eJ��������6e9QJ��0;!T���Ǖ��]�X��:��1�s��sǞ	D��J��8�X�"΋Q��悼o�kAQ�r,�T�B��$(�ċs�a1�x�e �A ` )�`"�ކ^x��	\ Y@ ����dy�^�A1�"( ��"�bWG�)�-���O �� �K�DCޒ�c���+ƛ������w��%#��P�$���`�n����x����3q��y|�'<!t���&�J~�2tA�`e.2~�n5�� ��Ce\7��+�����g7Ȳ�q˲��I�o3��i(���d��G�'��<�fOsR�����(b��7{��g���χm�ϖ�B� v;��Î`���`�X;vT��V�c���'�'���o���2Y�\����E�W(�"{G�D�T�0+����_�#�9g�8�� ��(^_ob��D��;7� |Z��Z ����wΖ	?� �m�I%E
+�]�-�w�0����o��@�	 ���g�u.��t0��2��`#�v��`?h G�	p\ ��5p��n��w�3� $�����B���"AH�� �H"B��tdR��@*��H�iBN �N�� �A^#�PUC�Qc��2Q�&���,tZ��G��k�jtZ��@/���.�ڏL���0G����h,��$�L�+Ǫ�:�>�+X֋}ĉ8g��p��8�������oï��>��J0"8��Ba2��PN�F8D8�R7��H�%�=�^L!�����;����$ɀ�@�!E���BR	ii��t��M����b�����"R��R��S��e��*��d+�9��'O%/%o%7�/��ɟ)��%��C�CYK����ܥ�QUU5W�T�U��V]��W���ՏjZj�jl�45����j��n���R��Tj*����ZC=I�O�@�Ӝh�6�VI��]��T'�[���ǫ���P��ޫAְ�`kp5fjTj4i���פk�Ԍ���\��S��3-���V�_k����Z��݂Φ����[����Dmm�v�v��n��>-W�$�):�:Gu�t1]k]�n��R����u?���z����.����/�/�ߣM��� � �`�A��=C���0�p���S��ô�y�+��m#���(�h���v�~c�c��:�ƽ&�&�&9&�L�����M}M���L[L�3t,Fc-���gfdj&5�l�a����<�|���{�E��*�V�>KS�H�閵����VL�l�5Vg��[�X'[/�n�~f�oñ)����kK����d[m{ՎhǴ˵[ow�
+2025-05-05 00:53:46,935: === Raw HTTP Response ===
+Content-Type: text/html; charset=utf-8
+Content-Length: 203
+Location: /profile
+
+[Body redacted]
+2025-05-05 00:53:46,936: === Raw HTTP Request ===
+GET /profile? HTTP/1.1
+Content-Type: text/plain
+Host: localhost:8080
+Connection: keep-alive
+Cache-Control: max-age=0
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+Sec-Fetch-Site: same-origin
+Sec-Fetch-Mode: navigate
+Sec-Fetch-User: ?1
+Sec-Fetch-Dest: document
+Sec-Ch-Ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"
+Sec-Ch-Ua-Mobile: ?0
+Sec-Ch-Ua-Platform: "macOS"
+Referer: http://localhost:8080/profile
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: en-US,en;q=0.9
+Cookie:  session=.eJwtyjEKgDAQRNGrxKlzAk9hLyIhTlBYNWSzhYTcXQurD4_fsCYJulMxzg2ufoFajFSFx1TudAhdPmK1Qmd5C5Wb-49kIs-ApS8epixXOIkR_JSC_gL8USES.aBhEWg.p9GdAohnb1d7EiF2r5FRcGAyDTY
+
+
+2025-05-05 00:53:46,939: === Raw HTTP Response ===
+Content-Type: text/html; charset=utf-8
+Content-Length: 19466
+
+[Body redacted]
+2025-05-05 00:53:46,947: === Raw HTTP Request ===
+GET /profile_pic/5bd02fec-628e-46a0-bfa6-47dd54dd9836.png? HTTP/1.1
+Content-Type: text/plain
+Host: localhost:8080
+Connection: keep-alive
+Sec-Ch-Ua-Platform: "macOS"
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+Sec-Ch-Ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"
+Sec-Ch-Ua-Mobile: ?0
+Accept: image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8
+Sec-Fetch-Site: same-origin
+Sec-Fetch-Mode: no-cors
+Sec-Fetch-Dest: image
+Referer: http://localhost:8080/profile
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: en-US,en;q=0.9
+Cookie:  session=eyJ1c2VybmFtZSI6ImVsbHllbCJ9.aBhEWg.vseVaLeRoiBHszqK0SZDOtDxOL0
+
+
+2025-05-05 00:53:46,948: Failed to log raw HTTP response:
+Traceback (most recent call last):
+  File "/Users/eleanoraundrus/Downloads/cse312-project/server.py", line 152, in log_response_and_raw
+    body_data = response.get_data()
+  File "/Users/eleanoraundrus/Downloads/cse312-project/312/lib/python3.9/site-packages/werkzeug/wrappers/response.py", line 281, in get_data
+    self._ensure_sequence()
+  File "/Users/eleanoraundrus/Downloads/cse312-project/312/lib/python3.9/site-packages/werkzeug/wrappers/response.py", line 329, in _ensure_sequence
+    raise RuntimeError(
+RuntimeError: Attempted implicit sequence conversion but the response object is in direct passthrough mode.
+2025-05-05 00:53:48,479: === Raw HTTP Request ===
+GET /? HTTP/1.1
+Content-Type: text/plain
+Host: localhost:8080
+Connection: keep-alive
+Sec-Ch-Ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"
+Sec-Ch-Ua-Mobile: ?0
+Sec-Ch-Ua-Platform: "macOS"
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+Sec-Fetch-Site: same-origin
+Sec-Fetch-Mode: navigate
+Sec-Fetch-User: ?1
+Sec-Fetch-Dest: document
+Referer: http://localhost:8080/profile
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: en-US,en;q=0.9
+Cookie:  session=eyJ1c2VybmFtZSI6ImVsbHllbCJ9.aBhEWg.vseVaLeRoiBHszqK0SZDOtDxOL0
+
+
+2025-05-05 00:53:48,490: === Raw HTTP Response ===
+Content-Type: text/html; charset=utf-8
+Content-Length: 32001
+
+[Body redacted]
+2025-05-05 00:53:48,504: === Raw HTTP Request ===
+GET /api/player/profile_pic? HTTP/1.1
+Content-Type: text/plain
+Host: localhost:8080
+Connection: keep-alive
+Sec-Ch-Ua-Platform: "macOS"
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+Sec-Ch-Ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"
+Sec-Ch-Ua-Mobile: ?0
+Accept: */*
+Sec-Fetch-Site: same-origin
+Sec-Fetch-Mode: cors
+Sec-Fetch-Dest: empty
+Referer: http://localhost:8080/
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: en-US,en;q=0.9
+Cookie: session=f463317f-a16d-400d-8174-a9982fb8fa96;  session=eyJ1c2VybmFtZSI6ImVsbHllbCJ9.aBhEWg.vseVaLeRoiBHszqK0SZDOtDxOL0
+
+
+2025-05-05 00:53:48,507: === Raw HTTP Response ===
+Content-Type: application/json
+Content-Length: 21406
+
+{"base64_data":"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
+2025-05-05 00:54:03,830: === Raw HTTP Request ===
+GET /? HTTP/1.1
+Content-Type: text/plain
+Host: localhost:8080
+Connection: keep-alive
+Sec-Ch-Ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"
+Sec-Ch-Ua-Mobile: ?0
+Sec-Ch-Ua-Platform: "macOS"
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+Sec-Fetch-Site: none
+Sec-Fetch-Mode: navigate
+Sec-Fetch-User: ?1
+Sec-Fetch-Dest: document
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: en-US,en;q=0.9
+Cookie:  session=eyJ1c2VybmFtZSI6ImVsbHllbCJ9.aBhEXA.Wk5WHgOrBKzhapmjvdM21qhW1gE
+
+
+2025-05-05 00:54:03,835: === Raw HTTP Response ===
+Content-Type: text/html; charset=utf-8
+Content-Length: 32001
+
+[Body redacted]
+2025-05-05 00:54:03,848: === Raw HTTP Request ===
+GET /api/player/profile_pic? HTTP/1.1
+Content-Type: text/plain
+Host: localhost:8080
+Connection: keep-alive
+Sec-Ch-Ua-Platform: "macOS"
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+Sec-Ch-Ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"
+Sec-Ch-Ua-Mobile: ?0
+Accept: */*
+Sec-Fetch-Site: same-origin
+Sec-Fetch-Mode: cors
+Sec-Fetch-Dest: empty
+Referer: http://localhost:8080/
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: en-US,en;q=0.9
+Cookie: session=f463317f-a16d-400d-8174-a9982fb8fa96;  session=eyJ1c2VybmFtZSI6ImVsbHllbCJ9.aBhEXA.Wk5WHgOrBKzhapmjvdM21qhW1gE
+
+
+2025-05-05 00:54:03,852: === Raw HTTP Response ===
+Content-Type: application/json
+Content-Length: 21406
+
+{"base64_data":"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
+2025-05-05 00:57:14,572: === Raw HTTP Request ===
+GET /profile? HTTP/1.1
+Content-Type: text/plain
+Host: localhost:8080
+Connection: keep-alive
+Sec-Ch-Ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"
+Sec-Ch-Ua-Mobile: ?0
+Sec-Ch-Ua-Platform: "macOS"
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+Sec-Fetch-Site: same-origin
+Sec-Fetch-Mode: navigate
+Sec-Fetch-User: ?1
+Sec-Fetch-Dest: document
+Referer: http://localhost:8080/
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: en-US,en;q=0.9
+Cookie:  session=eyJ1c2VybmFtZSI6ImVsbHllbCJ9.aBhEaw.fhzBgHvu6TsJO8a2n_mXI-ymQzM
+
+
+2025-05-05 00:57:14,580: === Raw HTTP Response ===
+Content-Type: text/html; charset=utf-8
+Content-Length: 19358
+
+[Body redacted]
+2025-05-05 00:57:14,590: === Raw HTTP Request ===
+GET /profile_pic/5bd02fec-628e-46a0-bfa6-47dd54dd9836.png? HTTP/1.1
+Content-Type: text/plain
+Host: localhost:8080
+Connection: keep-alive
+Sec-Ch-Ua-Platform: "macOS"
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+Sec-Ch-Ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"
+Sec-Ch-Ua-Mobile: ?0
+Accept: image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8
+Sec-Fetch-Site: same-origin
+Sec-Fetch-Mode: no-cors
+Sec-Fetch-Dest: image
+Referer: http://localhost:8080/profile
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: en-US,en;q=0.9
+Cookie:  session=eyJ1c2VybmFtZSI6ImVsbHllbCJ9.aBhFKg.9rAp2gMd16cY6FBhfQ7Bnc5TlXQ
+If-None-Match: "1746420826.9343522-16027-2514823137"
+
+
+2025-05-05 00:57:14,591: Failed to log raw HTTP response:
+Traceback (most recent call last):
+  File "/Users/eleanoraundrus/Downloads/cse312-project/server.py", line 152, in log_response_and_raw
+    body_data = response.get_data()
+  File "/Users/eleanoraundrus/Downloads/cse312-project/312/lib/python3.9/site-packages/werkzeug/wrappers/response.py", line 281, in get_data
+    self._ensure_sequence()
+  File "/Users/eleanoraundrus/Downloads/cse312-project/312/lib/python3.9/site-packages/werkzeug/wrappers/response.py", line 329, in _ensure_sequence
+    raise RuntimeError(
+RuntimeError: Attempted implicit sequence conversion but the response object is in direct passthrough mode.
+2025-05-05 00:57:20,585: === Raw HTTP Request ===
+POST /profile? HTTP/1.1
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundaryQSWLy5NLwbvkhUcY
+Content-Length: 261193
+Host: localhost:8080
+Connection: keep-alive
+Cache-Control: max-age=0
+Sec-Ch-Ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"
+Sec-Ch-Ua-Mobile: ?0
+Sec-Ch-Ua-Platform: "macOS"
+Origin: http://localhost:8080
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+Sec-Fetch-Site: same-origin
+Sec-Fetch-Mode: navigate
+Sec-Fetch-User: ?1
+Sec-Fetch-Dest: document
+Referer: http://localhost:8080/profile
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: en-US,en;q=0.9
+Cookie:  session=eyJ1c2VybmFtZSI6ImVsbHllbCJ9.aBhFKg.9rAp2gMd16cY6FBhfQ7Bnc5TlXQ
+
+------WebKitFormBoundaryQSWLy5NLwbvkhUcY
+Content-Disposition: form-data; name="profile_pic"; filename="Screenshot 2025-05-04 at 6.56.46 PM.png"
+Content-Type: image/png
+
+�PNG
+
+   IHDR  �  ^   ���E  >iCCPICC Profile  H��WXS��[��@B	]J�M�@J-� *!	J���b/�
+�]T����(v�E�,��/T�u�`Wޤ����������9�3���{ ��\�8�  _T(�	`�IIe�z h@V.�@̊�� ��/�D�^q�i����M��� q����A �*�XR Q�[L.�0�@[�x�g)p�g(�^�MB�6 TԸ\I �K�g��bg_(@��o~�D>���B1�2}f�:Y����r���b.�(,�q������%?O:��V�lIh�l�0o7s'�˰Ľ���h�� � ���!F)���D�=j�+`Ü]�����p�� �EE(��La0b�B�)�BN��/�+m6I&�)}���6Kɟ�J�~e��KsYJ����R�g'$CL�زH�1b����p����lvԠ�D'���8�($@��eJ��������6e9QJ��0;!T���Ǖ��]�X��:��1�s��sǞ	D��J��8�X�"΋Q��悼o�kAQ�r,�T�B��$(�ċs�a1�x�e �A ` )�`"�ކ^x��	\ Y@ ����dy�^�A1�"( ��"�bWG�)�-���O �� �K�DCޒ�c���+ƛ������w��%#��P�$���`�n����x����3q��y|�'<!t���&�J~�2tA�`e.2~�n5�� ��Ce\7��+�����g7Ȳ�q˲��I�o3��i(���d��G�'��<�fOsR�����(b��7{��g���χm�ϖ�B� v;��Î`���`�X;vT��V�c���'�'���o���2Y�\����E�W(�"{G�D�T�0+����_�#�9g�8�� ��(^_ob��D��;7� |Z��Z ����wΖ	?� �m�I%E
+�]�-�w�0����o��@�	 ���g�u.��t0��2��`#�v��`?h G�	p\ ��5p��n��w�3� $�����B���"AH�� �H"B��tdR��@*��H�iBN �N�� �A^#�PUC�Qc��2Q�&���,tZ��G��k�jtZ��@/���.�ڏL���0G����h,��$�L�+Ǫ�:�>�+X֋}ĉ8g��p��8�������oï��>��J0"8��Ba2��PN�F8D8�R7��H�%�=�^L!�����;����$ɀ�@�!E���BR	ii��t��M����b�����"R��R��S��e��*��d+�9��'O%/%o%7�/��ɟ)��%��C�CYK����ܥ�QUU5W�T�U��V]��W���ՏjZj�jl�45����j��n���R��Tj*����ZC=I�O�@�Ӝh�6�VI��]��T'�[���ǫ���P��ޫAְ�`kp5fjTj4i���פk�Ԍ���\��S��3-���V�_k����Z��݂Φ����[����Dmm�v�v��n��>-W�$�):�:Gu�t1]k]�n��R����u?���z����.����/�/�ߣM��� � �`�A��=C���0�p���S��ô�y�+��m#���(�h���v�~c�c��:�ƽ&�&�&9&�L�����M}M���L[L�3t,Fc-���gfdj&5�l�a����<�|���{�E��*�V�>KS�H�閵����VL�l�5Vg��[�X'[/�n�~f�oñ)����kK����d[m{ՎhǴ˵[ow�
+2025-05-05 00:57:20,627: === Raw HTTP Response ===
+Content-Type: text/html; charset=utf-8
+Content-Length: 203
+Location: /profile
+
+[Body redacted]
+2025-05-05 00:57:20,629: === Raw HTTP Request ===
+GET /profile? HTTP/1.1
+Content-Type: text/plain
+Host: localhost:8080
+Connection: keep-alive
+Cache-Control: max-age=0
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+Sec-Fetch-Site: same-origin
+Sec-Fetch-Mode: navigate
+Sec-Fetch-User: ?1
+Sec-Fetch-Dest: document
+Sec-Ch-Ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"
+Sec-Ch-Ua-Mobile: ?0
+Sec-Ch-Ua-Platform: "macOS"
+Referer: http://localhost:8080/profile
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: en-US,en;q=0.9
+Cookie:  session=.eJwtyjEKgDAQRNGrxKlzAk9hLyIhTlBYNWSzhYTcXQurD4_fsCYJulMxzg2ufoFajFSFx1TudAhdPmK1Qmd5C5Wb-49kIs-ApS8epixXOIkR_JSC_gL8USES.aBhFMA.MM1xWSnE2UAZBqJIUcUz-H9i0Wc
+
+
+2025-05-05 00:57:20,631: === Raw HTTP Response ===
+Content-Type: text/html; charset=utf-8
+Content-Length: 19466
+
+[Body redacted]
+2025-05-05 00:57:20,640: === Raw HTTP Request ===
+GET /profile_pic/1c513c3d-8a2b-4d81-be41-55fac5d350cb.png? HTTP/1.1
+Content-Type: text/plain
+Host: localhost:8080
+Connection: keep-alive
+Sec-Ch-Ua-Platform: "macOS"
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+Sec-Ch-Ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"
+Sec-Ch-Ua-Mobile: ?0
+Accept: image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8
+Sec-Fetch-Site: same-origin
+Sec-Fetch-Mode: no-cors
+Sec-Fetch-Dest: image
+Referer: http://localhost:8080/profile
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: en-US,en;q=0.9
+Cookie:  session=eyJ1c2VybmFtZSI6ImVsbHllbCJ9.aBhFMA.y11nXpqgyZPiFRV5-yi8SNVv70g
+
+
+2025-05-05 00:57:20,640: Failed to log raw HTTP response:
+Traceback (most recent call last):
+  File "/Users/eleanoraundrus/Downloads/cse312-project/server.py", line 152, in log_response_and_raw
+    body_data = response.get_data()
+  File "/Users/eleanoraundrus/Downloads/cse312-project/312/lib/python3.9/site-packages/werkzeug/wrappers/response.py", line 281, in get_data
+    self._ensure_sequence()
+  File "/Users/eleanoraundrus/Downloads/cse312-project/312/lib/python3.9/site-packages/werkzeug/wrappers/response.py", line 329, in _ensure_sequence
+    raise RuntimeError(
+RuntimeError: Attempted implicit sequence conversion but the response object is in direct passthrough mode.
+2025-05-05 00:57:22,361: === Raw HTTP Request ===
+GET /? HTTP/1.1
+Content-Type: text/plain
+Host: localhost:8080
+Connection: keep-alive
+Sec-Ch-Ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"
+Sec-Ch-Ua-Mobile: ?0
+Sec-Ch-Ua-Platform: "macOS"
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+Sec-Fetch-Site: same-origin
+Sec-Fetch-Mode: navigate
+Sec-Fetch-User: ?1
+Sec-Fetch-Dest: document
+Referer: http://localhost:8080/profile
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: en-US,en;q=0.9
+Cookie:  session=eyJ1c2VybmFtZSI6ImVsbHllbCJ9.aBhFMA.y11nXpqgyZPiFRV5-yi8SNVv70g
+
+
+2025-05-05 00:57:22,371: === Raw HTTP Response ===
+Content-Type: text/html; charset=utf-8
+Content-Length: 34230
+
+[Body redacted]
+2025-05-05 00:57:23,385: === Raw HTTP Request ===
+GET /api/player/profile_pic? HTTP/1.1
+Content-Type: text/plain
+Host: localhost:8080
+Connection: keep-alive
+Sec-Ch-Ua-Platform: "macOS"
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+Sec-Ch-Ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"
+Sec-Ch-Ua-Mobile: ?0
+Accept: */*
+Sec-Fetch-Site: same-origin
+Sec-Fetch-Mode: cors
+Sec-Fetch-Dest: empty
+Referer: http://localhost:8080/
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: en-US,en;q=0.9
+Cookie: session=f463317f-a16d-400d-8174-a9982fb8fa96;  session=eyJ1c2VybmFtZSI6ImVsbHllbCJ9.aBhFMA.y11nXpqgyZPiFRV5-yi8SNVv70g
+
+
+2025-05-05 00:57:23,387: === Raw HTTP Response ===
+Content-Type: application/json
+Content-Length: 7146
+
+{"base64_data":"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
+2025-05-05 00:57:27,344: === Raw HTTP Request ===
+GET /? HTTP/1.1
+Content-Type: text/plain
+Host: localhost:8080
+Connection: keep-alive
+Sec-Ch-Ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"
+Sec-Ch-Ua-Mobile: ?0
+Sec-Ch-Ua-Platform: "macOS"
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+Sec-Fetch-Site: none
+Sec-Fetch-Mode: navigate
+Sec-Fetch-User: ?1
+Sec-Fetch-Dest: document
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: en-US,en;q=0.9
+Cookie:  session=eyJ1c2VybmFtZSI6ImVsbHllbCJ9.aBhFMw.8iUTDsWBhWtVKaH3hOF7kDp8yGc
+
+
+2025-05-05 00:57:27,348: === Raw HTTP Response ===
+Content-Type: text/html; charset=utf-8
+Content-Length: 34230
+
+[Body redacted]
+2025-05-05 00:57:28,362: === Raw HTTP Request ===
+GET /api/player/profile_pic? HTTP/1.1
+Content-Type: text/plain
+Host: localhost:8080
+Connection: keep-alive
+Sec-Ch-Ua-Platform: "macOS"
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+Sec-Ch-Ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"
+Sec-Ch-Ua-Mobile: ?0
+Accept: */*
+Sec-Fetch-Site: same-origin
+Sec-Fetch-Mode: cors
+Sec-Fetch-Dest: empty
+Referer: http://localhost:8080/
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: en-US,en;q=0.9
+Cookie: session=f463317f-a16d-400d-8174-a9982fb8fa96;  session=eyJ1c2VybmFtZSI6ImVsbHllbCJ9.aBhFMw.8iUTDsWBhWtVKaH3hOF7kDp8yGc
+
+
+2025-05-05 00:57:28,365: === Raw HTTP Response ===
+Content-Type: application/json
+Content-Length: 7146
+
+{"base64_data":"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
+2025-05-05 00:57:57,362: === Raw HTTP Request ===
+GET /api/player/profile_pic? HTTP/1.1
+Content-Type: text/plain
+Host: localhost:8080
+Connection: keep-alive
+Sec-Ch-Ua-Platform: "macOS"
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+Sec-Ch-Ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"
+Sec-Ch-Ua-Mobile: ?0
+Accept: */*
+Sec-Fetch-Site: same-origin
+Sec-Fetch-Mode: cors
+Sec-Fetch-Dest: empty
+Referer: http://localhost:8080/
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: en-US,en;q=0.9
+Cookie: session=f463317f-a16d-400d-8174-a9982fb8fa96;  session=eyJ1c2VybmFtZSI6ImVsbHllbCJ9.aBhFOA.ShGfP4gy86JyQQNcMkF9LUXiL2k
+
+
+2025-05-05 00:57:57,365: === Raw HTTP Response ===
+Content-Type: application/json
+Content-Length: 7146
+
+{"base64_data":"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
+2025-05-05 00:58:27,364: === Raw HTTP Request ===
+GET /api/player/profile_pic? HTTP/1.1
+Content-Type: text/plain
+Host: localhost:8080
+Connection: keep-alive
+Sec-Ch-Ua-Platform: "macOS"
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+Sec-Ch-Ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"
+Sec-Ch-Ua-Mobile: ?0
+Accept: */*
+Sec-Fetch-Site: same-origin
+Sec-Fetch-Mode: cors
+Sec-Fetch-Dest: empty
+Referer: http://localhost:8080/
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: en-US,en;q=0.9
+Cookie: session=f463317f-a16d-400d-8174-a9982fb8fa96;  session=eyJ1c2VybmFtZSI6ImVsbHllbCJ9.aBhFVQ.u8CNHL0aSHsfsczODqPj1EoITjU
+
+
+2025-05-05 00:58:27,368: === Raw HTTP Response ===
+Content-Type: application/json
+Content-Length: 7146
+
+{"base64_data":"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
+2025-05-05 01:02:24,895: === Raw HTTP Request ===
+GET /api/player/profile_pic? HTTP/1.1
+Content-Type: text/plain
+Host: localhost:8080
+Connection: keep-alive
+Sec-Ch-Ua-Platform: "macOS"
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+Sec-Ch-Ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"
+Sec-Ch-Ua-Mobile: ?0
+Accept: */*
+Sec-Fetch-Site: same-origin
+Sec-Fetch-Mode: cors
+Sec-Fetch-Dest: empty
+Referer: http://localhost:8080/
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: en-US,en;q=0.9
+Cookie: session=f463317f-a16d-400d-8174-a9982fb8fa96;  session=eyJ1c2VybmFtZSI6ImVsbHllbCJ9.aBhFcw.Ghqz3V9sVCDALK4FeOKVxu87OWM
+
+
+2025-05-05 01:02:24,898: === Raw HTTP Response ===
+Content-Type: application/json
+Content-Length: 7146
+
+{"base64_data":"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
+2025-05-05 01:02:50,337: === Raw HTTP Request ===
+GET /? HTTP/1.1
+Content-Type: text/plain
+Host: localhost:8080
+Connection: keep-alive
+Sec-Ch-Ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"
+Sec-Ch-Ua-Mobile: ?0
+Sec-Ch-Ua-Platform: "macOS"
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+Sec-Fetch-Site: none
+Sec-Fetch-Mode: navigate
+Sec-Fetch-User: ?1
+Sec-Fetch-Dest: document
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: en-US,en;q=0.9
+Cookie:  session=eyJ1c2VybmFtZSI6InNvbWV0aGluZ2dnZyJ9.aBhCzg.5_pXJEM7yvxDp98TN_H6TvSNy5s
+
+
+2025-05-05 01:02:50,340: === Raw HTTP Response ===
+Content-Type: text/html; charset=utf-8
+Content-Length: 34230
+
+[Body redacted]
+2025-05-05 01:02:51,352: === Raw HTTP Request ===
+GET /api/player/profile_pic? HTTP/1.1
+Content-Type: text/plain
+Host: localhost:8080
+Connection: keep-alive
+Sec-Ch-Ua-Platform: "macOS"
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+Sec-Ch-Ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"
+Sec-Ch-Ua-Mobile: ?0
+Accept: */*
+Sec-Fetch-Site: same-origin
+Sec-Fetch-Mode: cors
+Sec-Fetch-Dest: empty
+Referer: http://localhost:8080/
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: en-US,en;q=0.9
+Cookie:  session=eyJ1c2VybmFtZSI6InNvbWV0aGluZ2dnZyJ9.aBhGeg.wHwFZIVafjLRCG-RWHH1CXgXIlQ
+
+
+2025-05-05 01:02:51,356: === Raw HTTP Response ===
+Content-Type: application/json
+Content-Length: 55
+
+{"message":"No profile picture found","success":false}
+
+2025-05-05 01:02:54,901: === Raw HTTP Request ===
+GET /api/player/profile_pic? HTTP/1.1
+Content-Type: text/plain
+Host: localhost:8080
+Connection: keep-alive
+Sec-Ch-Ua-Platform: "macOS"
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+Sec-Ch-Ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"
+Sec-Ch-Ua-Mobile: ?0
+Accept: */*
+Sec-Fetch-Site: same-origin
+Sec-Fetch-Mode: cors
+Sec-Fetch-Dest: empty
+Referer: http://localhost:8080/
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: en-US,en;q=0.9
+Cookie: session=f463317f-a16d-400d-8174-a9982fb8fa96;  session=eyJ1c2VybmFtZSI6ImVsbHllbCJ9.aBhGYA.VHLEu6z9IycuokWuvmL5_I3sdbQ
+
+
+2025-05-05 01:02:54,904: === Raw HTTP Response ===
+Content-Type: application/json
+Content-Length: 7146
+
+{"base64_data":"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
+2025-05-05 01:03:06,178: === Raw HTTP Request ===
+GET /player_stats? HTTP/1.1
+Content-Type: text/plain
+Host: localhost:8080
+Connection: keep-alive
+Sec-Ch-Ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"
+Sec-Ch-Ua-Mobile: ?0
+Sec-Ch-Ua-Platform: "macOS"
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+Sec-Fetch-Site: same-origin
+Sec-Fetch-Mode: navigate
+Sec-Fetch-User: ?1
+Sec-Fetch-Dest: document
+Referer: http://localhost:8080/
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: en-US,en;q=0.9
+Cookie:  session=eyJ1c2VybmFtZSI6ImVsbHllbCJ9.aBhGfg.qzjx7HpNXdzaiMcxMdWXbtfR0D4
+
+
+2025-05-05 01:03:06,185: === Raw HTTP Response ===
+Content-Type: text/html; charset=utf-8
+Content-Length: 5770
+
+[Body redacted]
+2025-05-05 01:03:06,199: === Raw HTTP Request ===
+GET /api/player/stats? HTTP/1.1
+Content-Type: text/plain
+Host: localhost:8080
+Connection: keep-alive
+Sec-Ch-Ua-Platform: "macOS"
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+Sec-Ch-Ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"
+Sec-Ch-Ua-Mobile: ?0
+Accept: */*
+Sec-Fetch-Site: same-origin
+Sec-Fetch-Mode: cors
+Sec-Fetch-Dest: empty
+Referer: http://localhost:8080/player_stats
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: en-US,en;q=0.9
+Cookie: session=f463317f-a16d-400d-8174-a9982fb8fa96;  session=eyJ1c2VybmFtZSI6ImVsbHllbCJ9.aBhGfg.qzjx7HpNXdzaiMcxMdWXbtfR0D4
+
+
+2025-05-05 01:03:06,201: === Raw HTTP Response ===
+Content-Type: application/json
+Content-Length: 47
+
+{"gamesPlayed":4,"username":"ellyel","wins":3}
+
+2025-05-05 01:03:07,717: === Raw HTTP Request ===
+GET /leaderboard? HTTP/1.1
+Content-Type: text/plain
+Host: localhost:8080
+Connection: keep-alive
+Sec-Ch-Ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"
+Sec-Ch-Ua-Mobile: ?0
+Sec-Ch-Ua-Platform: "macOS"
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+Sec-Fetch-Site: same-origin
+Sec-Fetch-Mode: navigate
+Sec-Fetch-User: ?1
+Sec-Fetch-Dest: document
+Referer: http://localhost:8080/player_stats
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: en-US,en;q=0.9
+Cookie:  session=eyJ1c2VybmFtZSI6ImVsbHllbCJ9.aBhGig.OP6rdtuZePK1W9YawfO2BrSoG2c
+
+
+2025-05-05 01:03:07,724: === Raw HTTP Response ===
+Content-Type: text/html; charset=utf-8
+Content-Length: 12909
+
+[Body redacted]
+2025-05-05 01:03:07,738: === Raw HTTP Request ===
+GET /api/leaderboard/wins? HTTP/1.1
+Content-Type: text/plain
+Host: localhost:8080
+Connection: keep-alive
+Sec-Ch-Ua-Platform: "macOS"
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+Sec-Ch-Ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"
+Sec-Ch-Ua-Mobile: ?0
+Accept: */*
+Sec-Fetch-Site: same-origin
+Sec-Fetch-Mode: cors
+Sec-Fetch-Dest: empty
+Referer: http://localhost:8080/leaderboard
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: en-US,en;q=0.9
+Cookie: session=f463317f-a16d-400d-8174-a9982fb8fa96;  session=eyJ1c2VybmFtZSI6ImVsbHllbCJ9.aBhGig.OP6rdtuZePK1W9YawfO2BrSoG2c
+
+
+2025-05-05 01:03:07,739: === Raw HTTP Request ===
+GET /api/leaderboard/territory? HTTP/1.1
+Content-Type: text/plain
+Host: localhost:8080
+Connection: keep-alive
+Sec-Ch-Ua-Platform: "macOS"
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+Sec-Ch-Ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"
+Sec-Ch-Ua-Mobile: ?0
+Accept: */*
+Sec-Fetch-Site: same-origin
+Sec-Fetch-Mode: cors
+Sec-Fetch-Dest: empty
+Referer: http://localhost:8080/leaderboard
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: en-US,en;q=0.9
+Cookie: session=f463317f-a16d-400d-8174-a9982fb8fa96;  session=eyJ1c2VybmFtZSI6ImVsbHllbCJ9.aBhGig.OP6rdtuZePK1W9YawfO2BrSoG2c
+
+
+2025-05-05 01:03:07,741: === Raw HTTP Response ===
+Content-Type: application/json
+Content-Length: 132
+
+[{"gamesPlayed":4,"username":"ellyel","winRate":75.0,"wins":3},{"gamesPlayed":4,"username":"somethingggg","winRate":25.0,"wins":1}]
+
+2025-05-05 01:03:07,742: === Raw HTTP Response ===
+Content-Type: application/json
+Content-Length: 3
+
+[]
+
+2025-05-05 01:03:20,354: === Raw HTTP Request ===
+GET /api/player/profile_pic? HTTP/1.1
+Content-Type: text/plain
+Host: localhost:8080
+Connection: keep-alive
+Sec-Ch-Ua-Platform: "macOS"
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+Sec-Ch-Ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"
+Sec-Ch-Ua-Mobile: ?0
+Accept: */*
+Sec-Fetch-Site: same-origin
+Sec-Fetch-Mode: cors
+Sec-Fetch-Dest: empty
+Referer: http://localhost:8080/
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: en-US,en;q=0.9
+Cookie:  session=eyJ1c2VybmFtZSI6InNvbWV0aGluZ2dnZyJ9.aBhGeg.wHwFZIVafjLRCG-RWHH1CXgXIlQ
+
+
+2025-05-05 01:03:20,357: === Raw HTTP Response ===
+Content-Type: application/json
+Content-Length: 55
+
+{"message":"No profile picture found","success":false}
+
