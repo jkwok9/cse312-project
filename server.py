@@ -30,7 +30,7 @@ from util.auth_utli import get_user_by_token
 
 # --- Game Configuration ---
 GRID_SIZE = 60 # Example: Kept the larger grid size
-GAME_DURATION = 10 # Seconds
+GAME_DURATION = 30 # Seconds
 MAX_PLAYERS = 999 # Theoretical max
 MIN_PLAYERS_TO_START = 2 # Minimum active players required to *enable* start button
 
